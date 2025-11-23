@@ -1,0 +1,25 @@
+2025-11-23 21:36:03 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-11-23 21:36:03 [main] INFO  com.ruoyi.RuoYiApplication - Starting RuoYiApplication using Java 23.0.2 with PID 20224 (E:\code\wms\backend\ruoyi-admin-wms\target\classes started by wzp in E:\code\wms)
+2025-11-23 21:36:03 [main] INFO  com.ruoyi.RuoYiApplication - The following 1 profile is active: "dev"
+2025-11-23 21:36:06 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2025-11-23 21:36:06 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2025-11-23 21:36:06 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-11-23 21:36:07 [main] INFO  com.zaxxer.hikari.pool.HikariPool - master - Added connection com.mysql.cj.jdbc.ConnectionImpl@18ffc008
+2025-11-23 21:36:07 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-11-23 21:36:07 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-11-23 21:36:07 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-11-23 21:36:07 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-11-23 21:36:08 [main] INFO  c.r.common.redis.config.RedisConfig - 初始化 redis 配置
+2025-11-23 21:36:09 [main] INFO  org.redisson.Version - Redisson 3.29.0
+2025-11-23 21:36:09 [redisson-netty-1-5] INFO  o.r.connection.ConnectionsHolder - 1 connections initialized for localhost/127.0.0.1:6379
+2025-11-23 21:36:09 [redisson-netty-1-4] INFO  o.r.connection.ConnectionsHolder - 8 connections initialized for localhost/127.0.0.1:6379
+2025-11-23 21:36:10 [main] INFO  c.r.common.json.config.JacksonConfig - 初始化 jackson 配置
+2025-11-23 21:36:11 [main] INFO  io.undertow - starting server: Undertow - 2.3.13.Final
+2025-11-23 21:36:11 [main] INFO  org.xnio - XNIO version 3.8.8.Final
+2025-11-23 21:36:11 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.8.Final
+2025-11-23 21:36:11 [main] INFO  org.jboss.threads - JBoss Threads version 3.5.0.Final
+2025-11-23 21:36:11 [main] INFO  com.ruoyi.RuoYiApplication - Started RuoYiApplication in 8.951 seconds (process running for 10.225)
+2025-11-23 21:36:12 [main] INFO  c.r.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2025-11-23 21:36:12 [main] INFO  c.r.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2025-11-23 21:36:12 [main] INFO  c.r.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2025-11-23 21:36:12 [RMI TCP Connection(1)-192.168.148.115] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
