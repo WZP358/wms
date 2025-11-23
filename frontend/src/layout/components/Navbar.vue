@@ -5,11 +5,11 @@
     <top-nav id="topmenu-container" class="topmenu-container" v-if="settingsStore.topNav" />
 
     <div class="right-menu">
-      <div style="font-size: 16px;font-weight: bold;margin-right: 10px;">技术支持：关注“程序员诚哥”微信公众号，回复：支持</div>
+<!--      <div style="font-size: 16px;font-weight: bold;margin-right: 10px;">技术支持：关注“程序员诚哥”微信公众号，回复：支持</div>-->
       <div class="avatar-container">
         <el-dropdown @command="handleCommand" class="right-menu-item hover-effect" trigger="click">
           <div class="avatar-wrapper">
-            <img :src="userStore.avatar" class="user-avatar" />
+            <img :src="userAvatar" class="user-avatar" />
             <el-icon><caret-bottom /></el-icon>
           </div>
           <template #dropdown>
@@ -41,10 +41,16 @@ import RuoYiDoc from '@/components/RuoYi/Doc'
 import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
+import defAva from '@/assets/images/profile.jpg'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
 const settingsStore = useSettingsStore()
+
+// 计算头像地址，如果为空则使用默认头像
+const userAvatar = computed(() => {
+  return (userStore.avatar && userStore.avatar !== "") ? userStore.avatar : defAva;
+})
 
 function toggleSideBar() {
   appStore.toggleSideBar()

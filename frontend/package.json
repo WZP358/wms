@@ -1,7 +1,7 @@
 {
   "name": "ruoyi-wms",
   "version": "4.8.2",
-  "description": "ruoyi-wms后台管理系统",
+  "description": "智能仓储管理系统",
   "author": "ZCC",
   "license": "MIT",
   "scripts": {

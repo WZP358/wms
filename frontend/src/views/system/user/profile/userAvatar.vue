@@ -1,6 +1,6 @@
 <template>
   <div class="user-info-head" @click="editCropper()">
-    <img :src="options.img" title="点击上传头像" class="img-circle img-lg" />
+    <img :src="currentAvatar" title="点击上传头像" class="img-circle img-lg" />
     <el-dialog :title="title" v-model="open" width="800px" append-to-body @opened="modalOpened" @close="closeDialog">
       <el-row>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
@@ -63,6 +63,7 @@ import "vue-cropper/dist/index.css";
 import { VueCropper } from "vue-cropper";
 import { uploadAvatar } from "@/api/system/user";
 import useUserStore from "@/store/modules/user";
+import defAva from "@/assets/images/profile.jpg";
 
 const userStore = useUserStore();
 const { proxy } = getCurrentInstance();
@@ -71,9 +72,17 @@ const open = ref(false);
 const visible = ref(false);
 const title = ref("修改头像");
 
+// 获取头像地址，如果为空则使用默认头像
+const getAvatar = () => {
+  return (userStore.avatar && userStore.avatar !== "") ? userStore.avatar : defAva;
+};
+
+// 计算当前显示的头像（响应式）
+const currentAvatar = computed(() => getAvatar());
+
 //图片裁剪数据
 const options = reactive({
-  img: userStore.avatar, // 裁剪图片的地址
+  img: getAvatar(), // 裁剪图片的地址
   autoCrop: true, // 是否默认生成截图框
   autoCropWidth: 200, // 默认生成截图框宽度
   autoCropHeight: 200, // 默认生成截图框高度
@@ -81,6 +90,11 @@ const options = reactive({
   outputType: "png", // 默认生成截图为PNG格式
   filename: '',
   previews: {} //预览数据
+});
+
+// 监听 userStore.avatar 的变化，更新 options.img
+watch(() => userStore.avatar, (newVal) => {
+  options.img = getAvatar();
 });
 
 /** 编辑头像 */
@@ -139,7 +153,7 @@ function realTime(data) {
 }
 /** 关闭窗口 */
 function closeDialog() {
-  options.img = userStore.avatar;
+  options.img = getAvatar();
   options.visible = false;
 }
 </script>

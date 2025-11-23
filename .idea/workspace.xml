@@ -4,11 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="" />
+    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="修改了一些配置">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/favicon1.ico" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/public/物资仓库.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/images/profile.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.env.development" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.development" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.env.production" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.ico" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/public/favicon.ico" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/images/login-background.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/images/login-background.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/logo/gzh.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/assets/logo/logo.png" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/assets/logo/logo.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/layout/components/Navbar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layout/components/Navbar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/layout/components/Sidebar/Logo.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/layout/components/Sidebar/Logo.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/store/modules/user.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/store/modules/user.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/login.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/login.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/register.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/register.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/system/user/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/system/user/profile/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/system/user/profile/userAvatar.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/system/user/profile/userAvatar.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
@@ -40,7 +69,9 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Spring Boot.RuoYiApplication.executor": "Run",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "E:/code",
@@ -51,6 +82,7 @@
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
     "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "ts.external.directory.path": "E:\\IntelliJ IDEA\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -94,11 +126,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763904790518</updated>
-      <workItem from="1763904792864" duration="1278000" />
+      <workItem from="1763904792864" duration="4918000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="修改了一些配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="修改了一些配置" />
   </component>
 </project>

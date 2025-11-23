@@ -1,7 +1,7 @@
 <template>
   <div class="login">
     <el-form ref="loginRef" :model="loginForm" :rules="loginRules" class="login-form">
-      <h3 class="title">ruoyi-wms后台管理系统</h3>
+      <h3 class="title">智能仓储管理系统</h3>
       <el-form-item prop="username">
         <el-input
           v-model="loginForm.username"
@@ -42,26 +42,26 @@
       </el-form-item>
       <el-checkbox v-model="loginForm.rememberMe" style="margin:0px 0px 25px 0px;">记住密码</el-checkbox>
       <el-form-item style="width:100%;">
-        <el-button
-          :loading="loading"
-          size="large"
-          type="primary"
-          style="width:45%;"
-          @click.prevent="handleLogin"
-        >
-          <span v-if="!loading">登 录</span>
-          <span v-else>登 录 中...</span>
-        </el-button>
-        <el-button
-          size="large"
-          type="primary"
-          style="width:45%;"
-          @click.native.prevent="handleTry"
-        >
-          <span>获取体验账号</span>
-        </el-button>
-        <div style="float: right;" v-if="register">
-          <router-link class="link-type" :to="'/register'">立即注册</router-link>
+        <div style="display: flex; gap: 10px; width: 100%;">
+          <el-button
+            :loading="loading"
+            size="large"
+            type="primary"
+            style="flex: 1;"
+            @click.prevent="handleLogin"
+          >
+            <span v-if="!loading">登 录</span>
+            <span v-else>登 录 中...</span>
+          </el-button>
+          <el-button
+            v-if="register"
+            size="large"
+            type="primary"
+            style="flex: 1;"
+            @click.prevent="router.push('/register')"
+          >
+            立即注册
+          </el-button>
         </div>
       </el-form-item>
     </el-form>
@@ -84,7 +84,7 @@
     </el-dialog>
     <!--  底部  -->
     <div class="el-login-footer">
-      <span>Copyright © 2017-2024 ichengle.top 技术支持：关注“程序员诚哥”微信公众号，回复：支持</span>
+
     </div>
   </div>
 </template>
@@ -118,7 +118,7 @@ const loading = ref(false);
 // 验证码开关
 const captchaEnabled = ref(true);
 // 注册开关
-const register = ref(false);
+const register = ref(true);
 const redirect = ref(undefined);
 const dialogVisible = ref(false);
 
