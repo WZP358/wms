@@ -83,6 +83,19 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/wms',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: 'warning',
+        component: () => import('@/views/wms/warning/index'),
+        name: 'InventoryWarning',
+        meta: { title: '库存预警', icon: 'warning' }
+      }
+    ]
   }
 ]
 

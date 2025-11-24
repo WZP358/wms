@@ -4,22 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="修改了一些配置">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ItemSkuBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ItemSkuBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Area.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ItemSku.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ItemSku.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Merchant.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Merchant.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Warehouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Warehouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemSkuVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemSkuVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/permission.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.vue" afterDir="false" />
+    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="增加“库存预警与到期提醒”功能">
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,8 +112,17 @@
       <workItem from="1763904792864" duration="4918000" />
       <workItem from="1763949907746" duration="3109000" />
       <workItem from="1763966785672" duration="60000" />
-      <workItem from="1763966869757" duration="1694000" />
+      <workItem from="1763966869757" duration="2055000" />
     </task>
+    <task id="LOCAL-00001" summary="增加“库存预警与到期提醒”功能">
+      <option name="closed" value="true" />
+      <created>1763968736321</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1763968736321</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -134,6 +130,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修改了一些配置" />
-    <option name="LAST_COMMIT_MESSAGE" value="修改了一些配置" />
+    <MESSAGE value="增加“库存预警与到期提醒”功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="增加“库存预警与到期提醒”功能" />
   </component>
 </project>
