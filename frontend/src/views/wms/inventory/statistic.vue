@@ -67,7 +67,7 @@
               <div v-if="row.item.itemCode">商品编号：{{ row.item.itemCode }}</div>
             </template>
           </el-table-column>
-          <el-table-column label="规格信息" :prop="skuId">
+          <el-table-column label="规格信息" prop="skuId">
             <template #default="{ row }">
               <div>{{ row.itemSku.skuName }}</div>
               <div v-if="row.itemSku.skuCode">规格编号：{{ row.itemSku.skuCode }}</div>
@@ -159,7 +159,7 @@ const getList = async () => {
     query.minQuantity = undefined
   }
   loading.value = true;
-  const res = await listInventoryBoard(queryParams.value,queryType.value);
+  const res = await listInventoryBoard(query,queryType.value);
   inventoryList.value = res.rows;
   inventoryList.value.forEach(it => {
     if (queryType.value == "warehouse") {

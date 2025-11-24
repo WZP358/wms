@@ -26,7 +26,7 @@
     </el-card>
     <el-card class="mt20">
       <div style="display: flex;align-items: start">
-        <div>
+        <div v-show="categoryVisible" style="transition: all 0.3s;">
           <div style="display: flex;align-items: center;justify-content: space-between">
             <span style="font-size: 18px;line-height: 18px">商品分类</span>
             <el-button class="mr10" style="font-size:12px;line-height: 14px" plain
@@ -67,7 +67,16 @@
         </div>
         <div style="width: 100%;position: relative">
           <div style="display: flex;align-items: start;justify-content: space-between">
-            <span class="mr10" style="font-size: 18px;">商品列表</span>
+            <div style="display: flex;align-items: center;">
+              <el-button 
+                :icon="categoryVisible ? 'ArrowLeft' : 'ArrowRight'" 
+                circle 
+                size="small" 
+                @click="categoryVisible = !categoryVisible"
+                style="margin-right: 8px;"
+              ></el-button>
+              <span class="mr10" style="font-size: 18px;">商品列表</span>
+            </div>
             <el-button type="primary" plain icon="Plus" @click="handleAdd" class="mb10">新增商品</el-button>
           </div>
           <el-table :data="itemList" @selection-change="handleSelectionChange" :span-method="spanMethod" border empty-text="暂无商品" v-loading="loading" cell-class-name="my-cell">
@@ -365,6 +374,7 @@ const itemCategoryFormRef = ref(ElForm);
 const spanMethod = computed(() => getRowspanMethod(itemList.value, rowSpanArray.value))
 const rowSpanArray = ref(['itemId', 'itemCategoryId'])
 const qrcode = ref(null)
+const categoryVisible = ref(true) // 控制商品分类的显示/隐藏
 const append = (data) => {
   // resetType();
   categoryForm.value.categoryName = undefined;

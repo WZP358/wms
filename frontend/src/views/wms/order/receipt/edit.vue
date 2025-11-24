@@ -75,12 +75,12 @@
               </el-form-item>
             </el-col>
             <el-col :span="6">
-              <div style="display: flex;align-items: start">
-                <el-form-item label="金额" prop="payableAmount">
-                  <el-input-number v-model="form.payableAmount" :precision="2" :min="0"></el-input-number>
-                </el-form-item>
-                <el-button link type="primary" @click="handleAutoCalc" class="ml20" style="line-height: 32px">自动计算</el-button>
-              </div>
+              <el-form-item label="金额" prop="payableAmount">
+                <div style="display: flex;align-items: center;gap: 8px;">
+                  <el-input-number v-model="form.payableAmount" :precision="2" :min="0" style="flex: 1;"></el-input-number>
+                  <el-button type="primary" @click="handleAutoCalc" icon="Calculator">自动计算</el-button>
+                </div>
+              </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="数量" prop="totalQuantity">
@@ -516,13 +516,13 @@ const handleChangeQuantity = () => {
 }
 
 const handleAutoCalc = () => {
-  let sum = undefined
+  let sum = 0
   form.value.details.forEach(it => {
-    if (it.amount >= 0) {
-      if (!sum) {
-        sum = 0
-      }
-      sum = numSub(sum, -Number(it.amount))
+    if (it.amount !== undefined && it.amount !== null && it.quantity !== undefined && it.quantity !== null) {
+      const amount = Number(it.amount) || 0
+      const quantity = Number(it.quantity) || 0
+      const total = amount * quantity
+      sum = numSub(sum, -total)
     }
   })
   form.value.payableAmount = sum

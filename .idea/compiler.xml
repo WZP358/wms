@@ -8,26 +8,6 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
       </profile>
-      <profile name="Annotation profile for ruoyi-wms" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
-          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
-          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
-        </processorPath>
-        <module name="ruoyi-admin-wms" />
-      </profile>
       <profile name="Annotation profile for ruoyi-common-core" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -45,6 +25,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -89,6 +81,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-doc" />
       </profile>
@@ -109,6 +113,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -153,6 +169,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-excel" />
       </profile>
@@ -173,6 +201,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -217,6 +257,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-json" />
       </profile>
@@ -237,6 +289,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -281,6 +345,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-mail" />
       </profile>
@@ -301,6 +377,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -345,6 +433,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-oss" />
       </profile>
@@ -365,6 +465,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -409,6 +521,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-redis" />
       </profile>
@@ -429,6 +553,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -473,6 +609,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-security" />
       </profile>
@@ -493,6 +641,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -537,6 +697,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-sms" />
       </profile>
@@ -557,6 +729,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -601,6 +785,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-common-web" />
       </profile>
@@ -621,6 +817,18 @@
           <entry name="D:/apache-maven-3.9.11/repository/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="D:/apache-maven-3.9.11/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
@@ -665,6 +873,18 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-generator" />
       </profile>
@@ -697,8 +917,52 @@
           <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
         </processorPath>
         <module name="ruoyi-system" />
+      </profile>
+      <profile name="Annotation profile for ruoyi-wms" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc-scribe/0.15.0/therapi-runtime-javadoc-scribe-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/github/therapi/therapi-runtime-javadoc/0.15.0/therapi-runtime-javadoc-0.15.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.30/lombok-1.18.30.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.2.6/spring-boot-configuration-processor-3.2.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus-processor/1.3.6/mapstruct-plus-processor-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/io/github/linpeilie/mapstruct-plus/1.3.6/mapstruct-plus-1.3.6.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/cn/hutool/hutool-core/5.8.15/hutool-core-5.8.15.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/baidu/lbsyun/javapoet/1.9.0/javapoet-1.9.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/apache/commons/commons-lang3/3.12.0/commons-lang3-3.12.0.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar" />
+        </processorPath>
+        <module name="ruoyi-admin-wms" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17" />
