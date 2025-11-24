@@ -4,6 +4,14 @@
       <el-card class="warehouse-card">
         <template #header>
           <span>仓库选择</span>
+          <el-tag 
+            v-if="selectedWarehouse === 'default'" 
+            type="warning" 
+            size="small" 
+            style="float: right"
+          >
+            离线模式
+          </el-tag>
         </template>
         <el-form label-width="80px">
           <el-form-item label="选择仓库">
@@ -22,6 +30,14 @@
             </el-select>
           </el-form-item>
         </el-form>
+        <el-alert
+          v-if="selectedWarehouse === 'default'"
+          title="当前处于离线模式，所有数据保存在浏览器本地"
+          type="info"
+          :closable="false"
+          show-icon
+          style="margin-top: 10px"
+        />
       </el-card>
 
       <el-card class="settings-card">
@@ -226,7 +242,7 @@
         >
           <div class="context-menu-header">设置库区</div>
           <div
-            v-for="area in areaList"
+            v-for="area in availableAreas"
             :key="area.id"
             class="context-menu-item"
             @click="setCellArea(area.id)"
@@ -235,8 +251,12 @@
             <span>{{ area.areaName }}</span>
             <el-tag size="small" type="info">{{ area.areaCode }}</el-tag>
           </div>
-          <div class="context-menu-divider"></div>
-          <div class="context-menu-item" @click="setCellArea(null)">
+          <div v-if="contextMenu.cell && contextMenu.cell.area" class="context-menu-divider"></div>
+          <div 
+            v-if="contextMenu.cell && contextMenu.cell.area" 
+            class="context-menu-item" 
+            @click="setCellArea(null)"
+          >
             <el-icon><Delete /></el-icon>
             <span>清除库区</span>
           </div>
@@ -476,6 +496,31 @@ const contextMenu = ref({
   cell: null
 });
 
+// Available areas for context menu (exclude areas already used by other cells)
+const availableAreas = computed(() => {
+  if (!contextMenu.value.cell) {
+    return areaList.value;
+  }
+  
+  // 找出所有已经被其他格子使用的库区ID（排除当前格子）
+  const usedAreaIds = new Set();
+  gridCells.value.forEach(cell => {
+    // 排除当前格子，只统计其他格子已使用的库区
+    if (cell.area && cell !== contextMenu.value.cell) {
+      usedAreaIds.add(cell.area);
+    }
+  });
+  
+  // 如果当前格子已经设置了库区，也要排除当前格子的库区（允许选择其他库区或清除）
+  const currentAreaId = contextMenu.value.cell.area;
+  if (currentAreaId) {
+    usedAreaIds.add(currentAreaId);
+  }
+  
+  // 从列表中排除所有已被使用的库区
+  return areaList.value.filter(area => !usedAreaIds.has(area.id));
+});
+
 // Tooltip
 const tooltip = ref({
   visible: false,
@@ -636,15 +681,40 @@ const loadWarehouses = async () => {
         selectedWarehouse.value = warehouseList.value[0].id;
         await onWarehouseChange();
       } else if (warehouseList.value.length === 0) {
-        ElMessage.info('系统中暂无仓库，请先添加仓库');
+        // 使用默认仓库
+        useFallbackWarehouse();
       }
     }
   } catch (error) {
     console.error('加载仓库列表失败:', error);
-    ElMessage.warning('加载仓库列表失败，请检查后端服务');
-    // 可以提供模拟数据用于测试
-    // warehouseList.value = [{ id: 1, warehouseName: '测试仓库' }];
+    // 使用fallback模式
+    useFallbackWarehouse();
   }
+};
+
+// Use fallback warehouse when backend is unavailable
+const useFallbackWarehouse = () => {
+  console.log('使用默认仓库模式');
+  
+  // 创建一个虚拟仓库
+  const defaultWarehouse = {
+    id: 'default',
+    warehouseCode: 'DEFAULT',
+    warehouseName: '默认仓库（离线模式）'
+  };
+  
+  warehouseList.value = [defaultWarehouse];
+  selectedWarehouse.value = defaultWarehouse.id;
+  
+  // 加载或创建库区
+  onWarehouseChange();
+  
+  ElMessage({
+    message: '后端服务不可用，已进入离线模式。所有功能仍然可用。',
+    type: 'warning',
+    duration: 5000,
+    showClose: true
+  });
 };
 
 // Load areas by warehouse
@@ -679,19 +749,18 @@ const loadAreasByWarehouse = async (warehouseId) => {
       
       // 保存到本地
       saveAreasToLocal(warehouseId, areaList.value);
-      console.log('成功从后端加载库区:', areaList.value.length, '个');
+      console.log('✅ 成功从后端加载库区:', areaList.value.length, '个');
     } else {
       // 如果后端没有数据，使用默认库区
+      console.log('后端无库区数据，创建默认库区');
       areaList.value = generateDefaultAreas(warehouseId);
       saveAreasToLocal(warehouseId, areaList.value);
-      ElMessage.info('该仓库暂无库区，已创建默认库区，可以手动编辑');
     }
   } catch (error) {
-    console.error('加载库区列表失败:', error);
+    console.warn('后端服务不可用，使用离线模式:', error.message);
     // 使用默认库区
     areaList.value = generateDefaultAreas(warehouseId);
     saveAreasToLocal(warehouseId, areaList.value);
-    ElMessage.warning('无法连接后端服务，使用本地库区数据');
   }
 };
 
