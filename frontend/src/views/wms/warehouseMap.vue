@@ -1,202 +1,195 @@
 <template>
   <div class="warehouse-map-container">
     <div class="control-panel">
-      <el-card class="warehouse-card">
-        <template #header>
-          <span>仓库选择</span>
-          <el-tag 
-            v-if="selectedWarehouse === 'default'" 
-            type="warning" 
-            size="small" 
-            style="float: right"
-          >
-            离线模式
-          </el-tag>
-        </template>
-        <el-form label-width="80px">
-          <el-form-item label="选择仓库">
-            <el-select 
-              v-model="selectedWarehouse" 
-              placeholder="请选择仓库" 
-              @change="onWarehouseChange"
-              style="width: 100%"
+      <el-collapse v-model="activeCollapseItems">
+        <el-collapse-item name="warehouse" title="仓库选择">
+          <template #title>
+            <span>仓库选择</span>
+            <el-tag 
+              v-if="selectedWarehouse === 'default'" 
+              type="warning" 
+              size="small" 
+              style="margin-left: 10px"
             >
-              <el-option
-                v-for="warehouse in warehouseList"
-                :key="warehouse.id"
-                :label="warehouse.warehouseName"
-                :value="warehouse.id"
-              />
-            </el-select>
-          </el-form-item>
-        </el-form>
-        <el-alert
-          v-if="selectedWarehouse === 'default'"
-          title="当前处于离线模式，所有数据保存在浏览器本地"
-          type="info"
-          :closable="false"
-          show-icon
-          style="margin-top: 10px"
-        />
-      </el-card>
-
-      <el-card class="settings-card">
-        <template #header>
-          <span>地图设置</span>
-        </template>
-        <el-form :model="mapConfig" label-width="100px">
-          <el-form-item label="地图宽度">
-            <el-input-number v-model="mapConfig.cols" :min="3" :max="30" @change="initMap" />
-            <span class="unit">列</span>
-          </el-form-item>
-          <el-form-item label="地图高度">
-            <el-input-number v-model="mapConfig.rows" :min="3" :max="30" @change="initMap" />
-            <span class="unit">行</span>
-          </el-form-item>
-          <el-form-item label="格子大小">
-            <el-input-number v-model="mapConfig.cellSize" :min="40" :max="100" :step="10" />
-            <span class="unit">px</span>
-          </el-form-item>
-          <el-form-item label="走廊宽度">
-            <el-input-number v-model="mapConfig.gap" :min="10" :max="40" :step="5" />
-            <span class="unit">px</span>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="initMap">重新生成地图</el-button>
-            <el-button type="warning" @click="clearSelection">清空选择</el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
-
-      <el-card class="areas-card">
-        <template #header>
-          <span>库区管理</span>
-          <el-button 
-            v-if="selectedWarehouse" 
-            type="primary" 
-            size="small" 
-            style="float: right" 
-            @click="showAddAreaDialog"
-          >
-            添加库区
-          </el-button>
-        </template>
-        <div v-if="selectedWarehouse">
-          <div class="areas-list">
-            <div v-for="area in areaList" :key="area.id" class="area-item">
-              <div class="area-color" :style="{ backgroundColor: area.color }"></div>
-              <el-input 
-                v-model="area.areaName" 
-                size="small" 
-                style="width: 100px" 
-                @change="saveAreaList"
-              />
-              <el-input 
-                v-model="area.areaCode" 
-                size="small" 
-                style="width: 80px" 
-                placeholder="编号"
-                @change="saveAreaList"
-              />
-              <el-button 
-                type="danger" 
-                size="small" 
-                icon="Delete" 
-                circle 
-                @click="removeArea(area.id)"
-              />
-            </div>
-          </div>
-          <div class="area-hint">
-            <el-alert title="右键点击格子设置库区" type="info" :closable="false" show-icon />
-          </div>
-        </div>
-        <el-empty v-else description="请先选择仓库" :image-size="80" />
-      </el-card>
-
-      <el-card class="selection-card">
-        <template #header>
-          <span>选中的格子</span>
-          <el-tag style="float: right" type="info">{{ selectedCells.length }} 个</el-tag>
-        </template>
-        <div class="selection-info">
-          <el-alert 
-            title="左键点击格子进行选择/取消" 
-            type="info" 
+              离线模式
+            </el-tag>
+          </template>
+          <el-form label-width="80px">
+            <el-form-item label="选择仓库">
+              <el-select 
+                v-model="selectedWarehouse" 
+                placeholder="请选择仓库" 
+                @change="onWarehouseChange"
+                style="width: 100%"
+              >
+                <el-option
+                  v-for="warehouse in warehouseList"
+                  :key="warehouse.id"
+                  :label="warehouse.warehouseName"
+                  :value="warehouse.id"
+                />
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <el-alert
+            v-if="selectedWarehouse === 'default'"
+            title="当前处于离线模式，所有数据保存在浏览器本地"
+            type="info"
             :closable="false"
             show-icon
+            style="margin-top: 10px"
           />
-          <div class="selected-list" v-if="selectedCells.length > 0">
-            <el-tag 
-              v-for="cell in selectedCells" 
-              :key="cell.index"
-              closable
-              @close="toggleCell(cell)"
-              style="margin: 5px"
-            >
-              行{{ cell.row + 1 }}-列{{ cell.col + 1 }}
-            </el-tag>
-          </div>
-        </div>
-      </el-card>
+        </el-collapse-item>
 
-      <el-card class="path-card">
-        <template #header>
-          <span>路径规划</span>
-        </template>
-        <el-form label-width="120px">
-          <el-form-item label="算法迭代次数">
-            <el-input-number v-model="algorithmParams.iterations" :min="1000" :max="50000" :step="1000" />
-          </el-form-item>
-          <el-form-item label="初始温度">
-            <el-input-number v-model="algorithmParams.temperature" :min="100" :max="10000" :step="100" />
-          </el-form-item>
-          <el-form-item label="冷却速率">
-            <el-input-number v-model="algorithmParams.coolingRate" :min="0.90" :max="0.999" :step="0.001" :precision="3" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="success" @click="calculatePath" :loading="calculating" :disabled="selectedCells.length === 0">
-              计算最短路径
+        <el-collapse-item name="settings" title="地图设置">
+          <el-form :model="mapConfig" label-width="100px">
+            <el-form-item label="地图宽度">
+              <el-input-number v-model="mapConfig.cols" :min="3" :max="30" @change="initMap" />
+              <span class="unit">列</span>
+            </el-form-item>
+            <el-form-item label="地图高度">
+              <el-input-number v-model="mapConfig.rows" :min="3" :max="30" @change="initMap" />
+              <span class="unit">行</span>
+            </el-form-item>
+            <el-form-item label="格子大小">
+              <el-input-number v-model="mapConfig.cellSize" :min="40" :max="100" :step="10" />
+              <span class="unit">px</span>
+            </el-form-item>
+            <el-form-item label="走廊宽度">
+              <el-input-number v-model="mapConfig.gap" :min="10" :max="40" :step="5" />
+              <span class="unit">px</span>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="initMap">重新生成地图</el-button>
+              <el-button type="warning" @click="clearSelection">清空选择</el-button>
+            </el-form-item>
+          </el-form>
+        </el-collapse-item>
+
+        <el-collapse-item name="areas" title="库区管理">
+          <template #title>
+            <span>库区管理</span>
+            <el-button 
+              v-if="selectedWarehouse" 
+              type="primary" 
+              size="small" 
+              style="margin-left: 10px"
+              @click.stop="showAddAreaDialog"
+            >
+              添加库区
             </el-button>
-            <el-button type="info" @click="clearPath">清除路径</el-button>
-          </el-form-item>
-          <el-form-item label="路径总距离" v-if="pathResult">
-            <el-tag type="success" size="large">{{ pathResult.distance.toFixed(2) }} 像素</el-tag>
-          </el-form-item>
-          <el-form-item label="访问顺序" v-if="pathResult">
-            <div class="visit-order">
-              <el-tag v-for="(cell, index) in pathResult.visitOrder" :key="index" style="margin: 2px">
-                {{ index + 1 }}. 行{{ cell.row + 1 }}-列{{ cell.col + 1 }}
+          </template>
+          <div v-if="selectedWarehouse">
+            <div class="areas-list">
+              <div v-for="area in areaList" :key="area.id" class="area-item">
+                <div class="area-color" :style="{ backgroundColor: area.color }"></div>
+                <el-input 
+                  v-model="area.areaName" 
+                  size="small" 
+                  style="width: 100px" 
+                  @change="saveAreaList"
+                />
+                <el-input 
+                  v-model="area.areaCode" 
+                  size="small" 
+                  style="width: 80px" 
+                  placeholder="编号"
+                  @change="saveAreaList"
+                />
+                <el-button 
+                  type="danger" 
+                  size="small" 
+                  icon="Delete" 
+                  circle 
+                  @click="removeArea(area.id)"
+                />
+              </div>
+            </div>
+            <div class="area-hint">
+              <el-alert title="右键点击格子设置库区" type="info" :closable="false" show-icon />
+            </div>
+          </div>
+          <el-empty v-else description="请先选择仓库" :image-size="80" />
+        </el-collapse-item>
+
+        <el-collapse-item name="selection" title="选中的格子">
+          <template #title>
+            <span>选中的格子</span>
+            <el-tag style="margin-left: 10px" type="info">{{ selectedCells.length }} 个</el-tag>
+          </template>
+          <div class="selection-info">
+            <el-alert 
+              title="左键点击格子进行选择/取消" 
+              type="info" 
+              :closable="false"
+              show-icon
+            />
+            <div class="selected-list" v-if="selectedCells.length > 0">
+              <el-tag 
+                v-for="cell in selectedCells" 
+                :key="cell.index"
+                closable
+                @close="toggleCell(cell)"
+                style="margin: 5px"
+              >
+                行{{ cell.row + 1 }}-列{{ cell.col + 1 }}
               </el-tag>
             </div>
-          </el-form-item>
-        </el-form>
-      </el-card>
+          </div>
+        </el-collapse-item>
 
-      <el-card class="animation-card" v-if="pathResult">
-        <template #header>
-          <span>路径动画</span>
-        </template>
-        <el-form label-width="100px">
-          <el-form-item label="动画速度">
-            <el-slider v-model="animationSpeed" :min="1" :max="10" :marks="{ 1: '很慢', 3: '慢', 5: '中', 7: '快', 10: '极速' }" />
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="playAnimation" :disabled="isAnimating">
-              <el-icon><VideoPlay /></el-icon>
-              播放动画
-            </el-button>
-            <el-button type="warning" @click="stopAnimation" :disabled="!isAnimating">
-              <el-icon><VideoPause /></el-icon>
-              停止
-            </el-button>
-            <el-button type="info" @click="resetAnimation">
-              <el-icon><RefreshLeft /></el-icon>
-              重置
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </el-card>
+        <el-collapse-item name="path" title="路径规划">
+          <el-form label-width="120px">
+            <el-form-item label="算法迭代次数">
+              <el-input-number v-model="algorithmParams.iterations" :min="1000" :max="50000" :step="1000" />
+            </el-form-item>
+            <el-form-item label="初始温度">
+              <el-input-number v-model="algorithmParams.temperature" :min="100" :max="10000" :step="100" />
+            </el-form-item>
+            <el-form-item label="冷却速率">
+              <el-input-number v-model="algorithmParams.coolingRate" :min="0.90" :max="0.999" :step="0.001" :precision="3" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="success" @click="calculatePath" :loading="calculating" :disabled="selectedCells.length === 0">
+                计算最短路径
+              </el-button>
+              <el-button type="info" @click="clearPath">清除路径</el-button>
+            </el-form-item>
+            <el-form-item label="路径总距离" v-if="pathResult">
+              <el-tag type="success" size="large">{{ pathResult.distance.toFixed(2) }} 像素</el-tag>
+            </el-form-item>
+            <el-form-item label="访问顺序" v-if="pathResult">
+              <div class="visit-order">
+                <el-tag v-for="(cell, index) in pathResult.visitOrder" :key="index" style="margin: 2px">
+                  {{ index + 1 }}. 行{{ cell.row + 1 }}-列{{ cell.col + 1 }}
+                </el-tag>
+              </div>
+            </el-form-item>
+          </el-form>
+        </el-collapse-item>
+
+        <el-collapse-item name="animation" title="路径动画" v-if="pathResult">
+          <el-form label-width="100px">
+            <el-form-item label="动画速度">
+              <el-slider v-model="animationSpeed" :min="1" :max="10" :marks="{ 1: '很慢', 3: '慢', 5: '中', 7: '快', 10: '极速' }" />
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="playAnimation" :disabled="isAnimating">
+                <el-icon><VideoPlay /></el-icon>
+                播放动画
+              </el-button>
+              <el-button type="warning" @click="stopAnimation" :disabled="!isAnimating">
+                <el-icon><VideoPause /></el-icon>
+                停止
+              </el-button>
+              <el-button type="info" @click="resetAnimation">
+                <el-icon><RefreshLeft /></el-icon>
+                重置
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </el-collapse-item>
+      </el-collapse>
     </div>
 
     <div class="map-container">
@@ -242,7 +235,7 @@
         >
           <div class="context-menu-header">设置库区</div>
           <div
-            v-for="area in availableAreas"
+            v-for="area in areaList"
             :key="area.id"
             class="context-menu-item"
             @click="setCellArea(area.id)"
@@ -251,12 +244,8 @@
             <span>{{ area.areaName }}</span>
             <el-tag size="small" type="info">{{ area.areaCode }}</el-tag>
           </div>
-          <div v-if="contextMenu.cell && contextMenu.cell.area" class="context-menu-divider"></div>
-          <div 
-            v-if="contextMenu.cell && contextMenu.cell.area" 
-            class="context-menu-item" 
-            @click="setCellArea(null)"
-          >
+          <div class="context-menu-divider"></div>
+          <div class="context-menu-item" @click="setCellArea(null)">
             <el-icon><Delete /></el-icon>
             <span>清除库区</span>
           </div>
@@ -476,6 +465,9 @@ const warehouseList = ref([]);
 const selectedWarehouse = ref(null);
 const areaList = ref([]);
 
+// Collapse panel state
+const activeCollapseItems = ref(['warehouse', 'settings']);
+
 // Map configuration
 const mapConfig = ref({
   rows: 10,
@@ -494,31 +486,6 @@ const contextMenu = ref({
   x: 0,
   y: 0,
   cell: null
-});
-
-// Available areas for context menu (exclude areas already used by other cells)
-const availableAreas = computed(() => {
-  if (!contextMenu.value.cell) {
-    return areaList.value;
-  }
-  
-  // 找出所有已经被其他格子使用的库区ID（排除当前格子）
-  const usedAreaIds = new Set();
-  gridCells.value.forEach(cell => {
-    // 排除当前格子，只统计其他格子已使用的库区
-    if (cell.area && cell !== contextMenu.value.cell) {
-      usedAreaIds.add(cell.area);
-    }
-  });
-  
-  // 如果当前格子已经设置了库区，也要排除当前格子的库区（允许选择其他库区或清除）
-  const currentAreaId = contextMenu.value.cell.area;
-  if (currentAreaId) {
-    usedAreaIds.add(currentAreaId);
-  }
-  
-  // 从列表中排除所有已被使用的库区
-  return areaList.value.filter(area => !usedAreaIds.has(area.id));
 });
 
 // Tooltip
@@ -681,40 +648,15 @@ const loadWarehouses = async () => {
         selectedWarehouse.value = warehouseList.value[0].id;
         await onWarehouseChange();
       } else if (warehouseList.value.length === 0) {
-        // 使用默认仓库
-        useFallbackWarehouse();
+        ElMessage.info('系统中暂无仓库，请先添加仓库');
       }
     }
   } catch (error) {
     console.error('加载仓库列表失败:', error);
-    // 使用fallback模式
-    useFallbackWarehouse();
+    ElMessage.warning('加载仓库列表失败，请检查后端服务');
+    // 可以提供模拟数据用于测试
+    // warehouseList.value = [{ id: 1, warehouseName: '测试仓库' }];
   }
-};
-
-// Use fallback warehouse when backend is unavailable
-const useFallbackWarehouse = () => {
-  console.log('使用默认仓库模式');
-  
-  // 创建一个虚拟仓库
-  const defaultWarehouse = {
-    id: 'default',
-    warehouseCode: 'DEFAULT',
-    warehouseName: '默认仓库（离线模式）'
-  };
-  
-  warehouseList.value = [defaultWarehouse];
-  selectedWarehouse.value = defaultWarehouse.id;
-  
-  // 加载或创建库区
-  onWarehouseChange();
-  
-  ElMessage({
-    message: '后端服务不可用，已进入离线模式。所有功能仍然可用。',
-    type: 'warning',
-    duration: 5000,
-    showClose: true
-  });
 };
 
 // Load areas by warehouse
@@ -749,18 +691,19 @@ const loadAreasByWarehouse = async (warehouseId) => {
       
       // 保存到本地
       saveAreasToLocal(warehouseId, areaList.value);
-      console.log('✅ 成功从后端加载库区:', areaList.value.length, '个');
+      console.log('成功从后端加载库区:', areaList.value.length, '个');
     } else {
       // 如果后端没有数据，使用默认库区
-      console.log('后端无库区数据，创建默认库区');
       areaList.value = generateDefaultAreas(warehouseId);
       saveAreasToLocal(warehouseId, areaList.value);
+      ElMessage.info('该仓库暂无库区，已创建默认库区，可以手动编辑');
     }
   } catch (error) {
-    console.warn('后端服务不可用，使用离线模式:', error.message);
+    console.error('加载库区列表失败:', error);
     // 使用默认库区
     areaList.value = generateDefaultAreas(warehouseId);
     saveAreasToLocal(warehouseId, areaList.value);
+    ElMessage.warning('无法连接后端服务，使用本地库区数据');
   }
 };
 
@@ -1458,21 +1401,11 @@ onBeforeUnmount(() => {
 
 .control-panel {
   width: 350px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
 }
 
-.warehouse-card,
-.settings-card,
-.areas-card,
-.selection-card,
-.path-card,
-.animation-card {
-  .unit {
-    margin-left: 10px;
-    color: #909399;
-  }
+.unit {
+  margin-left: 10px;
+  color: #909399;
 }
 
 .areas-list {
