@@ -4,8 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="增加“库存预警与到期提醒”功能">
+    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="修复“查看详情”跳转至404问题">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/AreaController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/AreaController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,7 +73,7 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager" selected="Spring Boot.RuoYiApplication">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="RuoYiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ruoyi-admin-wms" />
@@ -112,7 +116,7 @@
       <workItem from="1763904792864" duration="4918000" />
       <workItem from="1763949907746" duration="3109000" />
       <workItem from="1763966785672" duration="60000" />
-      <workItem from="1763966869757" duration="2055000" />
+      <workItem from="1763966869757" duration="5790000" />
     </task>
     <task id="LOCAL-00001" summary="增加“库存预警与到期提醒”功能">
       <option name="closed" value="true" />
@@ -122,7 +126,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763968736321</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="修复“查看详情”跳转至404问题">
+      <option name="closed" value="true" />
+      <created>1763969124538</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1763969124538</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,6 +143,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="修改了一些配置" />
     <MESSAGE value="增加“库存预警与到期提醒”功能" />
-    <option name="LAST_COMMIT_MESSAGE" value="增加“库存预警与到期提醒”功能" />
+    <MESSAGE value="修复“查看详情”跳转至404问题" />
+    <option name="LAST_COMMIT_MESSAGE" value="修复“查看详情”跳转至404问题" />
   </component>
 </project>

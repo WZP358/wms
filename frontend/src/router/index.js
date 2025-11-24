@@ -94,6 +94,12 @@ export const constantRoutes = [
         component: () => import('@/views/wms/warning/index'),
         name: 'InventoryWarning',
         meta: { title: '库存预警', icon: 'warning' }
+      },
+      {
+        path: 'map',
+        component: () => import('@/views/wms/warehouseMap'),
+        name: 'WarehouseMap',
+        meta: { title: '仓库地图', icon: 'map' }
       }
     ]
   }
