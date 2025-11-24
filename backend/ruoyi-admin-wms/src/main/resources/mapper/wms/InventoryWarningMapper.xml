@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wms.mapper.InventoryWarningMapper">
+
+    <!-- 库存预警结果映射 -->
+    <resultMap id="inventoryWarningVoMap" type="com.ruoyi.wms.domain.vo.InventoryWarningVo">
+        <result property="skuId" column="sku_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="skuName" column="sku_name"/>
+        <result property="skuCode" column="sku_code"/>
+        <result property="warehouseId" column="warehouse_id"/>
+        <result property="warehouseName" column="warehouse_name"/>
+        <result property="areaId" column="area_id"/>
+        <result property="areaName" column="area_name"/>
+        <result property="currentQuantity" column="current_quantity"/>
+        <result property="minStock" column="min_stock"/>
+        <result property="stockDifference" column="stock_difference"/>
+    </resultMap>
+
+    <!-- 到期提醒结果映射 -->
+    <resultMap id="expirationReminderVoMap" type="com.ruoyi.wms.domain.vo.ExpirationReminderVo">
+        <result property="id" column="id"/>
+        <result property="skuId" column="sku_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemCode" column="item_code"/>
+        <result property="skuName" column="sku_name"/>
+        <result property="skuCode" column="sku_code"/>
+        <result property="warehouseId" column="warehouse_id"/>
+        <result property="warehouseName" column="warehouse_name"/>
+        <result property="areaId" column="area_id"/>
+        <result property="areaName" column="area_name"/>
+        <result property="batchNo" column="batch_no"/>
+        <result property="productionDate" column="production_date"/>
+        <result property="expirationDate" column="expiration_date"/>
+        <result property="remainQuantity" column="remain_quantity"/>
+        <result property="daysToExpire" column="days_to_expire"/>
+    </resultMap>
+
+    <!-- 查询库存预警列表（分页） -->
+    <select id="selectInventoryWarningPage" resultMap="inventoryWarningVoMap">
+        select
+            inv.sku_id,
+            item.id as item_id,
+            item.item_name,
+            item.item_code,
+            sku.sku_name,
+            sku.sku_code,
+            inv.warehouse_id,
+            wh.warehouse_name,
+            inv.area_id,
+            area.area_name,
+            inv.quantity as current_quantity,
+            COALESCE(sku.min_stock, 0) as min_stock,
+            (inv.quantity - COALESCE(sku.min_stock, 0)) as stock_difference
+        from wms_inventory inv
+        inner join wms_item_sku sku on inv.sku_id = sku.id
+        inner join wms_item item on sku.item_id = item.id
+        left join wms_warehouse wh on inv.warehouse_id = wh.id
+        left join wms_area area on inv.area_id = area.id
+        where sku.min_stock is not null 
+          and sku.min_stock > 0 
+          and inv.quantity &lt; sku.min_stock
+        order by stock_difference asc, item.item_name, sku.sku_name
+    </select>
+
+    <!-- 查询库存预警列表 -->
+    <select id="selectInventoryWarningList" resultMap="inventoryWarningVoMap">
+        select
+            inv.sku_id,
+            item.id as item_id,
+            item.item_name,
+            item.item_code,
+            sku.sku_name,
+            sku.sku_code,
+            inv.warehouse_id,
+            wh.warehouse_name,
+            inv.area_id,
+            area.area_name,
+            inv.quantity as current_quantity,
+            COALESCE(sku.min_stock, 0) as min_stock,
+            (inv.quantity - COALESCE(sku.min_stock, 0)) as stock_difference
+        from wms_inventory inv
+        inner join wms_item_sku sku on inv.sku_id = sku.id
+        inner join wms_item item on sku.item_id = item.id
+        left join wms_warehouse wh on inv.warehouse_id = wh.id
+        left join wms_area area on inv.area_id = area.id
+        where sku.min_stock is not null 
+          and sku.min_stock > 0 
+          and inv.quantity &lt; sku.min_stock
+        order by stock_difference asc, item.item_name, sku.sku_name
+    </select>
+
+    <!-- 获取库存预警数量 -->
+    <select id="selectInventoryWarningCount" resultType="java.lang.Long">
+        select count(distinct inv.sku_id, inv.warehouse_id, inv.area_id)
+        from wms_inventory inv
+        inner join wms_item_sku sku on inv.sku_id = sku.id
+        where sku.min_stock is not null 
+          and sku.min_stock > 0 
+          and inv.quantity &lt; sku.min_stock
+    </select>
+
+    <!-- 查询到期提醒列表（分页） -->
+    <select id="selectExpirationReminderPage" resultMap="expirationReminderVoMap">
+        select
+            detail.id,
+            detail.sku_id,
+            item.id as item_id,
+            item.item_name,
+            item.item_code,
+            sku.sku_name,
+            sku.sku_code,
+            detail.warehouse_id,
+            wh.warehouse_name,
+            detail.area_id,
+            area.area_name,
+            detail.batch_no,
+            detail.production_date,
+            detail.expiration_date,
+            detail.remain_quantity,
+            DATEDIFF(detail.expiration_date, CURDATE()) as days_to_expire
+        from wms_inventory_detail detail
+        inner join wms_item_sku sku on detail.sku_id = sku.id
+        inner join wms_item item on sku.item_id = item.id
+        left join wms_warehouse wh on detail.warehouse_id = wh.id
+        left join wms_area area on detail.area_id = area.id
+        where detail.remain_quantity > 0
+          and detail.expiration_date is not null
+          and detail.expiration_date >= CURDATE()
+          and DATEDIFF(detail.expiration_date, CURDATE()) &lt;= #{daysBeforeExpire}
+        order by detail.expiration_date asc, item.item_name, sku.sku_name
+    </select>
+
+    <!-- 查询到期提醒列表 -->
+    <select id="selectExpirationReminderList" resultMap="expirationReminderVoMap">
+        select
+            detail.id,
+            detail.sku_id,
+            item.id as item_id,
+            item.item_name,
+            item.item_code,
+            sku.sku_name,
+            sku.sku_code,
+            detail.warehouse_id,
+            wh.warehouse_name,
+            detail.area_id,
+            area.area_name,
+            detail.batch_no,
+            detail.production_date,
+            detail.expiration_date,
+            detail.remain_quantity,
+            DATEDIFF(detail.expiration_date, CURDATE()) as days_to_expire
+        from wms_inventory_detail detail
+        inner join wms_item_sku sku on detail.sku_id = sku.id
+        inner join wms_item item on sku.item_id = item.id
+        left join wms_warehouse wh on detail.warehouse_id = wh.id
+        left join wms_area area on detail.area_id = area.id
+        where detail.remain_quantity > 0
+          and detail.expiration_date is not null
+          and detail.expiration_date >= CURDATE()
+          and DATEDIFF(detail.expiration_date, CURDATE()) &lt;= #{daysBeforeExpire}
+        order by detail.expiration_date asc, item.item_name, sku.sku_name
+    </select>
+
+    <!-- 获取到期提醒数量 -->
+    <select id="selectExpirationReminderCount" resultType="java.lang.Long">
+        select count(*)
+        from wms_inventory_detail detail
+        where detail.remain_quantity > 0
+          and detail.expiration_date is not null
+          and detail.expiration_date >= CURDATE()
+          and DATEDIFF(detail.expiration_date, CURDATE()) &lt;= #{daysBeforeExpire}
+    </select>
+
+</mapper>
+

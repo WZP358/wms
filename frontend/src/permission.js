@@ -61,12 +61,17 @@ router.beforeEach((to, from, next) => {
 })
 
 async function initData() {
-  await useWmsStore().getWarehouseList()
-  await useWmsStore().getAreaList()
-  await useWmsStore().getMerchantList()
-  await useWmsStore().getItemCategoryList()
-  await useWmsStore().getItemCategoryTreeList()
-  await useWmsStore().getItemBrandList()
+  try {
+    await useWmsStore().getWarehouseList()
+    await useWmsStore().getAreaList()
+    await useWmsStore().getMerchantList()
+    await useWmsStore().getItemCategoryList()
+    await useWmsStore().getItemCategoryTreeList()
+    await useWmsStore().getItemBrandList()
+  } catch (error) {
+    console.error('初始化WMS数据失败:', error)
+    // 不阻止页面加载，只记录错误
+  }
 }
 
 router.afterEach(() => {

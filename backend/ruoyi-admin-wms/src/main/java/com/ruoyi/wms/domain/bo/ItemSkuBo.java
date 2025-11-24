@@ -81,6 +81,11 @@ public class ItemSkuBo extends BaseEntity {
     private BigDecimal sellingPrice;
 
     /**
+     * 最低库存
+     */
+    private BigDecimal minStock;
+
+    /**
      * 商品名称
      */
     private String itemName;

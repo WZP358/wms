@@ -6,13 +6,20 @@
   <component name="ChangeListManager">
     <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="修改了一些配置">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/basic/item/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/basic/item/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/inventory/statistic.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/inventory/statistic.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/order/receipt/edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/order/receipt/edit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ItemSkuBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ItemSkuBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Area.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Area.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ItemSku.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ItemSku.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Merchant.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Merchant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Warehouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Warehouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemSkuVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemSkuVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/permission.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/permission.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,9 +32,9 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="customMavenHome" value="D:\develop\apache-maven-3.9.4-bin" />
+        <option name="customMavenHome" value="D:\apache-maven-3.9.11" />
         <option name="mavenHomeTypeForPersistence" value="CUSTOM" />
-        <option name="userSettingsFile" value="D:\develop\apache-maven-3.9.4-bin\apache-maven-3.9.4\conf\settings.xml" />
+        <option name="userSettingsFile" value="D:\apache-maven-3.9.11\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
     <option name="importingSettings">
@@ -45,12 +52,14 @@
   &quot;associatedIndex&quot;: 6
 }</component>
   <component name="ProjectId" id="35shezMFwH2ieyy9jshbB5Ap8D5" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Maven.ruoyi-wms [clean].executor": "Run",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -68,7 +77,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "npm.dev.executor": "Run",
-    "settings.editor.selected.configurable": "reference.projectsettings.compiler.javacompiler",
+    "settings.editor.selected.configurable": "MavenSettings",
     "ts.external.directory.path": "E:\\IntelliJ IDEA\\IntelliJ IDEA 2024.1\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
@@ -115,6 +124,8 @@
       <updated>1763904790518</updated>
       <workItem from="1763904792864" duration="4918000" />
       <workItem from="1763949907746" duration="3109000" />
+      <workItem from="1763966785672" duration="60000" />
+      <workItem from="1763966869757" duration="1694000" />
     </task>
     <servers />
   </component>
