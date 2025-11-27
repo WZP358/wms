@@ -4,6 +4,7 @@ com.ruoyi.wms.domain.bo.ItemCategoryBo
 com.ruoyi.wms.domain.vo.InventoryVo
 com.ruoyi.system.domain.vo.SysNoticeVo
 com.ruoyi.wms.domain.vo.AreaVo
+com.ruoyi.wms.domain.entity.ReceiptOrder
 com.ruoyi.system.domain.vo.SysUserExportVo
 com.ruoyi.system.domain.vo.SysRoleVo
 com.ruoyi.wms.domain.entity.Warehouse
@@ -52,6 +53,8 @@ com.ruoyi.wms.domain.bo.CheckOrderDetailBo
 com.ruoyi.system.domain.vo.SysPostVo
 com.ruoyi.wms.domain.bo.ShipmentOrderBo
 com.ruoyi.wms.domain.bo.ItemBrandBo
+com.ruoyi.wms.domain.entity.SerialNumber
+com.ruoyi.system.domain.entity.SysConfig
 com.ruoyi.wms.domain.bo.WarehouseBo
 com.ruoyi.system.domain.bo.SysNoticeBo
 com.ruoyi.system.domain.vo.SysDeptVo

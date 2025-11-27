@@ -100,6 +100,12 @@ export const constantRoutes = [
         component: () => import('@/views/wms/warehouseMap'),
         name: 'WarehouseMap',
         meta: { title: '仓库地图', icon: 'map' }
+      },
+      {
+        path: 'sn',
+        component: () => import('@/views/wms/sn/index'),
+        name: 'SnManagement',
+        meta: { title: '一物一码/SN管理', icon: 'barcode' }
       }
     ]
   },

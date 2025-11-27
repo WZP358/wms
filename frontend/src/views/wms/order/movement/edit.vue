@@ -73,7 +73,6 @@
             <div>
               <span>一物一码/SN模式：</span>
               <el-switch
-                :before-change="goSaasTip"
                 class="mr10 ml10"
                 inline-prompt
                 size="large"
@@ -154,6 +153,31 @@
                 ></el-input-number>
               </template>
             </el-table-column>
+            <el-table-column label="SN码" width="150" v-if="mode">
+              <template #default="scope">
+                <div v-if="scope.row.snCodes && scope.row.snCodes.length > 0">
+                  <el-tag type="success" size="small">{{ scope.row.snCodes.length }}个</el-tag>
+                  <el-button
+                    link
+                    type="primary"
+                    size="small"
+                    @click="handleEditSn(scope.row, scope.$index)"
+                    style="margin-left: 5px;"
+                  >
+                    查看/编辑
+                  </el-button>
+                </div>
+                <el-button
+                  v-else
+                  link
+                  type="primary"
+                  size="small"
+                  @click="handleEditSn(scope.row, scope.$index)"
+                >
+                  录入SN码
+                </el-button>
+              </template>
+            </el-table-column>
             <el-table-column label="操作" width="100" align="right" fixed="right">
               <template #default="scope">
                 <el-button icon="Delete" type="danger" plain size="small"
@@ -176,6 +200,15 @@
         :area-id="form.sourceAreaId"
         :selected-inventory="selectedInventory"
       />
+      <SnInputDialog
+        v-model="snDialogShow"
+        :title="snDialogTitle"
+        :item-info="currentSnItem"
+        :quantity="currentSnQuantity"
+        :existing-sn-codes="currentSnCodes"
+        :mode="mode ? 'scan' : 'manual'"
+        @confirm="handleSnConfirm"
+      />
     </div>
     <div class="footer-global">
       <div class="btn-box">
@@ -196,7 +229,7 @@
 import {computed, getCurrentInstance, onMounted, reactive, ref, toRef, toRefs, watch} from "vue";
 import {addMovementOrder, getMovementOrder, updateMovementOrder, movement} from "@/api/wms/movementOrder";
 import {delMovementOrderDetail} from "@/api/wms/movementOrderDetail";
-import {ElMessage, ElMessageBox} from "element-plus";
+import {ElMessage} from "element-plus";
 import {useRoute} from "vue-router";
 import {useWmsStore} from '@/store/modules/wms'
 import {numSub, generateNo} from '@/utils/ruoyi'
@@ -272,10 +305,32 @@ const handleOkClick = (item) => {
           sourceAreaId: form.value.areaId ?? it.areaId,
           inventoryDetailId: it.id,
           targetAreaId: form.value.targetAreaId,
-          sourceAreaName: useWmsStore().areaMap.get(form.value.areaId ?? it.areaId)?.areaName
+          sourceAreaName: useWmsStore().areaMap.get(form.value.areaId ?? it.areaId)?.areaName,
+          snCodes: mode.value ? [] : undefined
         })
     }
   })
+}
+
+// SN码相关
+const handleEditSn = (row, index) => {
+  currentSnItem.value = {
+    itemName: row.itemSku?.item?.itemName || '',
+    skuName: row.itemSku?.skuName || ''
+  }
+  currentSnQuantity.value = row.quantity || 1
+  currentSnCodes.value = row.snCodes || []
+  currentSnIndex.value = index
+  snDialogTitle.value = `录入SN码 - ${currentSnItem.value.itemName}`
+  snDialogShow.value = true
+}
+
+const handleSnConfirm = (snCodes) => {
+  if (currentSnIndex.value >= 0 && currentSnIndex.value < form.value.details.length) {
+    form.value.details[currentSnIndex.value].snCodes = snCodes
+    ElMessage.success(`已录入 ${snCodes.length} 个SN码`)
+  }
+  currentSnIndex.value = -1
 }
 
 const getPlaceAndSkuKey = (row) => {
@@ -303,9 +358,18 @@ const doSave = (movementOrderStatus = 0) => {
       if (invalidQuantityList?.length) {
         return ElMessage.error('请选择数量')
       }
+      // SN模式校验
+      if (mode.value) {
+        const invalidSnList = form.value.details.filter(it => {
+          return !it.snCodes || it.snCodes.length !== it.quantity
+        })
+        if (invalidSnList?.length) {
+          return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
+        }
+      }
       // 构建参数
       details = form.value.details.map(it => {
-        return {
+        const detail = {
           id: it.id,
           movementOrderId: form.value.id,
           skuId: it.skuId,
@@ -314,11 +378,16 @@ const doSave = (movementOrderStatus = 0) => {
           productionDate: it.productionDate,
           expirationDate: it.expirationDate,
           inventoryDetailId: it.inventoryDetailId,
-          sourceWarehouseId: form.value.warehouseId,
+          sourceWarehouseId: form.value.sourceWarehouseId,
           sourceAreaId: it.sourceAreaId,
           targetWarehouseId: form.value.targetWarehouseId,
           targetAreaId: it.targetAreaId
         }
+        // SN模式下添加SN码
+        if (mode.value && it.snCodes) {
+          detail.snCodes = it.snCodes
+        }
+        return detail
       })
     }
 
@@ -504,12 +573,6 @@ const handleDeleteDetail = (row, index) => {
     const indexOfSelected = selectedInventory.value.findIndex(it => it.id === row.inventoryDetailId)
     selectedInventory.value.splice(indexOfSelected, 1)
   }
-}
-const goSaasTip = () => {
-  ElMessageBox.alert('一物一码/SN模式请去Saas版本体验！', '系统提示', {
-    confirmButtonText: '确定'
-  })
-  return false
 }
 </script>
 

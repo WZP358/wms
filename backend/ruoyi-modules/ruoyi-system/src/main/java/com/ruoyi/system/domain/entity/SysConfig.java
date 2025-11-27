@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
 import com.ruoyi.common.mybatis.core.domain.BaseEntity;
+import com.ruoyi.system.domain.vo.SysConfigVo;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -23,6 +25,7 @@ import jakarta.validation.constraints.Size;
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_config")
 @ExcelIgnoreUnannotated
+@AutoMapper(target = SysConfigVo.class)
 public class SysConfig extends BaseEntity {
 
     /**

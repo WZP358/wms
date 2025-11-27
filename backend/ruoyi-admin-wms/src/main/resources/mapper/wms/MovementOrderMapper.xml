@@ -4,4 +4,20 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.wms.mapper.MovementOrderMapper">
 
+    <resultMap type="com.ruoyi.wms.domain.entity.MovementOrder" id="MovementOrderResult">
+        <result property="id"                   column="id"                     />
+        <result property="movementOrderNo"      column="movement_order_no"      />
+        <result property="sourceWarehouseId"    column="source_warehouse_id"    />
+        <result property="sourceAreaId"         column="source_area_id"         />
+        <result property="targetWarehouseId"    column="target_warehouse_id"    />
+        <result property="targetAreaId"         column="target_area_id"         />
+        <result property="movementOrderStatus"  column="movement_order_status"  />
+        <result property="totalQuantity"        column="total_quantity"         />
+        <result property="createTime"           column="create_time"            />
+        <result property="createBy"             column="create_by"              />
+        <result property="updateTime"           column="update_time"            />
+        <result property="updateBy"             column="update_by"              />
+        <result property="remark"               column="remark"                 />
+    </resultMap>
+
 </mapper>
