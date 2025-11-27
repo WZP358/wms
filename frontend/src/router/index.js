@@ -102,6 +102,19 @@ export const constantRoutes = [
         meta: { title: '仓库地图', icon: 'map' }
       }
     ]
+  },
+  {
+    path: '/receiptOrderEdit',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/wms/order/receipt/edit'),
+        name: 'ReceiptOrderEdit',
+        meta: { title: '入库单编辑', activeMenu: '/wms/order/receipt' }
+      }
+    ]
   }
 ]
 
