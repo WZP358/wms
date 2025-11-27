@@ -21148,3 +21148,30 @@ io.github.linpeilie.ConvertException: cannot find converter from Warehouse to Wa
 2025-11-24 20:40:48 [XNIO-1 task-6] INFO  c.r.c.w.i.PlusWebInvokeTimeInterceptor - [PLUS]结束请求 => URL[GET /system/dict/data/type/wms_receipt_status],耗时:[5]毫秒
 2025-11-24 20:40:48 [XNIO-1 task-5] INFO  c.r.c.w.i.PlusWebInvokeTimeInterceptor - [PLUS]开始请求 => URL[GET /wms/receiptOrder/list],参数类型[param],参数:[{"pageSize":["10"],"pageNum":["1"]}]
 2025-11-24 20:40:48 [XNIO-1 task-5] INFO  c.r.c.w.i.PlusWebInvokeTimeInterceptor - [PLUS]结束请求 => URL[GET /wms/receiptOrder/list],耗时:[14]毫秒
+2025-11-27 21:52:31 [background-preinit] INFO  o.h.validator.internal.util.Version - HV000001: Hibernate Validator 8.0.1.Final
+2025-11-27 21:52:31 [main] INFO  com.ruoyi.RuoYiApplication - Starting RuoYiApplication using Java 23.0.2 with PID 16144 (E:\code\wms\backend\ruoyi-admin-wms\target\classes started by wzp in E:\code\wms)
+2025-11-27 21:52:31 [main] INFO  com.ruoyi.RuoYiApplication - The following 1 profile is active: "dev"
+2025-11-27 21:52:35 [main] WARN  o.m.s.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.ruoyi]' package. Please check your configuration.
+2025-11-27 21:52:36 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAopConfiguration' of type [com.baomidou.dynamic.datasource.spring.boot.autoconfigure.DynamicDataSourceAopConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [healthEndpointGroupsBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-11-27 21:52:37 [main] INFO  io.undertow.servlet - Initializing Spring embedded WebApplicationContext
+2025-11-27 21:52:37 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource detect P6SPY plugin and enabled it
+2025-11-27 21:52:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Starting...
+2025-11-27 21:52:38 [main] INFO  com.zaxxer.hikari.pool.HikariPool - master - Added connection com.mysql.cj.jdbc.ConnectionImpl@7bd7c4cf
+2025-11-27 21:52:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - master - Start completed.
+2025-11-27 21:52:38 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [slave] success
+2025-11-27 21:52:38 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource - add a datasource named [master] success
+2025-11-27 21:52:38 [main] INFO  c.b.d.d.DynamicRoutingDataSource - dynamic-datasource initial loaded [2] datasource,primary datasource named [master]
+2025-11-27 21:52:41 [main] INFO  c.r.common.redis.config.RedisConfig - 初始化 redis 配置
+2025-11-27 21:52:41 [main] INFO  org.redisson.Version - Redisson 3.29.0
+2025-11-27 21:52:41 [redisson-netty-1-5] INFO  o.r.connection.ConnectionsHolder - 1 connections initialized for localhost/127.0.0.1:6379
+2025-11-27 21:52:41 [redisson-netty-1-4] INFO  o.r.connection.ConnectionsHolder - 8 connections initialized for localhost/127.0.0.1:6379
+2025-11-27 21:52:42 [main] INFO  c.r.common.json.config.JacksonConfig - 初始化 jackson 配置
+2025-11-27 21:52:45 [main] INFO  io.undertow - starting server: Undertow - 2.3.13.Final
+2025-11-27 21:52:45 [main] INFO  org.xnio - XNIO version 3.8.8.Final
+2025-11-27 21:52:45 [main] INFO  org.xnio.nio - XNIO NIO Implementation Version 3.8.8.Final
+2025-11-27 21:52:45 [main] INFO  org.jboss.threads - JBoss Threads version 3.5.0.Final
+2025-11-27 21:52:45 [main] INFO  com.ruoyi.RuoYiApplication - Started RuoYiApplication in 15.337 seconds (process running for 17.0)
+2025-11-27 21:52:45 [main] INFO  c.r.s.runner.SystemApplicationRunner - 初始化OSS配置成功
+2025-11-27 21:52:45 [main] INFO  c.r.s.runner.SystemApplicationRunner - 加载参数缓存数据成功
+2025-11-27 21:52:45 [main] INFO  c.r.s.runner.SystemApplicationRunner - 加载字典缓存数据成功
+2025-11-27 21:52:46 [RMI TCP Connection(5)-192.168.148.115] INFO  io.undertow.servlet - Initializing Spring DispatcherServlet 'dispatcherServlet'
