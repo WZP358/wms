@@ -85,3 +85,4 @@ public class SerialNumberBo extends BaseEntity {
     private String remark;
 }
 
+

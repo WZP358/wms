@@ -13,3 +13,4 @@ public interface SerialNumberMapper extends BaseMapperPlus<SerialNumber, SerialN
 
 }
 
+

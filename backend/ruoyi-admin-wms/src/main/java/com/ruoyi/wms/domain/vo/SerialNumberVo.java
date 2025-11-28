@@ -106,3 +106,4 @@ public class SerialNumberVo implements Serializable {
     private String remark;
 }
 
+
