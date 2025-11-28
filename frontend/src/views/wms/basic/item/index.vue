@@ -112,6 +112,15 @@
                 </div>
               </template>
             </el-table-column>
+            <el-table-column label="最低库存" width="120" align="left">
+              <template #default="{ row }">
+                <div v-if="row.minStock !== null && row.minStock !== undefined" class="flex-space-between">
+                  <span>最低库存：</span>
+                  <div>{{ row.minStock }}</div>
+                </div>
+                <div v-else style="color: #999;">未设置</div>
+              </template>
+            </el-table-column>
             <el-table-column label="重量(kg)" width="160" align="left">
               <template #default="{ row }">
                 <div v-if="row.netWeight" class="flex-space-between">
@@ -269,6 +278,18 @@
                   <span class="mr5">销售价</span>
                   <el-input-number :controls="false" :min="0" :precision="2" v-model="scope.row.sellingPrice"/>
                 </div>
+              </template>
+            </el-table-column>
+            <el-table-column label="最低库存" width="150">
+              <template #default="scope">
+                <el-input-number 
+                  :controls="false" 
+                  :min="0" 
+                  :precision="2" 
+                  v-model="scope.row.minStock"
+                  placeholder="最低库存"
+                  style="width: 100%"
+                />
               </template>
             </el-table-column>
             <el-table-column label="操作" class-name="small-padding fixed-width" width="80" align="right">
@@ -537,6 +558,7 @@ const resetItemSkuList = () => {
     outPrice: null,
     skuName: '',
     quantity: null,
+    minStock: null,
   })
 }
 
@@ -549,6 +571,7 @@ const onAppendBtnClick = () => {
     outPrice: null,
     skuName: '',
     quantity: null,
+    minStock: null,
   })
 }
 const handleDeleteItemSku = async (row, index) => {
