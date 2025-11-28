@@ -253,6 +253,7 @@ import {ElMessageBox} from "element-plus";
 import shipmentPanel from "@/components/PrintTemplate/shipment-panel";
 import { generateNo } from "@/utils/ruoyi";
 import { listReceiptOrder, getReceiptOrder } from "@/api/wms/receiptOrder";
+import { scanSn } from "@/api/wms/sn";
 
 const { proxy } = getCurrentInstance();
 const { wms_shipment_status, wms_shipment_type} = proxy.useDict("wms_shipment_status", "wms_shipment_type");
@@ -458,8 +459,40 @@ function getRowKey(row) {
 }
 
 /** 扫描条形码按钮点击处理 */
-function handleScanButtonClick() {
-  proxy.$modal.msgInfo("未连接扫描枪");
+async function handleScanButtonClick() {
+  try {
+    const res = await scanSn();
+    if (res.code === 200) {
+      // 未连接扫描枪，弹出提示框
+      ElMessageBox.alert(
+        res.data || res.msg || '未连接扫描枪',
+        '提示',
+        {
+          type: 'warning',
+          confirmButtonText: '确定'
+        }
+      );
+    } else {
+      ElMessageBox.alert(
+        res.msg || '扫描枪检测失败',
+        '提示',
+        {
+          type: 'error',
+          confirmButtonText: '确定'
+        }
+      );
+    }
+  } catch (error) {
+    console.error('扫描枪检测失败:', error);
+    ElMessageBox.alert(
+      '扫描枪检测失败，请重试',
+      '提示',
+      {
+        type: 'error',
+        confirmButtonText: '确定'
+      }
+    );
+  }
 }
 
 /** 条形码扫描处理 */
