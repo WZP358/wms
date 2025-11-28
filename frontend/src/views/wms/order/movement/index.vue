@@ -313,12 +313,19 @@ async function handlePrint(row) {
   let table = []
   if (movementOrder.details?.length) {
     table = movementOrder.details.map(detail => {
+      // 格式化SN码显示
+      let snCodesDisplay = '无';
+      if (detail.snCodes && Array.isArray(detail.snCodes) && detail.snCodes.length > 0) {
+        snCodesDisplay = detail.snCodes.join(', ');
+      }
+      
       return {
         itemName: detail.itemSku.item.itemName,
         skuName: detail.itemSku.skuName,
         sourceAreaName: useWmsStore().areaMap.get(detail.sourceAreaId)?.areaName,
         targetAreaName: useWmsStore().areaMap.get(detail.targetAreaId)?.areaName,
         quantity: Number(detail.quantity).toFixed(0),
+        snCodes: snCodesDisplay,
         batchNo: detail.batchNo,
         productionDate: proxy.parseTime(detail.productionDate, '{y}-{m}-{d}'),
         expirationDate: proxy.parseTime(detail.expirationDate, '{y}-{m}-{d}')

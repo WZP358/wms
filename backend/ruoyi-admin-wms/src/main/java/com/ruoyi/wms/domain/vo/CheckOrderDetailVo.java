@@ -109,4 +109,9 @@ public class CheckOrderDetailVo implements Serializable {
 
     private BigDecimal remainQuantity;
 
+    /**
+     * SN码列表
+     */
+    private java.util.List<String> snCodes;
+
 }

@@ -1,7 +1,20 @@
 <template>
   <div class="app-container">
     <el-card>
-      <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="68px">
+      <el-form :model="queryParams" ref="queryRef" :inline="true" label-width="100px">
+        <el-form-item label="输入条形码" prop="barcodeInput">
+          <el-input
+            v-model="barcodeInput"
+            placeholder="入库单号或出库单号"
+            clearable
+            @keyup.enter="handleBarcodeScan"
+            style="width: 200px"
+            prefix-icon="Search"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="success" icon="Aim" @click="handleScanButtonClick">扫描条形码</el-button>
+        </el-form-item>
         <el-form-item label="入库状态" prop="receiptOrderStatus">
           <el-radio-group v-model="queryParams.receiptOrderStatus" @change="handleQuery">
             <el-radio-button
@@ -108,6 +121,14 @@
                   </template>
                 </el-table-column>
                 <el-table-column label="批号" prop="batchNo" />
+                <el-table-column label="SN码" prop="snCodes" width="200">
+                  <template #default="{ row }">
+                    <div v-if="row.snCodes && row.snCodes.length > 0">
+                      <div v-for="(snCode, index) in row.snCodes" :key="index">{{ snCode }}</div>
+                    </div>
+                    <div v-else>无</div>
+                  </template>
+                </el-table-column>
                 <el-table-column label="生产日期" prop="productionDate">
                   <template #default="{ row }">
                     <div>{{ parseTime(row.productionDate, '{y}-{m}-{d}') }}</div>
@@ -230,6 +251,8 @@ import {useWmsStore} from "../../../../store/modules/wms";
 import {listByReceiptOrderId} from "@/api/wms/receiptOrderDetail";
 import {ElMessageBox} from "element-plus";
 import receiptPanel from "@/components/PrintTemplate/receipt-panel";
+import { generateNo } from "@/utils/ruoyi";
+import { listShipmentOrder, getShipmentOrder } from "@/api/wms/shipmentOrder";
 
 const { proxy } = getCurrentInstance();
 const { wms_receipt_status, wms_receipt_type } = proxy.useDict("wms_receipt_status", "wms_receipt_type");
@@ -244,6 +267,8 @@ const title = ref("");
 const expandedRowKeys = ref([])
 // 商品明细table的loading状态集合
 const detailLoading = ref([])
+// 条形码输入
+const barcodeInput = ref('')
 const data = reactive({
   queryParams: {
     pageNum: 1,
@@ -345,6 +370,12 @@ async function handlePrint(row) {
   let table = []
   if (receiptOrder.details?.length) {
     table = receiptOrder.details.map(detail => {
+      // 格式化SN码显示：如果有SN码数组，用逗号分隔；否则显示"无"
+      let snCodesDisplay = '无';
+      if (detail.snCodes && Array.isArray(detail.snCodes) && detail.snCodes.length > 0) {
+        snCodesDisplay = detail.snCodes.join(', ');
+      }
+      
       return {
         itemName: detail.itemSku.item.itemName,
         skuName: detail.itemSku.skuName,
@@ -353,6 +384,7 @@ async function handlePrint(row) {
         productionDate: proxy.parseTime(detail.productionDate, '{y}-{m}-{d}'),
         expirationDate: proxy.parseTime(detail.expirationDate, '{y}-{m}-{d}'),
         quantity: Number(detail.quantity).toFixed(0),
+        snCodes: snCodesDisplay,
         amount: detail.amount
       }
     })
@@ -423,6 +455,283 @@ function ifExpand(expandedRows) {
 function getRowKey(row) {
   return row.id
 }
+
+/** 扫描条形码按钮点击处理 */
+function handleScanButtonClick() {
+  proxy.$modal.msgInfo("未连接扫描枪");
+}
+
+/** 条形码扫描处理 */
+async function handleBarcodeScan() {
+  if (!barcodeInput.value || !barcodeInput.value.trim()) {
+    proxy.$modal.msgWarning("请输入或扫描单据条形码");
+    return;
+  }
+  
+  const scannedCode = barcodeInput.value.trim();
+  loading.value = true;
+  
+  try {
+    // 判断是入库单号还是出库单号
+    // 入库单号以RK开头，出库单号以CK开头
+    const isReceiptOrder = scannedCode.startsWith('RK');
+    const isShipmentOrder = scannedCode.startsWith('CK');
+    
+    if (isReceiptOrder) {
+      // 查询入库单
+      await handleReceiptOrderScan(scannedCode);
+    } else if (isShipmentOrder) {
+      // 查询出库单，用于转入库
+      await handleShipmentOrderScanForReceipt(scannedCode);
+    } else {
+      // 尝试同时查询两种单据
+      const receiptResponse = await listReceiptOrder({
+        receiptOrderNo: scannedCode,
+        pageNum: 1,
+        pageSize: 10
+      });
+      
+      if (receiptResponse.rows && receiptResponse.rows.length > 0) {
+        await handleReceiptOrderScan(scannedCode);
+      } else {
+        const shipmentResponse = await listShipmentOrder({
+          shipmentOrderNo: scannedCode,
+          pageNum: 1,
+          pageSize: 10
+        });
+        
+        if (shipmentResponse.rows && shipmentResponse.rows.length > 0) {
+          await handleShipmentOrderScanForReceipt(scannedCode);
+        } else {
+          proxy.$modal.msgError(`未找到单号为【${scannedCode}】的单据！`);
+          barcodeInput.value = '';
+          loading.value = false;
+        }
+      }
+    }
+  } catch (error) {
+    console.error('查询单据失败:', error);
+    proxy.$modal.msgError("查询单据失败，请重试！");
+    barcodeInput.value = '';
+    loading.value = false;
+  }
+}
+
+/** 处理入库单扫描 */
+async function handleReceiptOrderScan(scannedCode) {
+  const response = await listReceiptOrder({
+    receiptOrderNo: scannedCode,
+    pageNum: 1,
+    pageSize: 10
+  });
+  
+  if (response.rows && response.rows.length > 0) {
+    const order = response.rows[0];
+    barcodeInput.value = '';
+    loading.value = false;
+    
+    ElMessageBox.confirm(
+      `找到入库单【${order.receiptOrderNo}】，请选择操作：`,
+      '扫描成功',
+      {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '一键转出库',
+        cancelButtonText: '查看入库单',
+        type: 'info',
+      }
+    ).then(async () => {
+      await handleConvertToShipment(order);
+    }).catch((action) => {
+      if (action === 'cancel') {
+        handleViewReceiptOrder(order);
+      }
+    });
+  } else {
+    proxy.$modal.msgError(`未找到入库单号为【${scannedCode}】的入库单！`);
+    barcodeInput.value = '';
+    loading.value = false;
+  }
+}
+
+/** 处理出库单扫描（用于转入库） */
+async function handleShipmentOrderScanForReceipt(scannedCode) {
+  const response = await listShipmentOrder({
+    shipmentOrderNo: scannedCode,
+    pageNum: 1,
+    pageSize: 10
+  });
+  
+  if (response.rows && response.rows.length > 0) {
+    const order = response.rows[0];
+    barcodeInput.value = '';
+    loading.value = false;
+    
+    ElMessageBox.confirm(
+      `找到出库单【${order.shipmentOrderNo}】，是否一键转入库？`,
+      '扫描成功',
+      {
+        distinguishCancelAndClose: true,
+        confirmButtonText: '一键转入库',
+        cancelButtonText: '取消',
+        type: 'info',
+      }
+    ).then(async () => {
+      await handleConvertShipmentToReceipt(order);
+    }).catch(() => {
+      // 用户取消
+    });
+  } else {
+    proxy.$modal.msgError(`未找到出库单号为【${scannedCode}】的出库单！`);
+    barcodeInput.value = '';
+    loading.value = false;
+  }
+}
+
+/** 出库单转入库 */
+async function handleConvertShipmentToReceipt(shipmentOrder) {
+  try {
+    loading.value = true;
+    
+    if (shipmentOrder.shipmentOrderStatus !== 1) {
+      proxy.$modal.msgWarning(`出库单【${shipmentOrder.shipmentOrderNo}】未出库，无法转入库！`);
+      loading.value = false;
+      return;
+    }
+    
+    const res = await getShipmentOrder(shipmentOrder.id);
+    const fullShipmentOrder = res.data;
+    
+    if (!fullShipmentOrder.details || fullShipmentOrder.details.length === 0) {
+      proxy.$modal.msgError("出库单没有商品明细，无法转入库！");
+      loading.value = false;
+      return;
+    }
+    
+    const receiptOrderNo = 'RK' + generateNo();
+    
+    const receiptData = {
+      receiptOrderNo: receiptOrderNo,
+      receiptOrderType: 11,
+      warehouseId: fullShipmentOrder.warehouseId,
+      areaId: fullShipmentOrder.areaId,
+      merchantId: fullShipmentOrder.merchantId,
+      orderNo: fullShipmentOrder.shipmentOrderNo,
+      remark: `根据出库单【${fullShipmentOrder.shipmentOrderNo}】创建`,
+      details: fullShipmentOrder.details.map(detail => ({
+        itemSkuId: detail.itemSku.id,
+        itemSku: detail.itemSku,
+        areaId: detail.areaId,
+        quantity: detail.quantity,
+        amount: detail.amount,
+        batchNo: detail.batchNo,
+        productionDate: detail.productionDate,
+        expirationDate: detail.expirationDate,
+      }))
+    };
+    
+    loading.value = false;
+    proxy.$modal.msgSuccess("正在跳转到入库单编辑页面...");
+    
+    localStorage.setItem('convertReceiptData', JSON.stringify(receiptData));
+    
+    setTimeout(() => {
+      proxy.$router.push({ 
+        path: "/receiptOrderEdit",
+        query: { fromConvert: 'shipment' }
+      });
+    }, 500);
+    
+  } catch (error) {
+    console.error('转入库失败:', error);
+    proxy.$modal.msgError("转入库失败，请重试！");
+    loading.value = false;
+  }
+}
+
+/** 查看入库单 */
+function handleViewReceiptOrder(order) {
+  if (order.receiptOrderStatus === 1) {
+    proxy.$modal.msgWarning(`入库单【${order.receiptOrderNo}】已入库，无法编辑！`);
+    queryParams.value.receiptOrderNo = order.receiptOrderNo;
+    handleQuery();
+  } else if (order.receiptOrderStatus === -1) {
+    proxy.$modal.msgWarning(`入库单【${order.receiptOrderNo}】已作废，无法编辑！`);
+    queryParams.value.receiptOrderNo = order.receiptOrderNo;
+    handleQuery();
+  } else {
+    proxy.$modal.msgSuccess(`正在跳转到入库单编辑页面...`);
+    setTimeout(() => {
+      proxy.$router.push({ path: "/receiptOrderEdit", query: { id: order.id } });
+    }, 500);
+  }
+}
+
+/** 一键转出库 - 根据入库单创建出库单 */
+async function handleConvertToShipment(receiptOrder) {
+  try {
+    loading.value = true;
+    
+    // 检查入库单状态
+    if (receiptOrder.receiptOrderStatus !== 1) {
+      proxy.$modal.msgWarning(`入库单【${receiptOrder.receiptOrderNo}】未入库，无法转出库！`);
+      loading.value = false;
+      return;
+    }
+    
+    // 获取入库单详细信息
+    const res = await getReceiptOrder(receiptOrder.id);
+    const fullReceiptOrder = res.data;
+    
+    if (!fullReceiptOrder.details || fullReceiptOrder.details.length === 0) {
+      proxy.$modal.msgError("入库单没有商品明细，无法转出库！");
+      loading.value = false;
+      return;
+    }
+    
+    // 生成出库单号
+    const shipmentOrderNo = 'CK' + generateNo();
+    
+    // 构建出库单数据并跳转到出库单编辑页面
+    const shipmentData = {
+      shipmentOrderNo: shipmentOrderNo,
+      shipmentOrderType: 22, // 销售出库
+      warehouseId: fullReceiptOrder.warehouseId,
+      areaId: fullReceiptOrder.areaId,
+      merchantId: fullReceiptOrder.merchantId,
+      orderNo: fullReceiptOrder.receiptOrderNo, // 关联原入库单号
+      remark: `根据入库单【${fullReceiptOrder.receiptOrderNo}】创建`,
+      details: fullReceiptOrder.details.map(detail => ({
+        itemSkuId: detail.itemSku.id,
+        itemSku: detail.itemSku,
+        areaId: detail.areaId,
+        quantity: detail.quantity,
+        amount: detail.amount,
+        batchNo: detail.batchNo,
+        productionDate: detail.productionDate,
+        expirationDate: detail.expirationDate,
+      }))
+    };
+    
+    loading.value = false;
+    proxy.$modal.msgSuccess("正在跳转到出库单编辑页面...");
+    
+    // 使用localStorage传递数据
+    localStorage.setItem('convertShipmentData', JSON.stringify(shipmentData));
+    
+    setTimeout(() => {
+      proxy.$router.push({ 
+        path: "/shipmentOrderEdit",
+        query: { fromConvert: 'receipt' }
+      });
+    }, 500);
+    
+  } catch (error) {
+    console.error('转出库失败:', error);
+    proxy.$modal.msgError("转出库失败，请重试！");
+    loading.value = false;
+  }
+}
+
 getList();
 </script>
 <style lang="scss">

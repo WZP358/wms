@@ -51,12 +51,15 @@ export function scanSn() {
   })
 }
 
-// 直接输入SN码（验证接口）
-export function inputSn(snCode) {
+// 直接输入SN码（验证接口 - 增强版）
+export function inputSn(snCode, excludeSnCodes = []) {
   return request({
     url: '/wms/sn/input',
     method: 'post',
-    data: { snCode }
+    data: { 
+      snCode,
+      excludeSnCodes: excludeSnCodes || []
+    }
   })
 }
 
@@ -66,6 +69,18 @@ export function validateSnBatch(snCodes) {
     url: '/wms/sn/validate/batch',
     method: 'post',
     data: snCodes
+  })
+}
+
+// 批量验证SN码（增强版）
+export function validateSnBatchEnhanced(snCodes, excludeSnCodes = []) {
+  return request({
+    url: '/wms/sn/validate/batch/enhanced',
+    method: 'post',
+    data: {
+      snCodes,
+      excludeSnCodes: excludeSnCodes || []
+    }
   })
 }
 

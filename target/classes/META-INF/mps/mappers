@@ -25,9 +25,9 @@ com.ruoyi.system.domain.entity.SysDictDataToSysDictDataVoMapper
 com.ruoyi.system.domain.bo.SysPostBoToSysPostMapper
 com.ruoyi.common.log.event.OperLogEventToSysOperLogBoMapper
 com.ruoyi.system.domain.bo.SysOperLogBoToOperLogEventMapper
-com.ruoyi.common.log.event.OperLogEventToSysOperLogMapper
-com.ruoyi.system.domain.entity.SysPostToSysPostVoMapper
 com.ruoyi.system.domain.entity.SysUserToSysUserExportVoMapper
+com.ruoyi.system.domain.entity.SysPostToSysPostVoMapper
+com.ruoyi.common.log.event.OperLogEventToSysOperLogMapper
 com.ruoyi.system.domain.entity.SysNoticeToSysNoticeVoMapper
 com.ruoyi.system.domain.vo.SysUserVoToSysUserMapper
 com.ruoyi.system.domain.vo.SysOssConfigVoToSysOssConfigMapper

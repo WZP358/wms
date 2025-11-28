@@ -678,6 +678,16 @@ export default {
                   "tableSummary": "sum",
                   "tableSummaryAlign": "right",
                   "tableSummaryNumFormat": "0"
+                },
+                {
+                  "width": 120,
+                  "title": "SN码",
+                  "field": "snCodes",
+                  "checked": true,
+                  "columnId": "snCodes",
+                  "fixed": false,
+                  "rowspan": 1,
+                  "colspan": 1
                 }
               ]
             ]

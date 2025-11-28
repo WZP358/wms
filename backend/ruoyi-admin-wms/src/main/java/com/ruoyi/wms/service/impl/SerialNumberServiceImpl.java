@@ -1,7 +1,6 @@
 package com.ruoyi.wms.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -16,9 +15,8 @@ import com.ruoyi.wms.service.SerialNumberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 序列号/SN码Service业务层处理
@@ -69,7 +67,6 @@ public class SerialNumberServiceImpl implements SerialNumberService {
     }
 
     private LambdaQueryWrapper<SerialNumber> buildQueryWrapper(SerialNumberBo bo) {
-        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<SerialNumber> lqw = Wrappers.lambdaQuery();
         lqw.eq(StringUtils.isNotBlank(bo.getSnCode()), SerialNumber::getSnCode, bo.getSnCode());
         lqw.like(StringUtils.isNotBlank(bo.getItemName()), SerialNumber::getItemName, bo.getItemName());
@@ -147,6 +144,15 @@ public class SerialNumberServiceImpl implements SerialNumberService {
      */
     @Override
     public String inputSn(String snCode) {
+        return inputSnWithExclude(snCode, null);
+    }
+
+    /**
+     * 直接输入SN码（验证并处理 - 增强版）
+     * 验证SN码格式、是否重复等，支持排除某些SN码
+     */
+    @Override
+    public String inputSnWithExclude(String snCode, List<String> excludeSnCodes) {
         if (StringUtils.isBlank(snCode)) {
             return "SN码不能为空";
         }
@@ -159,6 +165,15 @@ public class SerialNumberServiceImpl implements SerialNumberService {
         // 检查SN码是否已存在
         LambdaQueryWrapper<SerialNumber> lqw = Wrappers.lambdaQuery();
         lqw.eq(SerialNumber::getSnCode, snCode);
+        
+        // 如果有排除列表，排除这些SN码
+        if (excludeSnCodes != null && !excludeSnCodes.isEmpty()) {
+            // 如果要验证的SN码在排除列表中，直接通过
+            if (excludeSnCodes.contains(snCode)) {
+                return "OK";
+            }
+        }
+        
         if (baseMapper.exists(lqw)) {
             return "SN码已存在，请勿重复录入";
         }
@@ -172,9 +187,65 @@ public class SerialNumberServiceImpl implements SerialNumberService {
      */
     @Override
     public List<SerialNumberVo> validateSnBatch(List<String> snCodes) {
+        if (snCodes == null || snCodes.isEmpty()) {
+            return new ArrayList<>();
+        }
         LambdaQueryWrapper<SerialNumber> lqw = Wrappers.lambdaQuery();
         lqw.in(SerialNumber::getSnCode, snCodes);
         return baseMapper.selectVoList(lqw);
+    }
+
+    /**
+     * 批量验证SN码（增强版）
+     * 支持排除某些SN码（用于编辑场景）
+     */
+    @Override
+    public Map<String, Object> validateSnBatchEnhanced(List<String> snCodes, List<String> excludeSnCodes) {
+        Map<String, Object> result = new HashMap<>();
+        
+        if (snCodes == null || snCodes.isEmpty()) {
+            result.put("valid", true);
+            result.put("duplicates", new ArrayList<>());
+            result.put("message", "验证通过");
+            return result;
+        }
+        
+        // 过滤掉要排除的SN码
+        List<String> codesToCheck = snCodes;
+        if (excludeSnCodes != null && !excludeSnCodes.isEmpty()) {
+            codesToCheck = snCodes.stream()
+                .filter(code -> !excludeSnCodes.contains(code))
+                .collect(Collectors.toList());
+        }
+        
+        if (codesToCheck.isEmpty()) {
+            result.put("valid", true);
+            result.put("duplicates", new ArrayList<>());
+            result.put("message", "验证通过");
+            return result;
+        }
+        
+        // 检查这些SN码是否已存在
+        LambdaQueryWrapper<SerialNumber> lqw = Wrappers.lambdaQuery();
+        lqw.in(SerialNumber::getSnCode, codesToCheck);
+        List<SerialNumberVo> existingSnCodes = baseMapper.selectVoList(lqw);
+        
+        if (existingSnCodes.isEmpty()) {
+            result.put("valid", true);
+            result.put("duplicates", new ArrayList<>());
+            result.put("message", "所有SN码验证通过");
+        } else {
+            result.put("valid", false);
+            result.put("duplicates", existingSnCodes.stream()
+                .map(SerialNumberVo::getSnCode)
+                .collect(Collectors.toList()));
+            result.put("message", "以下SN码已存在：" + 
+                existingSnCodes.stream()
+                    .map(SerialNumberVo::getSnCode)
+                    .collect(Collectors.joining(", ")));
+        }
+        
+        return result;
     }
 
     /**

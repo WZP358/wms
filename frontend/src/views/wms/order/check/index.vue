@@ -245,11 +245,18 @@ async function handlePrint(row) {
   let table = []
   if (checkOrder.details?.length) {
     table = checkOrder.details.map(detail => {
+      // 格式化SN码显示
+      let snCodesDisplay = '无';
+      if (detail.snCodes && Array.isArray(detail.snCodes) && detail.snCodes.length > 0) {
+        snCodesDisplay = detail.snCodes.join(', ');
+      }
+      
       return {
         itemName: detail.itemSku.item.itemName,
         skuName: detail.itemSku.skuName,
         areaName: useWmsStore().areaMap.get(detail.areaId)?.areaName,
         quantity: Number(detail.quantity).toFixed(0),
+        snCodes: snCodesDisplay,
         profitAndLoss: Number(detail.checkQuantity - detail.quantity).toFixed(0),
         checkQuantity: Number(detail.checkQuantity).toFixed(0),
         batchNo: detail.batchNo,

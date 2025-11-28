@@ -193,12 +193,12 @@ const handleAddSn = async () => {
     return
   }
   
-  // 调用后端接口验证SN码（直接输入接口）
+  // 调用后端接口验证SN码（增强版接口，支持排除已有SN码）
   isAdding.value = true
   try {
-    console.log('调用直接输入接口，SN码:', code)
-    const res = await inputSn(code)
-    console.log('直接输入接口返回:', res)
+    console.log('调用增强验证接口，SN码:', code, '排除列表:', props.existingSnCodes)
+    const res = await inputSn(code, props.existingSnCodes)
+    console.log('验证接口返回:', res)
     if (res && res.code === 200) {
       // 验证通过，添加到列表
       snCodes.value.push(code)
@@ -220,19 +220,23 @@ const handleAddSn = async () => {
       // 验证失败，显示错误信息
       const errorMsg = res?.msg || res?.data || 'SN码验证失败'
       ElMessage.error(errorMsg)
+      currentSnCode.value = ''
+      // 扫描模式下也要聚焦
+      if (props.mode === 'scan') {
+        nextTick(() => {
+          snInputRef.value?.focus()
+        })
+      }
     }
   } catch (error) {
-    console.error('直接输入接口调用失败:', error)
-    // 如果接口不存在或网络错误，先允许本地添加（开发阶段）
-    if (error.response && error.response.status === 404) {
-      ElMessage.warning('接口未找到，使用本地验证模式')
-      // 本地验证通过，添加到列表
-      snCodes.value.push(code)
-      currentSnCode.value = ''
-      ElMessage.success(`已添加SN码: ${code}`)
-    } else {
-      const errorMsg = error?.response?.data?.msg || error?.message || 'SN码验证接口调用失败'
-      ElMessage.error(errorMsg)
+    console.error('验证接口调用失败:', error)
+    const errorMsg = error?.response?.data?.msg || error?.message || 'SN码验证接口调用失败'
+    ElMessage.error(errorMsg)
+    currentSnCode.value = ''
+    if (props.mode === 'scan') {
+      nextTick(() => {
+        snInputRef.value?.focus()
+      })
     }
   } finally {
     isAdding.value = false

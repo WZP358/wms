@@ -265,6 +265,7 @@ import {useRoute} from "vue-router";
 import {useWmsStore} from '@/store/modules/wms'
 import { numSub, generateNo } from '@/utils/ruoyi'
 import { delReceiptOrderDetail } from '@/api/wms/receiptOrderDetail'
+import { validateSnBatchEnhanced } from '@/api/wms/sn'
 
 const {proxy} = getCurrentInstance();
 const { wms_receipt_type } = proxy.useDict("wms_receipt_type");
@@ -377,6 +378,72 @@ const handleSnConfirm = (snCodes) => {
 }
 // 选择商品 end
 
+// 验证所有SN码的唯一性（包括不同商品之间）
+const validateAllSnCodes = async () => {
+  // 收集所有SN码
+  const allSnCodes = []
+  const snCodeMap = new Map() // 用于检查本地重复
+  
+  for (const detail of form.value.details) {
+    if (detail.snCodes && Array.isArray(detail.snCodes)) {
+      for (const snCode of detail.snCodes) {
+        // 检查本地是否重复（不同商品之间）
+        if (snCodeMap.has(snCode)) {
+          return {
+            valid: false,
+            message: `SN码【${snCode}】重复！不同商品不能使用相同的SN码。商品1：${snCodeMap.get(snCode)}，商品2：${detail.itemSku?.item?.itemName}`
+          }
+        }
+        snCodeMap.set(snCode, detail.itemSku?.item?.itemName)
+        allSnCodes.push(snCode)
+      }
+    }
+  }
+  
+  if (allSnCodes.length === 0) {
+    return { valid: true }
+  }
+  
+  // 调用后端批量验证（检查数据库中是否已存在）
+  try {
+    // 编辑时，需要排除原有的SN码
+    const originalSnCodes = []
+    if (form.value.id) {
+      // 获取原始数据中的所有SN码
+      const res = await getReceiptOrder(form.value.id)
+      const originalOrder = res.data
+      if (originalOrder.details) {
+        originalOrder.details.forEach(detail => {
+          if (detail.snCodes && Array.isArray(detail.snCodes)) {
+            originalSnCodes.push(...detail.snCodes)
+          }
+        })
+      }
+    }
+    
+    const validateRes = await validateSnBatchEnhanced(allSnCodes, originalSnCodes)
+    
+    if (validateRes.code === 200 && validateRes.data) {
+      if (validateRes.data.valid) {
+        return { valid: true }
+      } else {
+        return {
+          valid: false,
+          message: validateRes.data.message || '存在重复的SN码，请检查！'
+        }
+      }
+    } else {
+      // 如果接口不可用，至少保证本地不重复
+      console.warn('批量验证接口调用失败，使用本地验证')
+      return { valid: true }
+    }
+  } catch (error) {
+    console.error('批量验证SN码失败:', error)
+    // 验证接口出错时，至少保证本地不重复
+    return { valid: true }
+  }
+}
+
 // 初始化receipt-order-form ref
 const receiptForm = ref()
 
@@ -387,28 +454,34 @@ const save = async () => {
 
 const doSave = async (receiptOrderStatus = 0) => {
   //验证receiptForm表单
-  receiptForm.value?.validate((valid) => {
-    // 校验
-    if (!valid) {
-      return ElMessage.error('请填写必填项')
+  const valid = await receiptForm.value?.validate().catch(() => false);
+  if (!valid) {
+    return ElMessage.error('请填写必填项')
+  }
+  
+  if (form.value.details?.length) {
+    const invalidAreaList = form.value.details.filter(it => !it.areaId )
+    if (invalidAreaList?.length) {
+      return ElMessage.error('请选择库区')
     }
-    if (form.value.details?.length) {
-      const invalidAreaList = form.value.details.filter(it => !it.areaId )
-      if (invalidAreaList?.length) {
-        return ElMessage.error('请选择库区')
-      }
-      const invalidQuantityList = form.value.details.filter(it => !it.quantity)
-      if (invalidQuantityList?.length) {
-        return ElMessage.error('请选择数量')
-      }
-      // SN模式校验（强制开启）
-      const invalidSnList = form.value.details.filter(it => {
-        return !it.snCodes || it.snCodes.length !== it.quantity
-      })
-      if (invalidSnList?.length) {
-        return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
-      }
+    const invalidQuantityList = form.value.details.filter(it => !it.quantity)
+    if (invalidQuantityList?.length) {
+      return ElMessage.error('请选择数量')
     }
+    // SN模式校验（强制开启）
+    const invalidSnList = form.value.details.filter(it => {
+      return !it.snCodes || it.snCodes.length !== it.quantity
+    })
+    if (invalidSnList?.length) {
+      return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
+    }
+    
+    // ⭐ 新增：验证所有SN码的唯一性
+    const validationResult = await validateAllSnCodes();
+    if (!validationResult.valid) {
+      return ElMessage.error(validationResult.message);
+    }
+  }
     // 构建参数
     const details = form.value.details.map(it => {
       const detail = {
@@ -463,7 +536,6 @@ const doSave = async (receiptOrderStatus = 0) => {
         }
       })
     }
-  })
 }
 
 
@@ -474,29 +546,39 @@ const updateToInvalid = async () => {
 
 const doWarehousing = async () => {
   await proxy?.$modal.confirm('确认入库吗？');
-  receiptForm.value?.validate((valid) => {
-    // 校验
-    if (!valid) {
-      return ElMessage.error('请填写必填项')
-    }
-    if (!form.value.details?.length) {
-      return ElMessage.error('请选择商品')
-    }
-    const invalidAreaList = form.value.details.filter(it => !it.areaId )
-    if (invalidAreaList?.length) {
-      return ElMessage.error('请选择库区')
-    }
-    const invalidQuantityList = form.value.details.filter(it => !it.quantity)
-    if (invalidQuantityList?.length) {
-      return ElMessage.error('请选择数量')
-    }
-    // SN模式校验（强制开启）
-    const invalidSnList = form.value.details.filter(it => {
-      return !it.snCodes || it.snCodes.length !== it.quantity
-    })
-    if (invalidSnList?.length) {
-      return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
-    }
+  
+  const valid = await receiptForm.value?.validate().catch(() => false);
+  if (!valid) {
+    return ElMessage.error('请填写必填项')
+  }
+  
+  if (!form.value.details?.length) {
+    return ElMessage.error('请选择商品')
+  }
+  
+  const invalidAreaList = form.value.details.filter(it => !it.areaId )
+  if (invalidAreaList?.length) {
+    return ElMessage.error('请选择库区')
+  }
+  
+  const invalidQuantityList = form.value.details.filter(it => !it.quantity)
+  if (invalidQuantityList?.length) {
+    return ElMessage.error('请选择数量')
+  }
+  
+  // SN模式校验（强制开启）
+  const invalidSnList = form.value.details.filter(it => {
+    return !it.snCodes || it.snCodes.length !== it.quantity
+  })
+  if (invalidSnList?.length) {
+    return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
+  }
+  
+  // ⭐ 新增：验证所有SN码的唯一性
+  const validationResult = await validateAllSnCodes();
+  if (!validationResult.valid) {
+    return ElMessage.error(validationResult.message);
+  }
     // 构建参数
     const details = form.value.details.map(it => {
       const detail = {
@@ -541,7 +623,6 @@ const doWarehousing = async () => {
         ElMessage.error(res.msg)
       }
     })
-  })
 }
 
 // SN模式强制开启，无需监听切换
@@ -549,12 +630,37 @@ const doWarehousing = async () => {
 const route = useRoute();
 onMounted(() => {
   const id = route.query && route.query.id;
+  const fromConvert = route.query && route.query.fromConvert;
+  
   if (id) {
     loadDetail(id)
+  } else if (fromConvert === 'shipment') {
+    // 从出库单转换而来
+    loadConvertData();
   } else {
     form.value.receiptOrderNo = 'RK' + generateNo()
   }
 })
+
+// 加载转换数据
+const loadConvertData = () => {
+  const convertData = localStorage.getItem('convertReceiptData');
+  if (convertData) {
+    try {
+      const data = JSON.parse(convertData);
+      form.value = {
+        ...form.value,
+        ...data
+      };
+      // 清除localStorage数据
+      localStorage.removeItem('convertReceiptData');
+      proxy.$modal.msgSuccess("已自动填充出库单商品信息，请核对后提交！");
+    } catch (error) {
+      console.error('加载转换数据失败:', error);
+      proxy.$modal.msgError("加载数据失败！");
+    }
+  }
+}
 
 
 // 获取入库单详情

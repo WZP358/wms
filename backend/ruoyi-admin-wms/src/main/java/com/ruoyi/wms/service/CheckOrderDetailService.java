@@ -5,15 +5,16 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.utils.MapstructUtils;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
-import com.ruoyi.common.core.utils.StringUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.ruoyi.wms.domain.entity.MovementOrderDetail;
 import com.ruoyi.wms.domain.vo.InventoryDetailVo;
 import com.ruoyi.wms.domain.vo.ItemSkuVo;
-import com.ruoyi.wms.domain.vo.MovementOrderDetailVo;
+import com.ruoyi.wms.domain.bo.SerialNumberBo;
+import com.ruoyi.wms.domain.vo.SerialNumberVo;
 import com.ruoyi.wms.mapper.InventoryDetailMapper;
+import com.ruoyi.wms.mapper.ReceiptOrderMapper;
+import com.ruoyi.wms.domain.entity.ReceiptOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.ruoyi.wms.domain.bo.CheckOrderDetailBo;
@@ -40,6 +41,8 @@ public class CheckOrderDetailService extends ServiceImpl<CheckOrderDetailMapper,
     private final CheckOrderDetailMapper checkOrderDetailMapper;
     private final ItemSkuService itemSkuService;
     private final InventoryDetailMapper inventoryDetailMapper;
+    private final SerialNumberService serialNumberService;
+    private final ReceiptOrderMapper receiptOrderMapper;
 
     /**
      * 查询库存盘点单据详情
@@ -74,7 +77,6 @@ public class CheckOrderDetailService extends ServiceImpl<CheckOrderDetailMapper,
     }
 
     private LambdaQueryWrapper<CheckOrderDetail> buildQueryWrapper(CheckOrderDetailBo bo) {
-        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<CheckOrderDetail> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getCheckOrderId() != null, CheckOrderDetail::getCheckOrderId, bo.getCheckOrderId());
         lqw.eq(bo.getSkuId() != null, CheckOrderDetail::getSkuId, bo.getSkuId());
@@ -139,6 +141,42 @@ public class CheckOrderDetailService extends ServiceImpl<CheckOrderDetailMapper,
             it.setItemSku(itemSkuMap.get(it.getSkuId()));
             it.setRemainQuantity(remainQuantityMap.getOrDefault(it.getInventoryDetailId(), BigDecimal.ZERO));
         });
+        
+        // 查询并填充SN码
+        // 根据库存明细的入库单ID查询入库单号，然后查询SN码
+        List<InventoryDetailVo> inventoryDetails = inventoryDetailMapper.selectVoBatchIds(inventoryDetailIds);
+        Map<Long, String> receiptOrderNoMap = new HashMap<>();
+        for (InventoryDetailVo inventoryDetail : inventoryDetails) {
+            if (inventoryDetail.getReceiptOrderId() != null) {
+                ReceiptOrder receiptOrder = receiptOrderMapper.selectById(inventoryDetail.getReceiptOrderId());
+                if (receiptOrder != null && receiptOrder.getReceiptOrderNo() != null) {
+                    receiptOrderNoMap.put(inventoryDetail.getId(), receiptOrder.getReceiptOrderNo());
+                }
+            }
+        }
+        
+        // 为每个详情查询SN码
+        for (CheckOrderDetailVo detail : details) {
+            Long inventoryDetailId = detail.getInventoryDetailId();
+            String receiptOrderNo = receiptOrderNoMap.get(inventoryDetailId);
+            List<String> snCodes = Collections.emptyList();
+            
+            if (receiptOrderNo != null && detail.getItemSku() != null && detail.getItemSku().getItem() != null) {
+                SerialNumberBo snBo = new SerialNumberBo();
+                snBo.setReceiptOrderNo(receiptOrderNo);
+                List<SerialNumberVo> snList = serialNumberService.queryList(snBo);
+                
+                // 过滤出当前商品的SN码
+                Long itemId = detail.getItemSku().getItem().getId();
+                snCodes = snList.stream()
+                    .filter(sn -> sn.getItemId() != null && sn.getItemId().equals(itemId))
+                    .map(SerialNumberVo::getSnCode)
+                    .collect(Collectors.toList());
+            }
+            
+            detail.setSnCodes(snCodes);
+        }
+        
         return details;
     }
 }

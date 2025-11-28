@@ -102,4 +102,9 @@ public class ShipmentOrderDetailVo implements Serializable, PlaceAndItem {
     private ItemSkuVo itemSku;
 
     private BigDecimal remainQuantity;
+
+    /**
+     * SN码列表
+     */
+    private java.util.List<String> snCodes;
 }

@@ -9,8 +9,12 @@ import com.ruoyi.common.core.utils.MapstructUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.wms.domain.bo.ReceiptOrderDetailBo;
+import com.ruoyi.wms.domain.bo.SerialNumberBo;
 import com.ruoyi.wms.domain.vo.ItemSkuVo;
+import com.ruoyi.wms.domain.vo.SerialNumberVo;
 import com.ruoyi.wms.mapper.ReceiptOrderDetailMapper;
+import com.ruoyi.wms.mapper.ReceiptOrderMapper;
+import com.ruoyi.wms.domain.entity.ReceiptOrder;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -34,6 +38,8 @@ public class ReceiptOrderDetailService extends ServiceImpl<ReceiptOrderDetailMap
 
     private final ReceiptOrderDetailMapper receiptOrderDetailMapper;
     private final ItemSkuService itemSkuService;
+    private final SerialNumberService serialNumberService;
+    private final ReceiptOrderMapper receiptOrderMapper;
 
     /**
      * 查询入库单详情
@@ -60,7 +66,6 @@ public class ReceiptOrderDetailService extends ServiceImpl<ReceiptOrderDetailMap
     }
 
     private LambdaQueryWrapper<ReceiptOrderDetail> buildQueryWrapper(ReceiptOrderDetailBo bo) {
-        Map<String, Object> params = bo.getParams();
         LambdaQueryWrapper<ReceiptOrderDetail> lqw = Wrappers.lambdaQuery();
         lqw.eq(bo.getReceiptOrderId() != null, ReceiptOrderDetail::getReceiptOrderId, bo.getReceiptOrderId());
         lqw.eq(bo.getSkuId() != null, ReceiptOrderDetail::getSkuId, bo.getSkuId());
@@ -126,6 +131,37 @@ public class ReceiptOrderDetailService extends ServiceImpl<ReceiptOrderDetailMap
             .stream()
             .collect(Collectors.toMap(ItemSkuVo::getId, Function.identity()));
         details.forEach(detail -> detail.setItemSku(itemSkuMap.get(detail.getSkuId())));
+        
+        // 查询并填充SN码
+        ReceiptOrder receiptOrder = receiptOrderMapper.selectById(receiptOrderId);
+        if (receiptOrder != null && receiptOrder.getReceiptOrderNo() != null) {
+            SerialNumberBo snBo = new SerialNumberBo();
+            snBo.setReceiptOrderNo(receiptOrder.getReceiptOrderNo());
+            List<SerialNumberVo> snList = serialNumberService.queryList(snBo);
+            
+            // 按商品ID分组SN码
+            Map<Long, List<String>> snCodeMap = snList.stream()
+                .filter(sn -> sn.getItemId() != null)
+                .collect(Collectors.groupingBy(
+                    SerialNumberVo::getItemId,
+                    Collectors.mapping(SerialNumberVo::getSnCode, Collectors.toList())
+                ));
+            
+            // 填充每个详情的SN码
+            details.forEach(detail -> {
+                if (detail.getItemSku() != null && detail.getItemSku().getItem() != null) {
+                    Long itemId = detail.getItemSku().getItem().getId();
+                    List<String> snCodes = snCodeMap.getOrDefault(itemId, Collections.emptyList());
+                    detail.setSnCodes(snCodes);
+                } else {
+                    detail.setSnCodes(Collections.emptyList());
+                }
+            });
+        } else {
+            // 如果没有入库单信息，设置空列表
+            details.forEach(detail -> detail.setSnCodes(Collections.emptyList()));
+        }
+        
         return details;
     }
 }

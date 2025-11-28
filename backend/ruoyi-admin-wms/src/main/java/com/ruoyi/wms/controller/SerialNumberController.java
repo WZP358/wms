@@ -1,6 +1,5 @@
 package com.ruoyi.wms.controller;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.ruoyi.common.core.domain.R;
 import com.ruoyi.common.core.validate.AddGroup;
 import com.ruoyi.common.core.validate.EditGroup;
@@ -67,21 +66,41 @@ public class SerialNumberController extends BaseController {
     }
 
     /**
-     * 直接输入SN码（验证接口）
+     * 直接输入SN码（验证接口 - 增强版）
      * 注意：此接口必须放在 @GetMapping("/{snCode}") 之前，避免路径冲突
      */
     @PostMapping("/input")
-    public R<String> input(@RequestBody Map<String, String> params) {
-        String snCode = params.get("snCode");
+    public R<String> input(@RequestBody Map<String, Object> params) {
+        String snCode = (String) params.get("snCode");
         if (snCode == null || snCode.trim().isEmpty()) {
             return R.fail("SN码不能为空");
         }
-        String result = serialNumberService.inputSn(snCode.trim());
+        
+        // 获取要排除的SN码列表（用于编辑场景）
+        @SuppressWarnings("unchecked")
+        List<String> excludeSnCodes = (List<String>) params.get("excludeSnCodes");
+        
+        String result = serialNumberService.inputSnWithExclude(snCode.trim(), excludeSnCodes);
         if ("OK".equals(result)) {
             return R.ok("SN码验证通过");
         } else {
             return R.fail(result);
         }
+    }
+    
+    /**
+     * 批量验证SN码（增强版）
+     * 检查所有SN码是否已存在，支持排除某些SN码
+     */
+    @PostMapping("/validate/batch/enhanced")
+    public R<Map<String, Object>> validateBatchEnhanced(@RequestBody Map<String, Object> params) {
+        @SuppressWarnings("unchecked")
+        List<String> snCodes = (List<String>) params.get("snCodes");
+        @SuppressWarnings("unchecked")
+        List<String> excludeSnCodes = (List<String>) params.get("excludeSnCodes");
+        
+        Map<String, Object> result = serialNumberService.validateSnBatchEnhanced(snCodes, excludeSnCodes);
+        return R.ok(result);
     }
 
     /**

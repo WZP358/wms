@@ -63,9 +63,25 @@ public interface SerialNumberService {
     String inputSn(String snCode);
 
     /**
+     * 直接输入SN码（验证并处理 - 增强版）
+     * @param snCode SN码
+     * @param excludeSnCodes 要排除的SN码列表（用于编辑场景）
+     * @return 验证结果信息
+     */
+    String inputSnWithExclude(String snCode, List<String> excludeSnCodes);
+
+    /**
      * 批量验证SN码
      */
     List<SerialNumberVo> validateSnBatch(List<String> snCodes);
+
+    /**
+     * 批量验证SN码（增强版）
+     * @param snCodes 要验证的SN码列表
+     * @param excludeSnCodes 要排除的SN码列表
+     * @return 验证结果
+     */
+    java.util.Map<String, Object> validateSnBatchEnhanced(List<String> snCodes, List<String> excludeSnCodes);
 
     /**
      * 绑定SN码到物品

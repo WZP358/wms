@@ -92,4 +92,9 @@ public class ReceiptOrderDetailVo implements Serializable {
     private Long areaId;
 
     private ItemSkuVo itemSku;
+
+    /**
+     * SN码列表
+     */
+    private java.util.List<String> snCodes;
 }
