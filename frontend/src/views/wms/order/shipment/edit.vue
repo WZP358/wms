@@ -92,17 +92,6 @@
         <div class="receipt-order-content">
           <div class="flex-space-between mb8">
             <div>
-              <span>一物一码/SN模式：</span>
-              <el-switch
-                class="mr10 ml10"
-                inline-prompt
-                size="large"
-                v-model="mode"
-                :active-value="true"
-                :inactive-value="false"
-                active-text="开启"
-                inactive-text="关闭"
-              />
             </div>
             <el-popover
               placement="left"
@@ -177,7 +166,7 @@
                 ></el-input-number>
               </template>
             </el-table-column>
-            <el-table-column label="SN码" width="150" v-if="mode">
+            <el-table-column label="SN码" width="150">
               <template #default="scope">
                 <div v-if="scope.row.snCodes && scope.row.snCodes.length > 0">
                   <el-tag type="success" size="small">{{ scope.row.snCodes.length }}个</el-tag>
@@ -230,7 +219,7 @@
         :item-info="currentSnItem"
         :quantity="currentSnQuantity"
         :existing-sn-codes="currentSnCodes"
-        :mode="mode ? 'scan' : 'manual'"
+        mode="scan"
         @confirm="handleSnConfirm"
       />
     </div>
@@ -263,7 +252,7 @@ import SnInputDialog from "@/components/SnInputDialog.vue";
 const {proxy} = getCurrentInstance();
 const {wms_shipment_type} = proxy.useDict("wms_shipment_type");
 
-const mode = ref(false)
+const mode = ref(true) // 强制开启一物一码/SN模式
 const loading = ref(false)
 const snDialogShow = ref(false)
 const currentSnItem = ref({})
@@ -340,7 +329,7 @@ const handleOkClick = (item) => {
           areaId: form.value.areaId ?? it.areaId,
           inventoryDetailId: it.id,
           areaName: useWmsStore().areaMap.get(form.value.areaId ?? it.areaId)?.areaName,
-          snCodes: mode.value ? [] : undefined
+          snCodes: []
         })
     }
   })
@@ -393,14 +382,12 @@ const doSave = (shipmentOrderStatus = 0) => {
       if (invalidQuantityList?.length) {
         return ElMessage.error('请选择数量')
       }
-      // SN模式校验
-      if (mode.value) {
-        const invalidSnList = form.value.details.filter(it => {
-          return !it.snCodes || it.snCodes.length !== it.quantity
-        })
-        if (invalidSnList?.length) {
-          return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
-        }
+      // SN模式校验（强制开启）
+      const invalidSnList = form.value.details.filter(it => {
+        return !it.snCodes || it.snCodes.length !== it.quantity
+      })
+      if (invalidSnList?.length) {
+        return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
       }
       // 构建参数
       details = form.value.details.map(it => {
@@ -417,8 +404,8 @@ const doSave = (shipmentOrderStatus = 0) => {
           warehouseId: form.value.warehouseId,
           areaId: it.areaId
         }
-        // SN模式下添加SN码
-        if (mode.value && it.snCodes) {
+        // SN模式下添加SN码（强制开启）
+        if (it.snCodes) {
           detail.snCodes = it.snCodes
         }
         return detail
@@ -483,9 +470,16 @@ const doShipment = async () => {
     if (invalidQuantityList?.length) {
       return ElMessage.error('请选择出库数量')
     }
+    // SN模式校验（强制开启）
+    const invalidSnList = form.value.details.filter(it => {
+      return !it.snCodes || it.snCodes.length !== it.quantity
+    })
+    if (invalidSnList?.length) {
+      return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
+    }
     // 构建参数
     const details = form.value.details.map(it => {
-      return {
+      const detail = {
         id: it.id,
         receiptOrderId: form.value.id,
         skuId: it.skuId,
@@ -498,6 +492,11 @@ const doShipment = async () => {
         warehouseId: form.value.warehouseId,
         areaId: it.areaId
       }
+      // SN模式下添加SN码（强制开启）
+      if (it.snCodes) {
+        detail.snCodes = it.snCodes
+      }
+      return detail
     })
 
     //('提交前校验',form.value)

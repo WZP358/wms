@@ -76,17 +76,6 @@
         <div class="receipt-order-content">
           <div class="flex-space-between mb8">
             <div>
-              <span>一物一码/SN模式：</span>
-              <el-switch
-                class="mr10 ml10"
-                inline-prompt
-                size="large"
-                v-model="mode"
-                :active-value="true"
-                :inactive-value="false"
-                active-text="开启"
-                inactive-text="关闭"
-              />
             </div>
                   <el-button type="primary" plain="plain" size="default" @click="showSkuSelect" icon="Plus"
                              :disabled="!form.warehouseId">新增库存
@@ -204,31 +193,6 @@
                 ></el-input-number>
               </template>
             </el-table-column>
-            <el-table-column label="SN码" width="150" v-if="mode">
-              <template #default="scope">
-                <div v-if="scope.row.snCodes && scope.row.snCodes.length > 0">
-                  <el-tag type="success" size="small">{{ scope.row.snCodes.length }}个</el-tag>
-                  <el-button
-                    link
-                    type="primary"
-                    size="small"
-                    @click="handleEditSn(scope.row, scope.$index)"
-                    style="margin-left: 5px;"
-                  >
-                    查看/编辑
-                  </el-button>
-                </div>
-                <el-button
-                  v-else
-                  link
-                  type="primary"
-                  size="small"
-                  @click="handleEditSn(scope.row, scope.$index)"
-                >
-                  录入SN码
-                </el-button>
-              </template>
-            </el-table-column>
             <el-table-column label="操作" width="100" align="right" fixed="right">
               <template #default="scope">
                 <el-button icon="Delete" type="danger" plain size="small" v-if="scope.row.newInventoryDetail"
@@ -245,15 +209,6 @@
         @handleOkClick="handleOkClick"
         @handleCancelClick="skuSelectShow = false"
         :size="'80%'"
-      />
-      <SnInputDialog
-        v-model="snDialogShow"
-        :title="snDialogTitle"
-        :item-info="currentSnItem"
-        :quantity="currentSnQuantity"
-        :existing-sn-codes="currentSnCodes"
-        :mode="mode ? 'scan' : 'manual'"
-        @confirm="handleSnConfirm"
       />
     </div>
     <div class="footer-global" v-if="checking">
@@ -351,8 +306,7 @@ const startCheck = () => {
             productionDate: it.productionDate,
             expirationDate: it.expirationDate,
             receiptTime: it.createTime,
-            newInventoryDetail: false,
-            snCodes: mode.value ? [] : undefined
+            newInventoryDetail: false
           }
         )
       }
@@ -383,27 +337,6 @@ const handleOkClick = (item) => {
   })
 }
 
-// SN码相关
-const handleEditSn = (row, index) => {
-  currentSnItem.value = {
-    itemName: row.itemSku?.item?.itemName || '',
-    skuName: row.itemSku?.skuName || ''
-  }
-  // 盘库时，SN码数量应该等于实际库存数量
-  currentSnQuantity.value = row.checkQuantity || row.quantity || 1
-  currentSnCodes.value = row.snCodes || []
-  currentSnIndex.value = index
-  snDialogTitle.value = `录入SN码 - ${currentSnItem.value.itemName}`
-  snDialogShow.value = true
-}
-
-const handleSnConfirm = (snCodes) => {
-  if (currentSnIndex.value >= 0 && currentSnIndex.value < form.value.details.length) {
-    form.value.details[currentSnIndex.value].snCodes = snCodes
-    ElMessage.success(`已录入 ${snCodes.length} 个SN码`)
-  }
-  currentSnIndex.value = -1
-}
 
 const showSkuSelect = () => {
   skuSelectShow.value = true
@@ -496,15 +429,6 @@ const doCheck = async () => {
         return ElMessage.error('请选择库区')
       }
     }
-    // SN模式校验（盘库时，SN码数量应该等于实际库存数量）
-    if (mode.value) {
-      const invalidSnList = form.value.details.filter(it => {
-        return !it.snCodes || it.snCodes.length !== it.checkQuantity
-      })
-      if (invalidSnList?.length) {
-        return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（SN码数量需与实际库存数量一致）')
-      }
-    }
     // 构建参数
     const details = form.value.details.map(it => {
       const detail = {
@@ -520,10 +444,6 @@ const doCheck = async () => {
         expirationDate: it.expirationDate,
         receiptTime: it.receiptTime,
         inventoryDetailId: it.inventoryDetailId
-      }
-      // SN模式下添加SN码
-      if (mode.value && it.snCodes) {
-        detail.snCodes = it.snCodes
       }
       return detail
     })

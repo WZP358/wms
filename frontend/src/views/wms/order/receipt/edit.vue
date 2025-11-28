@@ -94,17 +94,6 @@
         <div class="receipt-order-content">
           <div class="flex-space-between mb8">
             <div>
-              <span>一物一码/SN模式：</span>
-              <el-switch
-                class="mr10 ml10"
-                inline-prompt
-                size="large"
-                v-model="mode"
-                :active-value="true"
-                :inactive-value="false"
-                active-text="开启"
-                inactive-text="关闭"
-              />
             </div>
             <el-popover
               placement="left"
@@ -201,7 +190,7 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column label="SN码" width="150" v-if="mode">
+            <el-table-column label="SN码" width="150">
               <template #default="scope">
                 <div v-if="scope.row.snCodes && scope.row.snCodes.length > 0">
                   <el-tag type="success" size="small">{{ scope.row.snCodes.length }}个</el-tag>
@@ -247,7 +236,7 @@
         :item-info="currentSnItem"
         :quantity="currentSnQuantity"
         :existing-sn-codes="currentSnCodes"
-        :mode="mode ? 'scan' : 'manual'"
+        mode="scan"
         @confirm="handleSnConfirm"
       />
     </div>
@@ -279,7 +268,7 @@ import { delReceiptOrderDetail } from '@/api/wms/receiptOrderDetail'
 
 const {proxy} = getCurrentInstance();
 const { wms_receipt_type } = proxy.useDict("wms_receipt_type");
-const mode = ref(false)
+const mode = ref(true) // 强制开启一物一码/SN模式
 const loading = ref(false)
 const skuSelectShow = ref(false)
 const snDialogShow = ref(false)
@@ -360,7 +349,7 @@ const handleOkClick = (item) => {
         expirationDate: undefined,
         warehouseId: form.value.warehouseId,
         areaId: form.value.areaId,
-        snCodes: mode.value ? [] : undefined
+        snCodes: []
       }
     )
   })
@@ -412,14 +401,12 @@ const doSave = async (receiptOrderStatus = 0) => {
       if (invalidQuantityList?.length) {
         return ElMessage.error('请选择数量')
       }
-      // SN模式校验
-      if (mode.value) {
-        const invalidSnList = form.value.details.filter(it => {
-          return !it.snCodes || it.snCodes.length !== it.quantity
-        })
-        if (invalidSnList?.length) {
-          return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
-        }
+      // SN模式校验（强制开启）
+      const invalidSnList = form.value.details.filter(it => {
+        return !it.snCodes || it.snCodes.length !== it.quantity
+      })
+      if (invalidSnList?.length) {
+        return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
       }
     }
     // 构建参数
@@ -436,8 +423,8 @@ const doSave = async (receiptOrderStatus = 0) => {
         warehouseId: form.value.warehouseId,
         areaId: it.areaId
       }
-      // SN模式下添加SN码
-      if (mode.value && it.snCodes) {
+      // SN模式下添加SN码（强制开启）
+      if (it.snCodes) {
         detail.snCodes = it.snCodes
       }
       return detail
@@ -503,14 +490,12 @@ const doWarehousing = async () => {
     if (invalidQuantityList?.length) {
       return ElMessage.error('请选择数量')
     }
-    // SN模式校验
-    if (mode.value) {
-      const invalidSnList = form.value.details.filter(it => {
-        return !it.snCodes || it.snCodes.length !== it.quantity
-      })
-      if (invalidSnList?.length) {
-        return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
-      }
+    // SN模式校验（强制开启）
+    const invalidSnList = form.value.details.filter(it => {
+      return !it.snCodes || it.snCodes.length !== it.quantity
+    })
+    if (invalidSnList?.length) {
+      return ElMessage.error('SN模式下，请为每个商品录入完整的SN码（数量需与SN码数量一致）')
     }
     // 构建参数
     const details = form.value.details.map(it => {
@@ -526,8 +511,8 @@ const doWarehousing = async () => {
         warehouseId: form.value.warehouseId,
         areaId: it.areaId
       }
-      // SN模式下添加SN码
-      if (mode.value && it.snCodes) {
+      // SN模式下添加SN码（强制开启）
+      if (it.snCodes) {
         detail.snCodes = it.snCodes
       }
       return detail
@@ -559,22 +544,7 @@ const doWarehousing = async () => {
   })
 }
 
-// 监听SN模式切换
-watch(mode, (newVal) => {
-  if (newVal) {
-    // 开启SN模式：为所有明细初始化snCodes数组
-    form.value.details.forEach(it => {
-      if (!it.snCodes) {
-        it.snCodes = []
-      }
-    })
-  } else {
-    // 关闭SN模式：清空所有SN码
-    form.value.details.forEach(it => {
-      it.snCodes = undefined
-    })
-  }
-})
+// SN模式强制开启，无需监听切换
 
 const route = useRoute();
 onMounted(() => {
@@ -592,10 +562,7 @@ const loadDetail = (id) => {
   loading.value = true
   getReceiptOrder(id).then((response) => {
     form.value = {...response.data}
-    // 如果详情中有SN码数据，自动开启SN模式
-    if (form.value.details && form.value.details.some(it => it.snCodes && it.snCodes.length > 0)) {
-      mode.value = true
-    }
+    // SN模式强制开启，无需判断
     Promise.resolve();
   }).then(() => {
   }).finally(() => {
@@ -618,7 +585,7 @@ const handleChangeArea = (e) => {
 
 const handleChangeQuantity = (row) => {
   // SN模式下，如果数量减少且SN码数量超过新数量，给出提示
-  if (mode.value && row.snCodes && row.snCodes.length > row.quantity) {
+  if (row.snCodes && row.snCodes.length > row.quantity) {
     ElMessage.warning(`该商品已录入 ${row.snCodes.length} 个SN码，但数量已改为 ${row.quantity}，请重新录入SN码`)
     // 清空多余的SN码，保留前quantity个
     row.snCodes = row.snCodes.slice(0, row.quantity)
