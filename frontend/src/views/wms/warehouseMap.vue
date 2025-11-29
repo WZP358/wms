@@ -1170,11 +1170,53 @@ const simplifyPath = (path, tolerance = 5) => {
   return simplified;
 };
 
+// Distance cache to store actual A* path distances between point pairs
+const distanceCache = new Map();
+
+// Get cache key for a point pair
+const getCacheKey = (p1, p2) => {
+  const key1 = `${p1.x},${p1.y}`;
+  const key2 = `${p2.x},${p2.y}`;
+  return key1 < key2 ? `${key1}|${key2}` : `${key2}|${key1}`;
+};
+
+// Get actual A* path distance between two points (with caching)
+const getActualDistance = (p1, p2) => {
+  const cacheKey = getCacheKey(p1, p2);
+  
+  if (distanceCache.has(cacheKey)) {
+    return distanceCache.get(cacheKey);
+  }
+  
+  // Calculate actual A* path distance
+  const path = findCorridorPath(p1, p2);
+  let distance = 0;
+  for (let i = 0; i < path.length - 1; i++) {
+    distance += manhattanDistance(path[i], path[i + 1]);
+  }
+  
+  // Cache the result
+  distanceCache.set(cacheKey, distance);
+  return distance;
+};
+
 // Find best visit order using Simulated Annealing
 const findBestVisitOrder = (points) => {
+  // Clear distance cache for new calculation
+  distanceCache.clear();
+  
   const mapSize = mapConfig.value.rows * mapConfig.value.cols;
-  const iterations = Math.max(algorithmParams.value.iterations, mapSize * 100);
-  let temperature = algorithmParams.value.temperature;
+  const pointCount = points.length - 2; // Excluding start and end
+  
+  // Adaptive iterations: increase with point count
+  const baseIterations = algorithmParams.value.iterations;
+  const iterations = Math.max(baseIterations, pointCount * 2000);
+  
+  // Adaptive temperature: increase with point count for better exploration
+  const baseTemperature = algorithmParams.value.temperature;
+  const temperature = Math.max(baseTemperature, pointCount * 200);
+  
+  let currentTemp = temperature;
   const coolingRate = algorithmParams.value.coolingRate;
   
   // Initial solution
@@ -1182,20 +1224,31 @@ const findBestVisitOrder = (points) => {
   const start = currentSolution[0];
   const end = currentSolution[currentSolution.length - 1];
   let middle = currentSolution.slice(1, -1);
-  middle = shuffleArray(middle);
-  currentSolution = [start, ...middle, end];
+  
+  // Use nearest neighbor heuristic for better initial solution
+  middle = nearestNeighborOrder([start, ...middle, end]);
+  currentSolution = [start, ...middle.slice(1, -1), end];
   
   let currentDistance = estimatePathDistance(currentSolution);
   let bestSolution = [...currentSolution];
   let bestDistance = currentDistance;
   
+  // Progress tracking
+  let noImprovementCount = 0;
+  const maxNoImprovement = Math.floor(iterations * 0.3);
+  
   // Annealing process
   for (let i = 0; i < iterations; i++) {
-    const newSolution = generateNeighbor(currentSolution);
+    // Use 2-opt more frequently for better neighbors
+    const use2Opt = Math.random() < 0.7;
+    const newSolution = use2Opt 
+      ? generate2OptNeighbor(currentSolution) 
+      : generateNeighbor(currentSolution);
+    
     const newDistance = estimatePathDistance(newSolution);
     
     const delta = newDistance - currentDistance;
-    const acceptanceProbability = delta < 0 ? 1 : Math.exp(-delta / temperature);
+    const acceptanceProbability = delta < 0 ? 1 : Math.exp(-delta / currentTemp);
     
     if (Math.random() < acceptanceProbability) {
       currentSolution = newSolution;
@@ -1204,25 +1257,68 @@ const findBestVisitOrder = (points) => {
       if (currentDistance < bestDistance) {
         bestSolution = [...currentSolution];
         bestDistance = currentDistance;
+        noImprovementCount = 0;
+      } else {
+        noImprovementCount++;
       }
     }
     
-    temperature *= coolingRate;
+    // Adaptive cooling: slower cooling when no improvement
+    if (noImprovementCount > maxNoImprovement) {
+      currentTemp *= Math.pow(coolingRate, 0.5); // Slower cooling
+    } else {
+      currentTemp *= coolingRate;
+    }
   }
+  
+  console.log('模拟退火完成:', {
+    迭代次数: iterations,
+    初始距离: estimatePathDistance([start, ...shuffleArray(middle), end]),
+    最终距离: bestDistance,
+    改进比例: ((estimatePathDistance([start, ...shuffleArray(middle), end]) - bestDistance) / estimatePathDistance([start, ...shuffleArray(middle), end]) * 100).toFixed(2) + '%'
+  });
   
   return bestSolution;
 };
 
-// Estimate path distance (Manhattan distance as heuristic)
+// Estimate path distance using actual A* distances (cached)
 const estimatePathDistance = (path) => {
   let total = 0;
   for (let i = 0; i < path.length - 1; i++) {
-    total += manhattanDistance(path[i], path[i + 1]);
+    total += getActualDistance(path[i], path[i + 1]);
   }
   return total;
 };
 
-// Generate neighbor solution
+// Generate neighbor solution using 2-opt (reverse a segment)
+const generate2OptNeighbor = (solution) => {
+  const newSolution = [...solution];
+  const n = solution.length;
+  
+  if (n <= 3) return newSolution;
+  
+  // Randomly select two indices (excluding start and end)
+  let i = Math.floor(Math.random() * (n - 2)) + 1;
+  let j = Math.floor(Math.random() * (n - 2)) + 1;
+  
+  // Ensure i < j
+  if (i > j) {
+    [i, j] = [j, i];
+  } else if (i === j) {
+    j = Math.min(j + 1, n - 2);
+  }
+  
+  // Reverse the segment between i and j
+  const segment = newSolution.slice(i, j + 1);
+  segment.reverse();
+  for (let k = i; k <= j; k++) {
+    newSolution[k] = segment[k - i];
+  }
+  
+  return newSolution;
+};
+
+// Generate neighbor solution (swap two points)
 const generateNeighbor = (solution) => {
   const newSolution = [...solution];
   const n = solution.length;
@@ -1238,6 +1334,39 @@ const generateNeighbor = (solution) => {
   [newSolution[i], newSolution[j]] = [newSolution[j], newSolution[i]];
   
   return newSolution;
+};
+
+// Nearest neighbor heuristic for initial solution
+const nearestNeighborOrder = (points) => {
+  if (points.length <= 2) return points;
+  
+  const start = points[0];
+  const end = points[points.length - 1];
+  const middle = points.slice(1, -1);
+  
+  const ordered = [start];
+  const remaining = [...middle];
+  let current = start;
+  
+  while (remaining.length > 0) {
+    let nearestIdx = 0;
+    let nearestDist = getActualDistance(current, remaining[0]);
+    
+    for (let i = 1; i < remaining.length; i++) {
+      const dist = getActualDistance(current, remaining[i]);
+      if (dist < nearestDist) {
+        nearestDist = dist;
+        nearestIdx = i;
+      }
+    }
+    
+    current = remaining[nearestIdx];
+    ordered.push(current);
+    remaining.splice(nearestIdx, 1);
+  }
+  
+  ordered.push(end);
+  return ordered;
 };
 
 // Shuffle array
