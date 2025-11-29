@@ -124,4 +124,22 @@ public class InventoryController extends BaseController {
         inventoryService.deleteByIds(List.of(ids));
         return R.ok();
     }
+
+    /**
+     * 获取库存总金额
+     */
+    @SaCheckPermission("wms:inventory:all")
+    @GetMapping("/statistics/amount")
+    public R<java.math.BigDecimal> getInventoryAmount() {
+        return R.ok(inventoryService.getTotalInventoryAmount());
+    }
+
+    /**
+     * 获取库存周转率
+     */
+    @SaCheckPermission("wms:inventory:all")
+    @GetMapping("/statistics/turnoverRate")
+    public R<java.math.BigDecimal> getInventoryTurnoverRate() {
+        return R.ok(inventoryService.getInventoryTurnoverRate());
+    }
 }

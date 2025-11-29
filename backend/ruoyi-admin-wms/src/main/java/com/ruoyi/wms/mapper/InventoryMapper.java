@@ -19,4 +19,14 @@ public interface InventoryMapper extends BaseMapperPlus<Inventory, InventoryVo> 
     Page<InventoryVo> queryAreaBoardList(Page<InventoryVo> page, @Param("bo") InventoryBo bo);
 
     Page<InventoryVo> selectBoardPageByWarehouse(Page<InventoryVo> page, @Param("bo") InventoryBo bo);
+
+    /**
+     * 获取库存总金额
+     */
+    java.math.BigDecimal getTotalInventoryAmount();
+
+    /**
+     * 获取最近N天的出库金额
+     */
+    java.math.BigDecimal getShipmentAmountByDays(@Param("days") Integer days);
 }

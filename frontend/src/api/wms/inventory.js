@@ -51,3 +51,19 @@ export function delInventory(id) {
     method: 'delete'
   })
 }
+
+// 获取库存总金额
+export function getInventoryAmount() {
+  return request({
+    url: '/wms/inventory/statistics/amount',
+    method: 'get'
+  })
+}
+
+// 获取库存周转率
+export function getInventoryTurnoverRate() {
+  return request({
+    url: '/wms/inventory/statistics/turnoverRate',
+    method: 'get'
+  })
+}

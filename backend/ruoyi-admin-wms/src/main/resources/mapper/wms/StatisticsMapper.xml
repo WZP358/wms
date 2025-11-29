@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.wms.mapper.StatisticsMapper">
+
+    <!-- 出入库趋势分析 -->
+    <select id="getInOutTrend" resultType="java.util.HashMap">
+        <choose>
+            <when test="period == 'day'">
+                SELECT 
+                    DATE_FORMAT(create_time, '%Y-%m-%d') as date,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN amount ELSE 0 END), 0) as receiptAmount,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN amount ELSE 0 END), 0) as shipmentAmount,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN quantity ELSE 0 END), 0) as receiptQuantity,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN quantity ELSE 0 END), 0) as shipmentQuantity
+                FROM (
+                    SELECT ro.create_time, 'receipt' as type, rod.amount, rod.quantity
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                    UNION ALL
+                    SELECT so.create_time, 'shipment' as type, sod.amount, sod.quantity
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                ) t
+                GROUP BY DATE_FORMAT(create_time, '%Y-%m-%d')
+                ORDER BY date
+            </when>
+            <when test="period == 'week'">
+                SELECT 
+                    DATE_FORMAT(create_time, '%Y-%u周') as date,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN amount ELSE 0 END), 0) as receiptAmount,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN amount ELSE 0 END), 0) as shipmentAmount,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN quantity ELSE 0 END), 0) as receiptQuantity,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN quantity ELSE 0 END), 0) as shipmentQuantity
+                FROM (
+                    SELECT ro.create_time, 'receipt' as type, rod.amount, rod.quantity
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 12 WEEK)
+                    UNION ALL
+                    SELECT so.create_time, 'shipment' as type, sod.amount, sod.quantity
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 12 WEEK)
+                ) t
+                GROUP BY DATE_FORMAT(create_time, '%Y-%u周')
+                ORDER BY DATE_FORMAT(create_time, '%Y-%u周')
+            </when>
+            <when test="period == 'month'">
+                SELECT 
+                    DATE_FORMAT(create_time, '%Y-%m') as date,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN amount ELSE 0 END), 0) as receiptAmount,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN amount ELSE 0 END), 0) as shipmentAmount,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN quantity ELSE 0 END), 0) as receiptQuantity,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN quantity ELSE 0 END), 0) as shipmentQuantity
+                FROM (
+                    SELECT ro.create_time, 'receipt' as type, rod.amount, rod.quantity
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                    UNION ALL
+                    SELECT so.create_time, 'shipment' as type, sod.amount, sod.quantity
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                ) t
+                GROUP BY DATE_FORMAT(create_time, '%Y-%m')
+                ORDER BY date
+            </when>
+            <otherwise>
+                SELECT 
+                    DATE_FORMAT(create_time, '%Y') as date,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN amount ELSE 0 END), 0) as receiptAmount,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN amount ELSE 0 END), 0) as shipmentAmount,
+                    COALESCE(SUM(CASE WHEN type = 'receipt' THEN quantity ELSE 0 END), 0) as receiptQuantity,
+                    COALESCE(SUM(CASE WHEN type = 'shipment' THEN quantity ELSE 0 END), 0) as shipmentQuantity
+                FROM (
+                    SELECT ro.create_time, 'receipt' as type, rod.amount, rod.quantity
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                    UNION ALL
+                    SELECT so.create_time, 'shipment' as type, sod.amount, sod.quantity
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                ) t
+                GROUP BY DATE_FORMAT(create_time, '%Y')
+                ORDER BY date
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 热销商品TOP10 -->
+    <select id="getHotProducts" resultType="java.util.HashMap">
+        SELECT 
+            CONCAT(item.item_name, '-', sku.sku_name) as productName,
+            SUM(sod.quantity) as quantity,
+            SUM(sod.amount) as amount
+        FROM wms_shipment_order_detail sod
+        INNER JOIN wms_shipment_order so ON sod.shipment_order_id = so.id
+        INNER JOIN wms_item_sku sku ON sod.sku_id = sku.id
+        INNER JOIN wms_item item ON sku.item_id = item.id
+        WHERE so.shipment_order_status = 1
+          AND so.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+        GROUP BY item.id, sku.id, item.item_name, sku.sku_name
+        ORDER BY quantity DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 滞销商品预警 -->
+    <select id="getSlowProducts" resultType="java.util.HashMap">
+        SELECT 
+            CONCAT(item.item_name, '-', sku.sku_name) as productName,
+            COALESCE(SUM(inv.quantity), 0) as quantity,
+            DATEDIFF(NOW(), MAX(COALESCE(so.create_time, '2000-01-01'))) as daysNoSale
+        FROM wms_inventory inv
+        INNER JOIN wms_item_sku sku ON inv.sku_id = sku.id
+        INNER JOIN wms_item item ON sku.item_id = item.id
+        LEFT JOIN wms_shipment_order_detail sod ON inv.sku_id = sod.sku_id
+        LEFT JOIN wms_shipment_order so ON sod.shipment_order_id = so.id AND so.shipment_order_status = 1
+        WHERE inv.quantity > 0
+        GROUP BY item.id, sku.id, item.item_name, sku.sku_name
+        HAVING daysNoSale > 30 OR MAX(so.create_time) IS NULL
+        ORDER BY daysNoSale DESC
+        LIMIT 20
+    </select>
+
+    <!-- 供应商/客户分析 -->
+    <select id="getMerchantAnalysis" resultType="java.util.HashMap">
+        SELECT 
+            m.merchant_name as merchantName,
+            COALESCE(
+                SUM(CASE WHEN ro.receipt_order_status = 1 AND DATEDIFF(ro.update_time, ro.create_time) &lt;= 7 THEN 1 ELSE 0 END) * 1.0 /
+                NULLIF(SUM(CASE WHEN ro.receipt_order_status = 1 THEN 1 ELSE 0 END), 0),
+                0
+            ) as onTimeRate,
+            COALESCE(
+                SUM(CASE WHEN so.shipment_order_status = 1 AND so.receivable_amount &lt; 0 THEN 1 ELSE 0 END) * 1.0 /
+                NULLIF(SUM(CASE WHEN so.shipment_order_status = 1 THEN 1 ELSE 0 END), 0),
+                0
+            ) as returnRate
+        FROM wms_merchant m
+        LEFT JOIN wms_receipt_order ro ON m.id = ro.merchant_id
+        LEFT JOIN wms_shipment_order so ON m.id = so.merchant_id
+        WHERE m.id IS NOT NULL
+        GROUP BY m.id, m.merchant_name
+        HAVING COUNT(ro.id) > 0 OR COUNT(so.id) > 0
+        ORDER BY onTimeRate DESC
+        LIMIT 10
+    </select>
+
+    <!-- 库存需求预测 -->
+    <select id="getInventoryForecast" resultType="java.util.HashMap">
+        SELECT 
+            CONCAT(item.item_name, '-', sku.sku_name) as productName,
+            COALESCE(SUM(inv.quantity), 0) as currentInventory,
+            COALESCE(AVG(daily_avg.avg_quantity) * #{days}, 0) as forecastDemand,
+            GREATEST(0, COALESCE(AVG(daily_avg.avg_quantity) * #{days}, 0) - COALESCE(SUM(inv.quantity), 0)) as suggestedOrder
+        FROM wms_inventory inv
+        INNER JOIN wms_item_sku sku ON inv.sku_id = sku.id
+        INNER JOIN wms_item item ON sku.item_id = item.id
+        LEFT JOIN (
+            SELECT 
+                sod.sku_id,
+                AVG(sod.quantity) as avg_quantity
+            FROM wms_shipment_order_detail sod
+            INNER JOIN wms_shipment_order so ON sod.shipment_order_id = so.id
+            WHERE so.shipment_order_status = 1
+              AND so.create_time >= DATE_SUB(NOW(), INTERVAL 90 DAY)
+            GROUP BY sod.sku_id
+        ) daily_avg ON inv.sku_id = daily_avg.sku_id
+        WHERE inv.quantity > 0
+        GROUP BY item.id, sku.id, item.item_name, sku.sku_name
+        HAVING forecastDemand > 0
+        ORDER BY forecastDemand DESC
+        LIMIT 20
+    </select>
+
+</mapper>
+

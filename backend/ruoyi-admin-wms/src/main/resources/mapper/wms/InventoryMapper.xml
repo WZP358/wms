@@ -92,4 +92,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         order by inventory.warehouse_id,item.id,inventory.sku_id
     </select>
+
+    <!-- 获取库存总金额：库存数量 * 成本价 -->
+    <select id="getTotalInventoryAmount" resultType="java.math.BigDecimal">
+        select COALESCE(sum(inventory.quantity * COALESCE(sku.cost_price, 0)), 0)
+        from wms_inventory inventory
+        inner join wms_item_sku sku on inventory.sku_id = sku.id
+        where inventory.quantity > 0
+    </select>
+
+    <!-- 获取最近N天的出库金额 -->
+    <select id="getShipmentAmountByDays" resultType="java.math.BigDecimal">
+        select COALESCE(sum(detail.amount), 0)
+        from wms_shipment_order_detail detail
+        inner join wms_shipment_order so on detail.shipment_order_id = so.id
+        where so.shipment_order_status = 1
+          and so.create_time >= DATE_SUB(NOW(), INTERVAL #{days} DAY)
+    </select>
 </mapper>

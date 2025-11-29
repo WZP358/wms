@@ -175,4 +175,29 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory> {
         Page<InventoryVo> result = inventoryMapper.queryItemBoardList(pageQuery.build(), bo);
         return TableDataInfo.build(result);
     }
+
+    /**
+     * 获取库存总金额
+     */
+    public java.math.BigDecimal getTotalInventoryAmount() {
+        java.math.BigDecimal amount = inventoryMapper.getTotalInventoryAmount();
+        return amount != null ? amount : java.math.BigDecimal.ZERO;
+    }
+
+    /**
+     * 获取库存周转率
+     * 周转率 = 最近30天的出库金额 / 当前库存金额
+     */
+    public java.math.BigDecimal getInventoryTurnoverRate() {
+        java.math.BigDecimal inventoryAmount = getTotalInventoryAmount();
+        if (inventoryAmount.compareTo(java.math.BigDecimal.ZERO) == 0) {
+            return java.math.BigDecimal.ZERO;
+        }
+        java.math.BigDecimal shipmentAmount = inventoryMapper.getShipmentAmountByDays(30);
+        if (shipmentAmount == null) {
+            shipmentAmount = java.math.BigDecimal.ZERO;
+        }
+        // 周转率 = 出库金额 / 库存金额
+        return shipmentAmount.divide(inventoryAmount, 4, java.math.RoundingMode.HALF_UP);
+    }
 }

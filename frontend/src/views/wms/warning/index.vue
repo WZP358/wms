@@ -126,7 +126,8 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 
-const activeTab = ref('warning')
+// 根据URL参数初始化activeTab
+const activeTab = ref(route.query.tab || 'warning')
 const warningLoading = ref(false)
 const expirationLoading = ref(false)
 const warningList = ref([])
@@ -153,8 +154,13 @@ const expirationQueryParams = ref({
 function getWarningList() {
   warningLoading.value = true
   listInventoryWarning(warningQueryParams.value).then(response => {
-    warningList.value = response.rows
-    warningTotal.value = response.total
+    warningList.value = response.rows || []
+    warningTotal.value = response.total || 0
+    warningLoading.value = false
+  }).catch(error => {
+    console.error('获取库存预警列表失败:', error)
+    warningList.value = []
+    warningTotal.value = 0
     warningLoading.value = false
   })
 }
@@ -184,8 +190,13 @@ function getExpirationList() {
     daysBeforeExpire: expirationQueryParams.value.daysBeforeExpire || 30
   }
   listExpirationReminder(params).then(response => {
-    expirationList.value = response.rows
-    expirationTotal.value = response.total
+    expirationList.value = response.rows || []
+    expirationTotal.value = response.total || 0
+    expirationLoading.value = false
+  }).catch(error => {
+    console.error('获取到期提醒列表失败:', error)
+    expirationList.value = []
+    expirationTotal.value = 0
     expirationLoading.value = false
   })
 }
@@ -224,16 +235,23 @@ function formatDate(date) {
 }
 
 onMounted(() => {
-  // 根据URL参数设置默认tab
-  const route = useRoute()
-  if (route.query.tab) {
-    activeTab.value = route.query.tab
-  }
-  
+  // 根据URL参数加载对应tab的数据
   if (activeTab.value === 'warning') {
     getWarningList()
   } else if (activeTab.value === 'expiration') {
     getExpirationList()
+  }
+})
+
+// 监听路由变化，当tab参数改变时更新activeTab并加载数据
+watch(() => route.query.tab, (newTab) => {
+  if (newTab && (newTab === 'warning' || newTab === 'expiration')) {
+    activeTab.value = newTab
+    if (newTab === 'warning') {
+      getWarningList()
+    } else if (newTab === 'expiration') {
+      getExpirationList()
+    }
   }
 })
 </script>
