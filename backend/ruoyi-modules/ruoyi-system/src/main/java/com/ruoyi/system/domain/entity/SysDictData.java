@@ -7,6 +7,8 @@ import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
 import com.ruoyi.common.mybatis.core.domain.BaseEntity;
+import com.ruoyi.system.domain.vo.SysDictDataVo;
+import io.github.linpeilie.annotations.AutoMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -21,6 +23,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sys_dict_data")
+@AutoMapper(target = SysDictDataVo.class)
 public class SysDictData extends BaseEntity {
 
     /**

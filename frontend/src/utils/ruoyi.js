@@ -274,3 +274,28 @@ export function generateNo() {
   // 返回
   return month + '' + day + '' + String(randomNum).padStart(4, '0');
 }
+
+/**
+ * 处理头像路径
+ * 如果路径以 /upload/ 开头，添加后端 baseURL
+ * @param {string} avatarPath 头像路径
+ * @returns {string} 处理后的头像路径
+ */
+export function getAvatarUrl(avatarPath) {
+  if (!avatarPath || avatarPath === '') {
+    return avatarPath;
+  }
+  // 如果已经是完整 URL（以 http:// 或 https:// 开头），直接返回
+  if (avatarPath.startsWith('http://') || avatarPath.startsWith('https://')) {
+    return avatarPath;
+  }
+  // 如果路径以 /upload/ 开头，添加后端 baseURL
+  if (avatarPath.startsWith('/upload/')) {
+    const baseURL = import.meta.env.VITE_APP_BASE_API || '';
+    // 移除 baseURL 末尾的斜杠（如果有）
+    const cleanBaseURL = baseURL.endsWith('/') ? baseURL.slice(0, -1) : baseURL;
+    return cleanBaseURL + avatarPath;
+  }
+  // 其他情况（如相对路径、默认头像等），直接返回
+  return avatarPath;
+}

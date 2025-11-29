@@ -131,6 +131,8 @@ security:
     # 公共路径
     - /favicon.ico
     - /error
+    # 上传文件路径（头像等）
+    - /upload/**
     # swagger 文档配置
     - /*/api-docs
     - /*/api-docs/**

@@ -8,14 +8,15 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 通用配置
  *
  * @author Lion Li
  */
+@Slf4j
 @AutoConfiguration
 public class ResourcesConfig implements WebMvcConfigurer {
 
@@ -25,9 +26,8 @@ public class ResourcesConfig implements WebMvcConfigurer {
         registry.addInterceptor(new PlusWebInvokeTimeInterceptor());
     }
 
-    @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-    }
+    // 注意：不再使用静态资源映射，改用 FileController 处理 /upload/** 请求
+    // 这样可以提供更好的日志记录和错误处理
 
     /**
      * 跨域配置

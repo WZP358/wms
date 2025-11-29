@@ -13,16 +13,16 @@ import com.ruoyi.common.web.core.BaseController;
 import com.ruoyi.system.domain.bo.SysUserBo;
 import com.ruoyi.system.domain.bo.SysUserProfileBo;
 import com.ruoyi.system.domain.vo.ProfileVo;
-import com.ruoyi.system.domain.vo.SysOssVo;
 import com.ruoyi.system.domain.vo.SysUserVo;
-import com.ruoyi.system.service.SysOssService;
 import com.ruoyi.system.service.SysUserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.Map;
 
@@ -31,6 +31,7 @@ import java.util.Map;
  *
  * @author Lion Li
  */
+@Slf4j
 @Validated
 @RequiredArgsConstructor
 @RestController
@@ -38,7 +39,6 @@ import java.util.Map;
 public class SysProfileController extends BaseController {
 
     private final SysUserService userService;
-    private final SysOssService sysOssService;
 
     /**
      * 个人信息
@@ -105,17 +105,86 @@ public class SysProfileController extends BaseController {
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public R<Map<String, Object>> avatar(@RequestPart("avatarfile") MultipartFile avatarfile) {
+        log.info("开始上传头像，文件名: {}, 大小: {} bytes", avatarfile.getOriginalFilename(), avatarfile.getSize());
         if (!avatarfile.isEmpty()) {
             String extension = FileUtil.extName(avatarfile.getOriginalFilename());
             if (!StringUtils.equalsAnyIgnoreCase(extension, MimeTypeUtils.IMAGE_EXTENSION)) {
                 return R.fail("文件格式不正确，请上传" + Arrays.toString(MimeTypeUtils.IMAGE_EXTENSION) + "格式");
             }
-            SysOssVo oss = sysOssService.upload(avatarfile);
-            String avatar = oss.getUrl();
-            if (userService.updateUserAvatar(LoginHelper.getUsername(), avatar)) {
-                return R.ok(Map.of("imgUrl", avatar));
+            try {
+                // 使用本地文件存储，不依赖OSS
+                String avatar = uploadAvatarToLocal(avatarfile);
+                log.info("头像上传成功，保存路径: {}", avatar);
+                if (userService.updateUserAvatar(LoginHelper.getUsername(), avatar)) {
+                    log.info("头像URL已更新到数据库: {}", avatar);
+                    return R.ok(Map.of("imgUrl", avatar));
+                } else {
+                    log.error("更新头像URL到数据库失败");
+                    return R.fail("更新头像失败，请联系管理员");
+                }
+            } catch (Exception e) {
+                log.error("上传头像异常", e);
+                return R.fail("上传图片异常：" + e.getMessage());
             }
         }
-        return R.fail("上传图片异常，请联系管理员");
+        return R.fail("上传图片异常，文件为空");
+    }
+
+    /**
+     * 上传头像到本地文件系统
+     *
+     * @param file 头像文件
+     * @return 访问URL
+     */
+    private String uploadAvatarToLocal(MultipartFile file) throws Exception {
+        // 获取文件扩展名
+        String extension = FileUtil.extName(file.getOriginalFilename());
+        if (StringUtils.isBlank(extension)) {
+            extension = "png";
+        }
+        
+        // 生成文件名：用户ID_时间戳.扩展名
+        String fileName = LoginHelper.getUserId() + "_" + System.currentTimeMillis() + "." + extension;
+        log.info("生成文件名: {}", fileName);
+        
+        // 头像存储目录：backend/upload/avatar/
+        String userDir = System.getProperty("user.dir");
+        log.info("当前工作目录: {}", userDir);
+        // 如果工作目录不是backend目录，则使用backend/upload/avatar
+        File uploadDir;
+        if (userDir.endsWith("backend")) {
+            uploadDir = new File(userDir, "upload/avatar");
+        } else {
+            uploadDir = new File(userDir, "backend/upload/avatar");
+        }
+        log.info("头像存储目录: {}", uploadDir.getAbsolutePath());
+        
+        // 创建目录（如果不存在）
+        if (!uploadDir.exists()) {
+            boolean created = uploadDir.mkdirs();
+            log.info("创建目录: {}, 结果: {}", uploadDir.getAbsolutePath(), created);
+            if (!created) {
+                throw new Exception("无法创建上传目录: " + uploadDir.getAbsolutePath());
+            }
+        }
+        
+        // 检查目录是否可写
+        if (!uploadDir.canWrite()) {
+            throw new Exception("上传目录不可写: " + uploadDir.getAbsolutePath());
+        }
+        
+        // 保存文件
+        File destFile = new File(uploadDir, fileName);
+        log.info("准备保存文件到: {}", destFile.getAbsolutePath());
+        file.transferTo(destFile);
+        
+        // 验证文件是否保存成功
+        if (!destFile.exists() || destFile.length() == 0) {
+            throw new Exception("文件保存失败，文件不存在或大小为0");
+        }
+        log.info("文件保存成功，大小: {} bytes, 路径: {}", destFile.length(), destFile.getAbsolutePath());
+        
+        // 返回访问URL：/upload/avatar/文件名
+        return "/upload/avatar/" + fileName;
     }
 }

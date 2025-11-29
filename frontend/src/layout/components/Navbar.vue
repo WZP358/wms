@@ -42,6 +42,7 @@ import useAppStore from '@/store/modules/app'
 import useUserStore from '@/store/modules/user'
 import useSettingsStore from '@/store/modules/settings'
 import defAva from '@/assets/images/profile.jpg'
+import { getAvatarUrl } from '@/utils/ruoyi'
 
 const appStore = useAppStore()
 const userStore = useUserStore()
@@ -49,7 +50,8 @@ const settingsStore = useSettingsStore()
 
 // 计算头像地址，如果为空则使用默认头像
 const userAvatar = computed(() => {
-  return (userStore.avatar && userStore.avatar !== "") ? userStore.avatar : defAva;
+  const avatar = (userStore.avatar && userStore.avatar !== "") ? userStore.avatar : defAva;
+  return getAvatarUrl(avatar);
 })
 
 function toggleSideBar() {

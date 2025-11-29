@@ -64,6 +64,7 @@ import { VueCropper } from "vue-cropper";
 import { uploadAvatar } from "@/api/system/user";
 import useUserStore from "@/store/modules/user";
 import defAva from "@/assets/images/profile.jpg";
+import { getAvatarUrl } from "@/utils/ruoyi";
 
 const userStore = useUserStore();
 const { proxy } = getCurrentInstance();
@@ -74,7 +75,8 @@ const title = ref("修改头像");
 
 // 获取头像地址，如果为空则使用默认头像
 const getAvatar = () => {
-  return (userStore.avatar && userStore.avatar !== "") ? userStore.avatar : defAva;
+  const avatar = (userStore.avatar && userStore.avatar !== "") ? userStore.avatar : defAva;
+  return getAvatarUrl(avatar);
 };
 
 // 计算当前显示的头像（响应式）
@@ -140,8 +142,10 @@ function uploadImg() {
     formData.append("avatarfile", data, options.filename);
     uploadAvatar(formData).then(response => {
       open.value = false;
-      options.img = response.data.imgUrl;
-      userStore.avatar = options.img;
+      // 保存原始路径到 store（不包含 baseURL）
+      userStore.avatar = response.data.imgUrl;
+      // 显示时使用处理后的路径（包含 baseURL）
+      options.img = getAvatarUrl(response.data.imgUrl);
       proxy.$modal.msgSuccess("修改成功");
       visible.value = false;
     });

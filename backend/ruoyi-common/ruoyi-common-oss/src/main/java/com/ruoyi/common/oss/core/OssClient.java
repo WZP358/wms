@@ -58,6 +58,9 @@ public class OssClient {
             } else {
                 clientConfig.setProtocol(Protocol.HTTP);
             }
+            // 设置连接超时和请求超时
+            clientConfig.setConnectionTimeout(10000); // 10秒连接超时
+            clientConfig.setSocketTimeout(30000); // 30秒请求超时
             AmazonS3ClientBuilder build = AmazonS3Client.builder()
                 .withEndpointConfiguration(endpointConfig)
                 .withClientConfiguration(clientConfig)
@@ -90,7 +93,38 @@ public class OssClient {
             client.createBucket(createBucketRequest);
             client.setBucketPolicy(bucketName, getPolicy(bucketName, accessPolicy.getPolicyType()));
         } catch (Exception e) {
-            throw new OssException("创建Bucket失败, 请核对配置信息:[" + e.getMessage() + "]");
+            String errorMessage = e.getMessage();
+            String detailedMessage;
+            
+            // 检测连接错误并提供更友好的提示
+            if (errorMessage != null) {
+                if (errorMessage.contains("Connection refused") || errorMessage.contains("Connect to")) {
+                    detailedMessage = String.format(
+                        "无法连接到对象存储服务 %s。请检查：\n" +
+                        "1. 服务是否已启动（MinIO默认端口9000）\n" +
+                        "2. 网络连接是否正常\n" +
+                        "3. 防火墙是否阻止了连接\n" +
+                        "4. 配置的endpoint地址是否正确\n" +
+                        "原始错误: %s",
+                        properties.getEndpoint(), errorMessage
+                    );
+                } else if (errorMessage.contains("timeout") || errorMessage.contains("Timeout")) {
+                    detailedMessage = String.format(
+                        "连接对象存储服务 %s 超时。请检查：\n" +
+                        "1. 服务是否正常运行\n" +
+                        "2. 网络是否稳定\n" +
+                        "3. 配置的endpoint地址是否正确\n" +
+                        "原始错误: %s",
+                        properties.getEndpoint(), errorMessage
+                    );
+                } else {
+                    detailedMessage = "创建Bucket失败, 请核对配置信息:[" + errorMessage + "]";
+                }
+            } else {
+                detailedMessage = "创建Bucket失败, 请核对配置信息";
+            }
+            
+            throw new OssException(detailedMessage);
         }
     }
 

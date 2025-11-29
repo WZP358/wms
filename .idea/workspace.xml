@@ -4,11 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="补充一些数据">
+    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="优化路径规划精度">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/warehouseMap.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/warehouseMap.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SN码功能完善总结.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SN码功能测试指南.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SN码唯一性问题修复说明.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SN码唯一性验证增强说明.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SN码唯一性验证测试指南.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-oss/src/main/java/com/ruoyi/common/oss/core/OssClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-oss/src/main/java/com/ruoyi/common/oss/core/OssClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-web/src/main/java/com/ruoyi/common/web/config/ResourcesConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-web/src/main/java/com/ruoyi/common/web/config/ResourcesConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysDictData.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysDictData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysConfigVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysConfigVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysDictDataVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysDictDataVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMappers" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMappers" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,7 +86,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="Spring Boot.RuoYiApplication">
     <configuration name="RuoYiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ruoyi-admin-wms" />
@@ -120,7 +134,7 @@
       <workItem from="1764310408589" duration="1695000" />
       <workItem from="1764332295914" duration="930000" />
       <workItem from="1764333430338" duration="7227000" />
-      <workItem from="1764388681076" duration="777000" />
+      <workItem from="1764388681076" duration="3935000" />
     </task>
     <task id="LOCAL-00001" summary="增加“库存预警与到期提醒”功能">
       <option name="closed" value="true" />
@@ -234,7 +248,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764388813089</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="优化路径规划精度">
+      <option name="closed" value="true" />
+      <created>1764389663498</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1764389663498</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -252,6 +274,7 @@
     <MESSAGE value="完善一物一码" />
     <MESSAGE value="点击&quot;扫描条形码&quot;按钮会检测扫描枪并弹出提示框" />
     <MESSAGE value="补充一些数据" />
-    <option name="LAST_COMMIT_MESSAGE" value="补充一些数据" />
+    <MESSAGE value="优化路径规划精度" />
+    <option name="LAST_COMMIT_MESSAGE" value="优化路径规划精度" />
   </component>
 </project>
