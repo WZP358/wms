@@ -20,7 +20,6 @@ import java.util.List;
 public interface SysRoleMapper extends BaseMapperPlus<SysRole, SysRoleVo> {
 
     @DataPermission({
-        @DataColumn(key = "deptName", value = "d.dept_id"),
         @DataColumn(key = "userName", value = "us.user_id")
     })
     Page<SysRoleVo> selectPageRoleList(@Param("page") Page<SysRole> page, @Param(Constants.WRAPPER) Wrapper<SysRole> queryWrapper);
@@ -32,7 +31,6 @@ public interface SysRoleMapper extends BaseMapperPlus<SysRole, SysRoleVo> {
      * @return 角色数据集合信息
      */
     @DataPermission({
-        @DataColumn(key = "deptName", value = "d.dept_id"),
         @DataColumn(key = "userName", value = "us.user_id")
     })
     List<SysRoleVo> selectRoleList(@Param(Constants.WRAPPER) Wrapper<SysRole> queryWrapper);

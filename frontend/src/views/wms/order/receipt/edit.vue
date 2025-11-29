@@ -229,6 +229,7 @@
         @handleOkClick="handleOkClick"
         @handleCancelClick="skuSelectShow = false"
         :size="'80%'"
+        :single-select="false"
       />
       <SnInputDialog
         v-model="snDialogShow"

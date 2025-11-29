@@ -71,15 +71,13 @@ import { getUserProfile } from "@/api/system/user";
 const activeTab = ref("userinfo");
 const state = reactive({
   user: {},
-  roleGroup: {},
-  postGroup: {}
+  roleGroup: {}
 });
 
 function getUser() {
   getUserProfile().then(response => {
     state.user = response.data.user;
     state.roleGroup = response.data.roleGroup;
-    state.postGroup = response.data.postGroup;
   });
 };
 

@@ -209,6 +209,7 @@
         @handleOkClick="handleOkClick"
         @handleCancelClick="skuSelectShow = false"
         :size="'80%'"
+        :single-select="false"
       />
     </div>
     <div class="footer-global" v-if="checking">

@@ -8,13 +8,11 @@ import com.ruoyi.common.log.enums.BusinessType;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.web.core.BaseController;
-import com.ruoyi.system.domain.bo.SysDeptBo;
 import com.ruoyi.system.domain.bo.SysRoleBo;
 import com.ruoyi.system.domain.bo.SysUserBo;
 import com.ruoyi.system.domain.entity.SysUserRole;
 import com.ruoyi.system.domain.vo.SysRoleVo;
 import com.ruoyi.system.domain.vo.SysUserVo;
-import com.ruoyi.system.service.SysDeptService;
 import com.ruoyi.system.service.SysRoleService;
 import com.ruoyi.system.service.SysUserService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,7 +36,6 @@ public class SysRoleController extends BaseController {
 
     private final SysRoleService roleService;
     private final SysUserService userService;
-    private final SysDeptService deptService;
 
     /**
      * 获取角色信息列表
@@ -211,17 +208,4 @@ public class SysRoleController extends BaseController {
         return toAjax(roleService.insertAuthUsers(roleId, userIds));
     }
 
-    /**
-     * 获取对应角色部门树列表
-     *
-     * @param roleId 角色ID
-     */
-    @SaCheckPermission("system:role:list")
-    @GetMapping(value = "/deptTree/{roleId}")
-    public R<Map<String, Object>> roleDeptTreeselect(@PathVariable("roleId") Long roleId) {
-        return R.ok(Map.of(
-            "checkedKeys", deptService.selectDeptListByRoleId(roleId),
-            "depts", deptService.selectDeptTreeList(new SysDeptBo())
-        ));
-    }
 }

@@ -17,12 +17,8 @@ import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.common.web.core.BaseController;
-import com.ruoyi.system.domain.bo.SysDeptBo;
-import com.ruoyi.system.domain.bo.SysPostBo;
 import com.ruoyi.system.domain.bo.SysRoleBo;
 import com.ruoyi.system.domain.bo.SysUserBo;
-import com.ruoyi.system.domain.entity.SysDept;
-import com.ruoyi.system.domain.entity.SysPost;
 import com.ruoyi.system.domain.entity.SysRole;
 import com.ruoyi.system.domain.vo.SysRoleVo;
 import com.ruoyi.system.domain.vo.SysUserExportVo;
@@ -57,8 +53,6 @@ public class SysUserController extends BaseController {
 
     private final SysUserService userService;
     private final SysRoleService roleService;
-    private final SysPostService postService;
-    private final SysDeptService deptService;
 
     /**
      * 获取用户列表
@@ -114,15 +108,11 @@ public class SysUserController extends BaseController {
         Map<String, Object> ajax = new HashMap<>();
         SysRoleBo role = new SysRoleBo();
         role.setStatus(UserConstants.ROLE_NORMAL);
-        SysPostBo post = new SysPostBo();
-        post.setStatus(UserConstants.POST_NORMAL);
         List<SysRoleVo> roles = roleService.selectRoleList(role);
         ajax.put("roles", LoginHelper.isAdmin(userId) ? roles : StreamUtils.filter(roles, r -> !r.isAdmin()));
-        ajax.put("posts", postService.selectPostList(post));
         if (ObjectUtil.isNotNull(userId)) {
             SysUserVo sysUser = userService.selectUserById(userId);
             ajax.put("user", sysUser);
-            ajax.put("postIds", postService.selectPostListByUserId(userId));
             ajax.put("roleIds", StreamUtils.toList(sysUser.getRoles(), SysRoleVo::getRoleId));
         }
         return R.ok(ajax);
@@ -135,7 +125,6 @@ public class SysUserController extends BaseController {
     @Log(title = "用户管理", businessType = BusinessType.INSERT)
     @PostMapping
     public R<Void> add(@Validated @RequestBody SysUserBo user) {
-        deptService.checkDeptDataScope(user.getDeptId());
         if (!userService.checkUserNameUnique(user)) {
             return R.fail("新增用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
@@ -156,7 +145,6 @@ public class SysUserController extends BaseController {
     public R<Void> edit(@Validated @RequestBody SysUserBo user) {
         userService.checkUserAllowed(user.getUserId());
         userService.checkUserDataScope(user.getUserId());
-        deptService.checkDeptDataScope(user.getDeptId());
         if (!userService.checkUserNameUnique(user)) {
             return R.fail("修改用户'" + user.getUserName() + "'失败，登录账号已存在");
         } else if (StringUtils.isNotEmpty(user.getPhonenumber()) && !userService.checkPhoneUnique(user)) {
@@ -241,13 +229,5 @@ public class SysUserController extends BaseController {
         return R.ok();
     }
 
-    /**
-     * 获取部门树列表
-     */
-    @SaCheckPermission("system:user:list")
-    @GetMapping("/deptTree")
-    public R<List<Tree<Long>>> deptTree(SysDeptBo dept) {
-        return R.ok(deptService.selectDeptTreeList(dept));
-    }
 
 }

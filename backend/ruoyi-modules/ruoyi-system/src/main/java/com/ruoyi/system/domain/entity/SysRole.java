@@ -72,10 +72,6 @@ public class SysRole extends BaseEntity {
      */
     private Boolean menuCheckStrictly;
 
-    /**
-     * 部门树选择项是否关联显示（0：父子不互相关联显示 1：父子互相关联显示 ）
-     */
-    private Boolean deptCheckStrictly;
 
     /**
      * 角色状态（0正常 1停用）
@@ -107,11 +103,6 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private Long[] menuIds;
 
-    /**
-     * 部门组（数据权限）
-     */
-    @TableField(exist = false)
-    private Long[] deptIds;
 
     public SysRole(Long roleId) {
         this.roleId = roleId;

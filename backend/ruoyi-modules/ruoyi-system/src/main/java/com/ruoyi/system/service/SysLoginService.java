@@ -23,7 +23,6 @@ import com.ruoyi.common.redis.utils.RedisUtils;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.common.web.config.properties.CaptchaProperties;
 import com.ruoyi.system.domain.entity.SysUser;
-import com.ruoyi.system.domain.vo.SysDeptVo;
 import com.ruoyi.system.domain.vo.SysRoleVo;
 import com.ruoyi.system.domain.vo.SysUserVo;
 import com.ruoyi.system.mapper.SysUserMapper;
@@ -50,7 +49,6 @@ public class SysLoginService {
     private final CaptchaProperties captchaProperties;
     private final SysPermissionService permissionService;
     private final SysRoleService roleService;
-    private final SysDeptService deptService;
 
     @Value("${user.password.maxRetryCount}")
     private Integer maxRetryCount;
@@ -272,17 +270,11 @@ public class SysLoginService {
     private LoginUser buildLoginUser(SysUserVo user) {
         LoginUser loginUser = new LoginUser();
         loginUser.setUserId(user.getUserId());
-        loginUser.setDeptId(user.getDeptId());
         loginUser.setUsername(user.getUserName());
         loginUser.setUserType(user.getUserType());
         loginUser.setMenuPermission(permissionService.getMenuPermission(user.getUserId()));
         loginUser.setRolePermission(permissionService.getRolePermission(user.getUserId()));
 
-        SysDeptVo dept = null;
-        if (ObjectUtil.isNotNull(user.getDeptId())) {
-            dept = deptService.selectDeptById(user.getDeptId());
-        }
-        loginUser.setDeptName(ObjectUtil.isNull(dept) ? "" : dept.getDeptName());
         List<SysRoleVo> roles = roleService.selectRolesByUserId(user.getUserId());
         loginUser.setRoles(BeanUtil.copyToList(roles, RoleVO.class));
 

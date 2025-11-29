@@ -4,30 +4,60 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="解决头像上传展示问题">
+    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="在“首页”页面再增加数据分析功能（ECharts）">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/InventoryMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/InventoryMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/InventoryMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/InventoryMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-translation/src/main/java/com/ruoyi/common/translation/core/impl/DeptNameTranslationImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-translation/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-translation/src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysDeptController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysPostController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysRoleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysRoleController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/controller/system/SysUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/bo/SysDeptBo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/bo/SysPostBo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/bo/SysRoleBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/bo/SysRoleBo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/bo/SysUserBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/bo/SysUserBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysDept.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysPost.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysRoleDept.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/entity/SysUserPost.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/ProfileVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/ProfileVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysDeptVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysPostVo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysRoleVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysRoleVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysUserExportVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysUserExportVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysUserImportVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysUserImportVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysUserVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/domain/vo/SysUserVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysDeptMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysPostMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysRoleDeptMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysRoleMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysRoleMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysUserMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysUserMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/mapper/SysUserPostMapper.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysDataScopeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysDataScopeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysDeptService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysLoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysPostService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysRoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysRoleService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/java/com/ruoyi/system/service/SysUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysDeptMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysPostMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysRoleDeptMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysRoleMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysRoleMapper.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysUserMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysUserMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/script/sql/README_TEST_DATA.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/wms/inventory.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/wms/inventory.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-modules/ruoyi-system/src/main/resources/mapper/system/SysUserPostMapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/script/sql/diagnose_inventory_warning.sql" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/script/sql/wms.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/script/sql/wms.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/system/dept.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/system/post.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/system/role.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/system/role.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/system/dept/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/system/post/index.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/system/role/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/system/role/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/system/user/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/system/user/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/system/user/profile/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/system/user/profile/index.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/warning/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/warning/index.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
@@ -142,7 +172,7 @@
       <workItem from="1764310408589" duration="1695000" />
       <workItem from="1764332295914" duration="930000" />
       <workItem from="1764333430338" duration="7227000" />
-      <workItem from="1764388681076" duration="6471000" />
+      <workItem from="1764388681076" duration="9563000" />
     </task>
     <task id="LOCAL-00001" summary="增加“库存预警与到期提醒”功能">
       <option name="closed" value="true" />
@@ -272,7 +302,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764393175201</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="在“首页”页面再增加数据分析功能（ECharts）">
+      <option name="closed" value="true" />
+      <created>1764396247514</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1764396247515</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -292,6 +330,7 @@
     <MESSAGE value="补充一些数据" />
     <MESSAGE value="优化路径规划精度" />
     <MESSAGE value="解决头像上传展示问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="解决头像上传展示问题" />
+    <MESSAGE value="在“首页”页面再增加数据分析功能（ECharts）" />
+    <option name="LAST_COMMIT_MESSAGE" value="在“首页”页面再增加数据分析功能（ECharts）" />
   </component>
 </project>

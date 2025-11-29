@@ -21,12 +21,14 @@ import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.mybatis.helper.DataBaseHelper;
 import com.ruoyi.common.satoken.utils.LoginHelper;
 import com.ruoyi.system.domain.bo.SysUserBo;
-import com.ruoyi.system.domain.entity.*;
-import com.ruoyi.system.domain.vo.SysPostVo;
+import com.ruoyi.system.domain.entity.SysUser;
+import com.ruoyi.system.domain.entity.SysUserRole;
 import com.ruoyi.system.domain.vo.SysRoleVo;
 import com.ruoyi.system.domain.vo.SysUserExportVo;
 import com.ruoyi.system.domain.vo.SysUserVo;
-import com.ruoyi.system.mapper.*;
+import com.ruoyi.system.mapper.SysUserMapper;
+import com.ruoyi.system.mapper.SysRoleMapper;
+import com.ruoyi.system.mapper.SysUserRoleMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.CacheEvict;
@@ -49,11 +51,8 @@ import java.util.Map;
 public class SysUserService implements UserService {
 
     private final SysUserMapper userMapper;
-    private final SysDeptMapper deptMapper;
     private final SysRoleMapper roleMapper;
-    private final SysPostMapper postMapper;
     private final SysUserRoleMapper userRoleMapper;
-    private final SysUserPostMapper userPostMapper;
 
     public TableDataInfo<SysUserVo> selectPageUserList(SysUserBo user, PageQuery pageQuery) {
         Page<SysUserVo> page = userMapper.selectPageUserList(pageQuery.build(), this.buildQueryWrapper(user));
@@ -79,15 +78,7 @@ public class SysUserService implements UserService {
             .eq(StringUtils.isNotBlank(user.getStatus()), "u.status", user.getStatus())
             .like(StringUtils.isNotBlank(user.getPhonenumber()), "u.phonenumber", user.getPhonenumber())
             .between(params.get("beginTime") != null && params.get("endTime") != null,
-                "u.create_time", params.get("beginTime"), params.get("endTime"))
-            .and(ObjectUtil.isNotNull(user.getDeptId()), w -> {
-                List<SysDept> deptList = deptMapper.selectList(new LambdaQueryWrapper<SysDept>()
-                    .select(SysDept::getDeptId)
-                    .apply(DataBaseHelper.findInSet(user.getDeptId(), "ancestors")));
-                List<Long> ids = StreamUtils.toList(deptList, SysDept::getDeptId);
-                ids.add(user.getDeptId());
-                w.in("u.dept_id", ids);
-            });
+                "u.create_time", params.get("beginTime"), params.get("endTime"));
         return wrapper;
     }
 
@@ -175,19 +166,6 @@ public class SysUserService implements UserService {
         return StreamUtils.join(list, SysRoleVo::getRoleName);
     }
 
-    /**
-     * 查询用户所属岗位组
-     *
-     * @param userId 用户ID
-     * @return 结果
-     */
-    public String selectUserPostGroup(Long userId) {
-        List<SysPostVo> list = postMapper.selectPostsByUserId(userId);
-        if (CollUtil.isEmpty(list)) {
-            return StringUtils.EMPTY;
-        }
-        return StreamUtils.join(list, SysPostVo::getPostName);
-    }
 
     /**
      * 校验用户名称是否唯一
@@ -266,8 +244,6 @@ public class SysUserService implements UserService {
         // 新增用户信息
         int rows = userMapper.insert(sysUser);
         user.setUserId(sysUser.getUserId());
-        // 新增用户岗位关联
-        insertUserPost(user);
         // 新增用户与角色管理
         insertUserRole(user);
         return rows;
@@ -299,10 +275,6 @@ public class SysUserService implements UserService {
         userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
         // 新增用户与角色管理
         insertUserRole(user);
-        // 删除用户与岗位关联
-        userPostMapper.delete(new LambdaQueryWrapper<SysUserPost>().eq(SysUserPost::getUserId, userId));
-        // 新增用户与岗位管理
-        insertUserPost(user);
         SysUser sysUser = MapstructUtils.convert(user, SysUser.class);
         return userMapper.updateById(sysUser);
     }
@@ -388,24 +360,6 @@ public class SysUserService implements UserService {
         this.insertUserRole(user.getUserId(), user.getRoleIds());
     }
 
-    /**
-     * 新增用户岗位信息
-     *
-     * @param user 用户对象
-     */
-    public void insertUserPost(SysUserBo user) {
-        Long[] posts = user.getPostIds();
-        if (ArrayUtil.isNotEmpty(posts)) {
-            // 新增用户与岗位管理
-            List<SysUserPost> list = StreamUtils.toList(Arrays.asList(posts), postId -> {
-                SysUserPost up = new SysUserPost();
-                up.setUserId(user.getUserId());
-                up.setPostId(postId);
-                return up;
-            });
-            userPostMapper.insertBatch(list);
-        }
-    }
 
     /**
      * 新增用户角色信息
@@ -436,8 +390,6 @@ public class SysUserService implements UserService {
     public int deleteUserById(Long userId) {
         // 删除用户与角色关联
         userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
-        // 删除用户与岗位表
-        userPostMapper.delete(new LambdaQueryWrapper<SysUserPost>().eq(SysUserPost::getUserId, userId));
         return userMapper.deleteById(userId);
     }
 
@@ -456,8 +408,6 @@ public class SysUserService implements UserService {
         List<Long> ids = Arrays.asList(userIds);
         // 删除用户与角色关联
         userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(SysUserRole::getUserId, ids));
-        // 删除用户与岗位表
-        userPostMapper.delete(new LambdaQueryWrapper<SysUserPost>().in(SysUserPost::getUserId, ids));
         return userMapper.deleteBatchIds(ids);
     }
 

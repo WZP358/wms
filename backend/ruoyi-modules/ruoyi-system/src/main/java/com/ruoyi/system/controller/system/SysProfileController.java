@@ -49,7 +49,6 @@ public class SysProfileController extends BaseController {
         ProfileVo profileVo = new ProfileVo();
         profileVo.setUser(user);
         profileVo.setRoleGroup(userService.selectUserRoleGroup(user.getUserId()));
-        profileVo.setPostGroup(userService.selectUserPostGroup(user.getUserId()));
         return R.ok(profileVo);
     }
 

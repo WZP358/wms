@@ -36,10 +36,6 @@ public class SysUser extends BaseEntity {
     @TableId(value = "user_id")
     private Long userId;
 
-    /**
-     * 部门ID
-     */
-    private Long deptId;
 
     /**
      * 用户账号
@@ -122,11 +118,6 @@ public class SysUser extends BaseEntity {
      */
     private String remark;
 
-    /**
-     * 部门对象
-     */
-    @TableField(exist = false)
-    private SysDept dept;
 
     /**
      * 角色对象
@@ -140,11 +131,6 @@ public class SysUser extends BaseEntity {
     @TableField(exist = false)
     private Long[] roleIds;
 
-    /**
-     * 岗位组
-     */
-    @TableField(exist = false)
-    private Long[] postIds;
 
     /**
      * 数据权限 当前角色ID

@@ -3,7 +3,6 @@ package com.ruoyi.system.domain.bo;
 import com.ruoyi.common.core.constant.UserConstants;
 import com.ruoyi.common.core.xss.Xss;
 import com.ruoyi.common.mybatis.core.domain.BaseEntity;
-import com.ruoyi.system.domain.entity.SysDept;
 import com.ruoyi.system.domain.entity.SysRole;
 import com.ruoyi.system.domain.entity.SysUser;
 import io.github.linpeilie.annotations.AutoMapper;
@@ -27,10 +26,6 @@ public class SysUserBo extends BaseEntity {
      */
     private Long userId;
 
-    /**
-     * 部门ID
-     */
-    private Long deptId;
 
     /**
      * 用户账号
@@ -105,10 +100,6 @@ public class SysUserBo extends BaseEntity {
      */
     private String remark;
 
-    /**
-     * 部门对象
-     */
-    private SysDept dept;
 
     /**
      * 角色对象
@@ -120,10 +111,6 @@ public class SysUserBo extends BaseEntity {
      */
     private Long[] roleIds;
 
-    /**
-     * 岗位组
-     */
-    private Long[] postIds;
 
     /**
      * 数据权限 当前角色ID

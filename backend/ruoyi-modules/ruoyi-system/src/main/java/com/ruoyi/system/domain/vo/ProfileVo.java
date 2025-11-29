@@ -20,10 +20,6 @@ public class ProfileVo {
      */
     private String roleGroup;
 
-    /**
-     * 用户所属岗位组
-     */
-    private String postGroup;
 
 
 }

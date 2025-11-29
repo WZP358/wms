@@ -27,10 +27,6 @@ public class SysUserVo implements Serializable {
      */
     private Long userId;
 
-    /**
-     * 部门ID
-     */
-    private Long deptId;
 
     /**
      * 用户账号
@@ -101,11 +97,6 @@ public class SysUserVo implements Serializable {
      */
     private String remark;
 
-    /**
-     * 部门名
-     */
-    @Translation(type = TransConstant.DEPT_ID_TO_NAME, mapper = "deptId")
-    private String deptName;
 
     /**
      * 角色对象
@@ -117,10 +108,6 @@ public class SysUserVo implements Serializable {
      */
     private Long[] roleIds;
 
-    /**
-     * 岗位组
-     */
-    private Long[] postIds;
 
     /**
      * 数据权限 当前角色ID

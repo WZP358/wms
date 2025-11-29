@@ -4,7 +4,7 @@
 
       <el-form :model="queryParams" :inline="true" label-width="90px" ref="queryRef">
         <el-form-item label="维度 " prop="itemId" class="col4">
-          <el-radio-group v-model="queryType" size="medium" @change="handleSortTypeChange">
+          <el-radio-group v-model="queryType" @change="handleSortTypeChange">
             <el-radio-button label="warehouse">仓库库区</el-radio-button>
             <el-radio-button label="item">商品</el-radio-button>
           </el-radio-group>
@@ -55,7 +55,6 @@
             range-separator="至"
             value-format="YYYY-MM-DD HH:mm:ss"
             format="YYYY-MM-DD"
-            :default-time="defaultTime"
             start-placeholder="开始日期"
             end-placeholder="结束日期"
           />
