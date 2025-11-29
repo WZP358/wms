@@ -70,6 +70,9 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><DataAnalysis /></el-icon> 库存金额分析
               </span>
+              <el-button type="primary" link @click="downloadChart('inventoryAmount')">
+                <el-icon><Download /></el-icon> 下载
+              </el-button>
             </div>
           </template>
           <div ref="inventoryAmountChart" style="width: 100%; height: 300px;"></div>
@@ -82,6 +85,9 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><TrendCharts /></el-icon> 库存周转率分析
               </span>
+              <el-button type="primary" link @click="downloadChart('turnoverRate')">
+                <el-icon><Download /></el-icon> 下载
+              </el-button>
             </div>
           </template>
           <div ref="turnoverRateChart" style="width: 100%; height: 300px;"></div>
@@ -98,12 +104,17 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><TrendCharts /></el-icon> 出入库趋势分析
               </span>
-              <el-select v-model="trendPeriod" @change="loadTrendData" style="width: 120px">
-                <el-option label="日" value="day" />
-                <el-option label="周" value="week" />
-                <el-option label="月" value="month" />
-                <el-option label="年" value="year" />
-              </el-select>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <el-select v-model="trendPeriod" @change="loadTrendData" style="width: 120px">
+                  <el-option label="日" value="day" />
+                  <el-option label="周" value="week" />
+                  <el-option label="月" value="month" />
+                  <el-option label="年" value="year" />
+                </el-select>
+                <el-button type="primary" link @click="downloadChart('trend')">
+                  <el-icon><Download /></el-icon> 下载
+                </el-button>
+              </div>
             </div>
           </template>
           <div ref="trendChart" style="width: 100%; height: 400px;"></div>
@@ -120,6 +131,9 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><TrendCharts /></el-icon> 热销商品TOP10
               </span>
+              <el-button type="primary" link @click="downloadChart('hotProducts')">
+                <el-icon><Download /></el-icon> 下载
+              </el-button>
             </div>
           </template>
           <div ref="hotProductsChart" style="width: 100%; height: 400px;"></div>
@@ -132,6 +146,9 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><Warning /></el-icon> 滞销商品预警
               </span>
+              <el-button type="primary" link @click="downloadChart('slowProducts')">
+                <el-icon><Download /></el-icon> 下载
+              </el-button>
             </div>
           </template>
           <div ref="slowProductsChart" style="width: 100%; height: 400px;"></div>
@@ -148,6 +165,9 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><DataAnalysis /></el-icon> 供应商/客户分析
               </span>
+              <el-button type="primary" link @click="downloadChart('merchant')">
+                <el-icon><Download /></el-icon> 下载
+              </el-button>
             </div>
           </template>
           <div ref="merchantChart" style="width: 100%; height: 400px;"></div>
@@ -164,11 +184,16 @@
               <span style="font-size: large;font-weight: bold">
                 <el-icon><TrendCharts /></el-icon> 库存需求预测
               </span>
-              <el-select v-model="forecastDays" @change="loadForecastData" style="width: 120px">
-                <el-option label="7天" :value="7" />
-                <el-option label="30天" :value="30" />
-                <el-option label="90天" :value="90" />
-              </el-select>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <el-select v-model="forecastDays" @change="loadForecastData" style="width: 120px">
+                  <el-option label="7天" :value="7" />
+                  <el-option label="30天" :value="30" />
+                  <el-option label="90天" :value="90" />
+                </el-select>
+                <el-button type="primary" link @click="downloadChart('forecast')">
+                  <el-icon><Download /></el-icon> 下载
+                </el-button>
+              </div>
             </div>
           </template>
           <div ref="forecastChart" style="width: 100%; height: 400px;"></div>
@@ -179,7 +204,8 @@
 </template>
 
 <script setup name="Index">
-import { Warning, Clock, ArrowRight, DataAnalysis, TrendCharts } from '@element-plus/icons-vue'
+import { Warning, Clock, ArrowRight, DataAnalysis, TrendCharts, Download } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
 import { getInventoryWarningCount, listInventoryWarningAll, getExpirationReminderCount, listExpirationReminderAll } from '@/api/wms/inventoryWarning'
 import { getInventoryAmount, getInventoryTurnoverRate } from '@/api/wms/inventory'
 import { getInOutTrend, getHotProducts, getSlowProducts, getMerchantAnalysis, getInventoryForecast } from '@/api/wms/statistics'
@@ -200,6 +226,15 @@ const merchantChart = ref(null)
 const forecastChart = ref(null)
 const trendPeriod = ref('day')
 const forecastDays = ref(30)
+
+// 保存图表实例
+const inventoryAmountChartInstance = ref(null)
+const turnoverRateChartInstance = ref(null)
+const trendChartInstance = ref(null)
+const hotProductsChartInstance = ref(null)
+const slowProductsChartInstance = ref(null)
+const merchantChartInstance = ref(null)
+const forecastChartInstance = ref(null)
 
 /** 获取库存预警数据 */
 function getWarningData() {
@@ -245,8 +280,10 @@ function getInventoryAmountData() {
     const existingChart = echarts.getInstanceByDom(inventoryAmountChart.value)
     if (existingChart) {
       existingChart.dispose()
+      inventoryAmountChartInstance.value = null
     }
     const chartInstance = echarts.init(inventoryAmountChart.value, 'macarons')
+    inventoryAmountChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: '实时库存金额',
@@ -340,8 +377,10 @@ function getTurnoverRateData() {
     const existingChart = echarts.getInstanceByDom(turnoverRateChart.value)
     if (existingChart) {
       existingChart.dispose()
+      turnoverRateChartInstance.value = null
     }
     const chartInstance = echarts.init(turnoverRateChart.value, 'macarons')
+    turnoverRateChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: '实时库存周转率',
@@ -436,8 +475,10 @@ function loadTrendData() {
     const existingChart = echarts.getInstanceByDom(trendChart.value)
     if (existingChart) {
       existingChart.dispose()
+      trendChartInstance.value = null
     }
     const chartInstance = echarts.init(trendChart.value, 'macarons')
+    trendChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: '出入库趋势分析',
@@ -514,8 +555,10 @@ function loadHotProductsData() {
     const existingChart = echarts.getInstanceByDom(hotProductsChart.value)
     if (existingChart) {
       existingChart.dispose()
+      hotProductsChartInstance.value = null
     }
     const chartInstance = echarts.init(hotProductsChart.value, 'macarons')
+    hotProductsChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: '热销商品TOP10',
@@ -559,8 +602,10 @@ function loadSlowProductsData() {
     const existingChart = echarts.getInstanceByDom(slowProductsChart.value)
     if (existingChart) {
       existingChart.dispose()
+      slowProductsChartInstance.value = null
     }
     const chartInstance = echarts.init(slowProductsChart.value, 'macarons')
+    slowProductsChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: '滞销商品预警',
@@ -627,8 +672,10 @@ function loadMerchantData() {
     const existingChart = echarts.getInstanceByDom(merchantChart.value)
     if (existingChart) {
       existingChart.dispose()
+      merchantChartInstance.value = null
     }
     const chartInstance = echarts.init(merchantChart.value, 'macarons')
+    merchantChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: '供应商/客户分析',
@@ -683,8 +730,10 @@ function loadForecastData() {
     const existingChart = echarts.getInstanceByDom(forecastChart.value)
     if (existingChart) {
       existingChart.dispose()
+      forecastChartInstance.value = null
     }
     const chartInstance = echarts.init(forecastChart.value, 'macarons')
+    forecastChartInstance.value = chartInstance
     chartInstance.setOption({
       title: {
         text: `未来${forecastDays.value}天库存需求预测`,
@@ -733,6 +782,72 @@ function loadForecastData() {
     })
     window.addEventListener('resize', () => chartInstance.resize())
   })
+}
+
+/** 下载图表 */
+function downloadChart(chartType) {
+  let chartInstance = null
+  let fileName = ''
+  
+  switch (chartType) {
+    case 'inventoryAmount':
+      chartInstance = inventoryAmountChartInstance.value
+      fileName = '库存金额分析'
+      break
+    case 'turnoverRate':
+      chartInstance = turnoverRateChartInstance.value
+      fileName = '库存周转率分析'
+      break
+    case 'trend':
+      chartInstance = trendChartInstance.value
+      fileName = '出入库趋势分析'
+      break
+    case 'hotProducts':
+      chartInstance = hotProductsChartInstance.value
+      fileName = '热销商品TOP10'
+      break
+    case 'slowProducts':
+      chartInstance = slowProductsChartInstance.value
+      fileName = '滞销商品预警'
+      break
+    case 'merchant':
+      chartInstance = merchantChartInstance.value
+      fileName = '供应商客户分析'
+      break
+    case 'forecast':
+      chartInstance = forecastChartInstance.value
+      fileName = `库存需求预测_${forecastDays.value}天`
+      break
+    default:
+      return
+  }
+  
+  if (!chartInstance) {
+    ElMessage.warning('图表尚未加载完成，请稍后再试')
+    return
+  }
+  
+  try {
+    // 获取图表的 base64 图片数据
+    const url = chartInstance.getDataURL({
+      type: 'png',
+      pixelRatio: 2,
+      backgroundColor: '#fff'
+    })
+    
+    // 创建下载链接
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${fileName}_${new Date().getTime()}.png`
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    
+    ElMessage.success('图表下载成功')
+  } catch (error) {
+    console.error('下载图表失败:', error)
+    ElMessage.error('下载图表失败，请稍后再试')
+  }
 }
 
 onMounted(() => {
