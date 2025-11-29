@@ -55,3 +55,4 @@ INSERT INTO `sys_menu` (
     `update_time` = NOW(),
     `remark` = '商品管理菜单';
 
+
