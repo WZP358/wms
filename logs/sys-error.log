@@ -578,3 +578,4 @@ Caused by: java.sql.SQLSyntaxErrorException: Table 'wms.sys_dept' doesn't exist
 	... 104 common frames omitted
 2025-11-29 15:49:44 [XNIO-1 task-6] ERROR c.r.c.w.h.GlobalExceptionHandler - 对不起，您的账号：wzp 已禁用，请联系管理员
 2025-11-29 15:50:21 [XNIO-1 task-6] ERROR c.r.c.s.h.SaTokenExceptionHandler - 请求地址'/wms/area/listNoPage',权限码校验失败'无此权限：wms:area:list'
+2025-11-29 16:29:46 [XNIO-1 task-6] ERROR c.r.c.s.h.SaTokenExceptionHandler - 请求地址'/wms/area/listNoPage',权限码校验失败'无此权限：wms:area:list'
