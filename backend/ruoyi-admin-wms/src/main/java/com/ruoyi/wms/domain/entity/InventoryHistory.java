@@ -64,7 +64,7 @@ public class InventoryHistory extends BaseHistoryEntity {
     /**
      * 库存变化
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 备注
      */

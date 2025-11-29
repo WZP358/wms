@@ -79,7 +79,7 @@ public class InventoryHistoryBo extends BaseHistoryEntity {
      * 库存变化
      */
     @NotNull(message = "库存变化不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 备注

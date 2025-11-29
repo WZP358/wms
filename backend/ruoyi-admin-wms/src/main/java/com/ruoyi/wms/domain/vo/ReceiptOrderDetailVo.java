@@ -47,7 +47,7 @@ public class ReceiptOrderDetailVo implements Serializable {
      * 入库数量
      */
     @ExcelProperty(value = "入库数量")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 金额

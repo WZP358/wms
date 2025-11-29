@@ -201,12 +201,12 @@ public class CheckOrderService {
     }
 
     private void calcProfitAndLoss(List<CheckOrderDetailBo> details) {
-        details.forEach(detail -> detail.setProfitAndLoss(detail.getCheckQuantity().subtract(detail.getQuantity())));
+        details.forEach(detail -> detail.setProfitAndLoss(detail.getCheckQuantity() - detail.getQuantity()));
     }
 
     public List<InventoryDetailBo> splitOutShipmentData(List<CheckOrderDetailBo> details) {
         return details.stream()
-            .filter(detail -> detail.getProfitAndLoss().compareTo(BigDecimal.ZERO) < 0)
+            .filter(detail -> detail.getProfitAndLoss() < 0)
             .map(filteredDetail -> {
                 InventoryDetailBo inventoryDetailBo = new InventoryDetailBo();
                 inventoryDetailBo.setId(filteredDetail.getInventoryDetailId());
@@ -217,14 +217,14 @@ public class CheckOrderService {
                 inventoryDetailBo.setBatchNo(filteredDetail.getBatchNo());
                 inventoryDetailBo.setProductionDate(filteredDetail.getProductionDate());
                 inventoryDetailBo.setExpirationDate(filteredDetail.getExpirationDate());
-                inventoryDetailBo.setShipmentQuantity(filteredDetail.getProfitAndLoss().abs());
+                inventoryDetailBo.setShipmentQuantity(Math.abs(filteredDetail.getProfitAndLoss()));
                 return inventoryDetailBo;
             }).toList();
     }
 
     public List<InventoryDetailBo> splitOutReceiptData(CheckOrderBo bo) {
         return bo.getDetails().stream()
-            .filter(detail -> detail.getProfitAndLoss().compareTo(BigDecimal.ZERO) > 0)
+            .filter(detail -> detail.getProfitAndLoss() > 0)
             .map(filteredDetail -> {
                 InventoryDetailBo inventoryDetailBo = new InventoryDetailBo();
                 inventoryDetailBo.setReceiptOrderId(bo.getId());
@@ -248,7 +248,7 @@ public class CheckOrderService {
             String mergedKey = detail.getKey();
             if (mergedMap.containsKey(mergedKey)) {
                 InventoryBo mergedInventoryBo = mergedMap.get(mergedKey);
-                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity().add(detail.getQuantity()));
+                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity() + detail.getQuantity());
             } else {
                 InventoryBo mergedInventoryBo = new InventoryBo();
                 mergedInventoryBo.setWarehouseId(detail.getWarehouseId());

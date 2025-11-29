@@ -132,12 +132,12 @@ public class ShipmentOrderDetailService extends ServiceImpl<ShipmentOrderDetailM
             .stream()
             .map(ShipmentOrderDetailVo::getInventoryDetailId)
             .toList();
-        Map<Long, BigDecimal> remainQuantityMap = inventoryDetailMapper.selectBatchIds(inventoryDetailIds)
+        Map<Long, Integer> remainQuantityMap = inventoryDetailMapper.selectBatchIds(inventoryDetailIds)
             .stream()
             .collect(Collectors.toMap(InventoryDetail::getId, InventoryDetail::getRemainQuantity));
         details.forEach(detail -> {
             detail.setItemSku(itemSkuMap.get(detail.getSkuId()));
-            detail.setRemainQuantity(remainQuantityMap.getOrDefault(detail.getInventoryDetailId(), BigDecimal.ZERO));
+            detail.setRemainQuantity(remainQuantityMap.getOrDefault(detail.getInventoryDetailId(), 0));
         });
         
         // 查询并填充SN码

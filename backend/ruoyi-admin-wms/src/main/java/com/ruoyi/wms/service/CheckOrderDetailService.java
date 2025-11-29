@@ -135,11 +135,11 @@ public class CheckOrderDetailService extends ServiceImpl<CheckOrderDetailMapper,
             .stream()
             .collect(Collectors.toMap(ItemSkuVo::getId, Function.identity()));
         List<Long> inventoryDetailIds = details.stream().map(CheckOrderDetailVo::getInventoryDetailId).toList();
-        Map<Long, BigDecimal> remainQuantityMap = inventoryDetailMapper.selectVoBatchIds(inventoryDetailIds)
+        Map<Long, Integer> remainQuantityMap = inventoryDetailMapper.selectVoBatchIds(inventoryDetailIds)
             .stream().collect(Collectors.toMap(InventoryDetailVo::getId, InventoryDetailVo::getRemainQuantity));
         details.forEach(it -> {
             it.setItemSku(itemSkuMap.get(it.getSkuId()));
-            it.setRemainQuantity(remainQuantityMap.getOrDefault(it.getInventoryDetailId(), BigDecimal.ZERO));
+            it.setRemainQuantity(remainQuantityMap.getOrDefault(it.getInventoryDetailId(), 0));
         });
         
         // 查询并填充SN码

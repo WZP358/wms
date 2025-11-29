@@ -200,16 +200,123 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <!-- 仓库/库区空间利用率和库位热力图 -->
+    <el-row :gutter="20" class="mb20">
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span style="font-size: large;font-weight: bold">
+                <el-icon><DataAnalysis /></el-icon> 各仓库/库区空间利用率
+              </span>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <el-select v-model="selectedWarehouseId" @change="handleUtilizationFilter" placeholder="选择仓库" clearable filterable style="width: 150px">
+                  <el-option v-for="item in useWmsStore().warehouseList" :key="item.id" :label="item.warehouseName" :value="item.id"/>
+                </el-select>
+                <el-select v-model="selectedAreaId" @change="handleUtilizationFilter" placeholder="选择库区" clearable filterable :disabled="!selectedWarehouseId" style="width: 150px">
+                  <el-option v-for="item in useWmsStore().areaList.filter(it => it.warehouseId === selectedWarehouseId)" :key="item.id" :label="item.areaName" :value="item.id"/>
+                </el-select>
+                <el-button type="primary" link @click="downloadChart('utilization')">
+                  <el-icon><Download /></el-icon> 下载
+                </el-button>
+              </div>
+            </div>
+          </template>
+          <div ref="utilizationChart" style="width: 100%; height: 400px; overflow-x: auto;"></div>
+        </el-card>
+      </el-col>
+      <el-col :span="12">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span style="font-size: large;font-weight: bold">
+                <el-icon><TrendCharts /></el-icon> 库位使用情况热力图
+              </span>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <el-select v-model="selectedHeatmapWarehouseId" @change="handleHeatmapFilter" placeholder="选择仓库" clearable filterable style="width: 150px">
+                  <el-option v-for="item in useWmsStore().warehouseList" :key="item.id" :label="item.warehouseName" :value="item.id"/>
+                </el-select>
+                <el-select v-model="selectedHeatmapAreaId" @change="handleHeatmapFilter" placeholder="选择库区" clearable filterable :disabled="!selectedHeatmapWarehouseId" style="width: 150px">
+                  <el-option v-for="item in useWmsStore().areaList.filter(it => it.warehouseId === selectedHeatmapWarehouseId)" :key="item.id" :label="item.areaName" :value="item.id"/>
+                </el-select>
+                <el-button type="primary" link @click="downloadChart('heatmap')">
+                  <el-icon><Download /></el-icon> 下载
+                </el-button>
+              </div>
+            </div>
+          </template>
+          <div style="padding: 0 10px; font-size: 12px; color: #666; margin-bottom: 5px;">
+            横坐标：仓库代码-库区代码（如：WH001-1.1）
+          </div>
+          <div ref="heatmapChart" style="width: 100%; height: 400px; overflow-x: auto;"></div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <!-- 出入库同比环比 -->
+    <el-row :gutter="20" class="mb20">
+      <el-col :span="24">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span style="font-size: large;font-weight: bold">
+                <el-icon><TrendCharts /></el-icon> 出入库金额同比环比
+              </span>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <el-select v-model="yearOverYearPeriod" @change="loadYearOverYearData" style="width: 120px">
+                  <el-option label="日" value="day" />
+                  <el-option label="月" value="month" />
+                </el-select>
+                <el-button type="primary" link @click="downloadChart('yearOverYear')">
+                  <el-icon><Download /></el-icon> 下载
+                </el-button>
+              </div>
+            </div>
+          </template>
+          <div ref="yearOverYearChart" style="width: 100%; height: 400px;"></div>
+        </el-card>
+      </el-col>
+    </el-row>
+
+    <!-- 库存金额变化趋势 -->
+    <el-row :gutter="20" class="mb20">
+      <el-col :span="24">
+        <el-card shadow="hover">
+          <template #header>
+            <div class="card-header">
+              <span style="font-size: large;font-weight: bold">
+                <el-icon><TrendCharts /></el-icon> 库存金额变化趋势
+              </span>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <el-select v-model="amountTrendPeriod" @change="loadAmountTrendData" style="width: 120px">
+                  <el-option label="日" value="day" />
+                  <el-option label="周" value="week" />
+                  <el-option label="月" value="month" />
+                  <el-option label="年" value="year" />
+                </el-select>
+                <el-button type="primary" link @click="downloadChart('amountTrend')">
+                  <el-icon><Download /></el-icon> 下载
+                </el-button>
+              </div>
+            </div>
+          </template>
+          <div ref="amountTrendChart" style="width: 100%; height: 400px;"></div>
+        </el-card>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
 <script setup name="Index">
+import { ref, watch, nextTick } from 'vue'
 import { Warning, Clock, ArrowRight, DataAnalysis, TrendCharts, Download } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { getInventoryWarningCount, listInventoryWarningAll, getExpirationReminderCount, listExpirationReminderAll } from '@/api/wms/inventoryWarning'
 import { getInventoryAmount, getInventoryTurnoverRate } from '@/api/wms/inventory'
-import { getInOutTrend, getHotProducts, getSlowProducts, getMerchantAnalysis, getInventoryForecast } from '@/api/wms/statistics'
+import { getInOutTrend, getHotProducts, getSlowProducts, getMerchantAnalysis, getInventoryForecast, getWarehouseAreaUtilization, getLocationHeatmap, getInOutYearOverYear, getInventoryAmountTrend } from '@/api/wms/statistics'
 import { useRouter } from 'vue-router'
+import { useWmsStore } from '@/store/modules/wms'
 import * as echarts from 'echarts'
 
 const router = useRouter()
@@ -224,8 +331,20 @@ const hotProductsChart = ref(null)
 const slowProductsChart = ref(null)
 const merchantChart = ref(null)
 const forecastChart = ref(null)
+const utilizationChart = ref(null)
+const heatmapChart = ref(null)
+const yearOverYearChart = ref(null)
+const amountTrendChart = ref(null)
 const trendPeriod = ref('day')
 const forecastDays = ref(30)
+const yearOverYearPeriod = ref('month')
+const amountTrendPeriod = ref('month')
+const selectedWarehouseId = ref(null)
+const selectedAreaId = ref(null)
+const selectedHeatmapWarehouseId = ref(null)
+const selectedHeatmapAreaId = ref(null)
+const utilizationData = ref(null) // 保存原始数据
+const heatmapData = ref(null) // 保存热力图原始数据
 
 // 保存图表实例
 const inventoryAmountChartInstance = ref(null)
@@ -235,6 +354,10 @@ const hotProductsChartInstance = ref(null)
 const slowProductsChartInstance = ref(null)
 const merchantChartInstance = ref(null)
 const forecastChartInstance = ref(null)
+const utilizationChartInstance = ref(null)
+const heatmapChartInstance = ref(null)
+const yearOverYearChartInstance = ref(null)
+const amountTrendChartInstance = ref(null)
 
 /** 获取库存预警数据 */
 function getWarningData() {
@@ -818,6 +941,22 @@ function downloadChart(chartType) {
       chartInstance = forecastChartInstance.value
       fileName = `库存需求预测_${forecastDays.value}天`
       break
+    case 'utilization':
+      chartInstance = utilizationChartInstance.value
+      fileName = '仓库库区空间利用率'
+      break
+    case 'heatmap':
+      chartInstance = heatmapChartInstance.value
+      fileName = '库位使用情况热力图'
+      break
+    case 'yearOverYear':
+      chartInstance = yearOverYearChartInstance.value
+      fileName = `出入库同比环比_${yearOverYearPeriod.value}`
+      break
+    case 'amountTrend':
+      chartInstance = amountTrendChartInstance.value
+      fileName = `库存金额变化趋势_${amountTrendPeriod.value}`
+      break
     default:
       return
   }
@@ -850,7 +989,474 @@ function downloadChart(chartType) {
   }
 }
 
+/** 加载仓库/库区空间利用率数据 */
+function loadUtilizationData() {
+  getWarehouseAreaUtilization().then(response => {
+    utilizationData.value = response.data || {}
+    renderUtilizationChart()
+  })
+}
+
+/** 处理利用率筛选 */
+function handleUtilizationFilter() {
+  renderUtilizationChart()
+}
+
+/** 渲染利用率图表 */
+function renderUtilizationChart() {
+  if (!utilizationData.value) return
+  
+  const data = utilizationData.value
+  const names = data.names || []
+  const warehouseIds = data.warehouseIds || []
+  const areaIds = data.areaIds || []
+  const utilizationRates = data.utilizationRates || []
+  const usedAmounts = data.usedAmounts || []
+  
+  // 根据筛选条件过滤数据
+  let filteredIndices = []
+  if (selectedWarehouseId.value || selectedAreaId.value) {
+    filteredIndices = names.map((name, index) => {
+      const warehouseId = warehouseIds[index]
+      const areaId = areaIds[index]
+      const matchWarehouse = !selectedWarehouseId.value || warehouseId === selectedWarehouseId.value
+      const matchArea = !selectedAreaId.value || areaId === selectedAreaId.value
+      return matchWarehouse && matchArea ? index : -1
+    }).filter(idx => idx !== -1)
+  } else {
+    filteredIndices = names.map((_, index) => index)
+  }
+  
+  // 准备图表数据
+  const filteredNames = filteredIndices.map(idx => names[idx])
+  const filteredRates = filteredIndices.map(idx => Number(utilizationRates[idx]))
+  const filteredAmounts = filteredIndices.map(idx => Number(usedAmounts[idx]))
+  const filteredWarehouseIds = filteredIndices.map(idx => warehouseIds[idx])
+  const filteredAreaIds = filteredIndices.map(idx => areaIds[idx])
+  
+  // 高亮选中的项
+  const barData = filteredIndices.map((idx, i) => {
+    const warehouseId = filteredWarehouseIds[i]
+    const areaId = filteredAreaIds[i]
+    const isHighlighted = (selectedWarehouseId.value && warehouseId === selectedWarehouseId.value) ||
+                          (selectedAreaId.value && areaId === selectedAreaId.value)
+    return {
+      value: filteredRates[i],
+      itemStyle: {
+        color: isHighlighted ? '#ff4d4f' : '#5470c6'
+      }
+    }
+  })
+  
+  const existingChart = echarts.getInstanceByDom(utilizationChart.value)
+  if (existingChart) {
+      existingChart.dispose()
+      utilizationChartInstance.value = null
+  }
+  const chartInstance = echarts.init(utilizationChart.value, 'macarons')
+  utilizationChartInstance.value = chartInstance
+  
+  // 计算是否需要滚动条
+  const needScroll = filteredNames.length > 10
+  
+  chartInstance.setOption({
+    title: {
+      text: '各仓库/库区空间利用率',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: function(params) {
+        const index = params[0].dataIndex
+        const originalIndex = filteredIndices[index]
+        const name = names[originalIndex]
+        return name + '<br/>' +
+               '利用率: ' + params[0].value + '%<br/>' +
+               '已用金额: ' + params[1].value.toLocaleString() + ' 元'
+      }
+    },
+    legend: {
+      data: ['利用率(%)', '已用金额(元)'],
+      top: 30
+    },
+    dataZoom: needScroll ? [{
+      type: 'slider',
+      show: true,
+      xAxisIndex: [0],
+      start: 0,
+      end: Math.min(100, (10 / filteredNames.length) * 100),
+      bottom: 10
+    }] : [],
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: needScroll ? '15%' : '3%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: filteredNames,
+      axisLabel: {
+        show: false // 隐藏横坐标标签
+      },
+      axisTick: {
+        show: false
+      }
+    },
+    yAxis: [
+      {
+        type: 'value',
+        name: '利用率(%)',
+        position: 'left',
+        max: 100
+      },
+      {
+        type: 'value',
+        name: '金额(元)',
+        position: 'right'
+      }
+    ],
+    series: [
+      {
+        name: '利用率(%)',
+        type: 'bar',
+        data: barData,
+        label: {
+          show: false // 去掉柱状图顶部的标签
+        }
+      },
+      {
+        name: '已用金额(元)',
+        type: 'line',
+        yAxisIndex: 1,
+        data: filteredAmounts
+      }
+    ]
+  })
+  window.addEventListener('resize', () => chartInstance.resize())
+}
+
+/** 加载库位使用情况热力图数据 */
+function loadHeatmapData() {
+  getLocationHeatmap().then(response => {
+    heatmapData.value = response.data || {}
+    renderHeatmapChart()
+  })
+}
+
+/** 处理热力图筛选 */
+function handleHeatmapFilter() {
+  renderHeatmapChart()
+}
+
+/** 渲染热力图图表 */
+function renderHeatmapChart() {
+  if (!heatmapData.value) return
+  
+  const data = heatmapData.value
+  const locations = data.locations || []
+  const values = data.values || []
+  const warehouseIds = data.warehouseIds || []
+  const areaIds = data.areaIds || []
+  
+  // 根据筛选条件过滤数据
+  let filteredIndices = []
+  if (selectedHeatmapWarehouseId.value || selectedHeatmapAreaId.value) {
+    filteredIndices = locations.map((loc, index) => {
+      const warehouseId = warehouseIds[index]
+      const areaId = areaIds[index]
+      const matchWarehouse = !selectedHeatmapWarehouseId.value || warehouseId === selectedHeatmapWarehouseId.value
+      const matchArea = !selectedHeatmapAreaId.value || areaId === selectedHeatmapAreaId.value
+      return matchWarehouse && matchArea ? index : -1
+    }).filter(idx => idx !== -1)
+  } else {
+    filteredIndices = locations.map((_, index) => index)
+  }
+  
+  // 准备图表数据
+  const filteredLocations = filteredIndices.map(idx => locations[idx])
+  const filteredValues = filteredIndices.map(idx => Number(values[idx] || 0))
+  const filteredWarehouseIds = filteredIndices.map(idx => warehouseIds[idx])
+  const filteredAreaIds = filteredIndices.map(idx => areaIds[idx])
+  const maxValue = Math.max(...filteredValues, 1)
+  
+  // 构建热力图数据点 - 高亮选中的项
+  const barData = filteredIndices.map((idx, i) => {
+    const value = filteredValues[i]
+    const ratio = value / maxValue
+    const warehouseId = filteredWarehouseIds[i]
+    const areaId = filteredAreaIds[i]
+    const isHighlighted = (selectedHeatmapWarehouseId.value && warehouseId === selectedHeatmapWarehouseId.value) ||
+                          (selectedHeatmapAreaId.value && areaId === selectedHeatmapAreaId.value)
+    return {
+      value: value,
+      itemStyle: {
+        color: isHighlighted ? '#ff4d4f' : getHeatmapColor(ratio)
+      }
+    }
+  })
+  
+  const existingChart = echarts.getInstanceByDom(heatmapChart.value)
+  if (existingChart) {
+    existingChart.dispose()
+    heatmapChartInstance.value = null
+  }
+  const chartInstance = echarts.init(heatmapChart.value, 'macarons')
+  heatmapChartInstance.value = chartInstance
+  
+  // 计算是否需要滚动条
+  const needScroll = filteredLocations.length > 10
+  
+  chartInstance.setOption({
+    title: {
+      text: '库位使用情况热力图',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: { type: 'shadow' },
+      formatter: function(params) {
+        const index = params[0].dataIndex
+        const originalIndex = filteredIndices[index]
+        return locations[originalIndex] + '<br/>库存金额: ' + params[0].value.toLocaleString() + ' 元'
+      }
+    },
+    visualMap: {
+      min: 0,
+      max: maxValue,
+      calculable: true,
+      orient: 'horizontal',
+      left: 'center',
+      bottom: needScroll ? '15%' : '5%',
+      inRange: {
+        color: ['#50a3ba', '#eac736', '#d94e5d']
+      },
+      text: ['高', '低'],
+      textStyle: {
+        color: '#333'
+      }
+    },
+    dataZoom: needScroll ? [{
+      type: 'slider',
+      show: true,
+      xAxisIndex: [0],
+      start: 0,
+      end: Math.min(100, (10 / filteredLocations.length) * 100),
+      bottom: 10
+    }] : [],
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: needScroll ? '25%' : '15%',
+      containLabel: true
+    },
+    xAxis: {
+      type: 'category',
+      data: filteredLocations,
+      axisLabel: { 
+        rotate: 45,
+        formatter: function(value) {
+          return value.length > 12 ? value.substring(0, 12) + '...' : value
+        }
+      }
+    },
+    yAxis: {
+      type: 'value',
+      name: '库存金额(元)'
+    },
+    series: [{
+      name: '库位使用情况',
+      type: 'bar',
+      data: barData,
+      label: {
+        show: false // 去掉柱状图顶部的标签
+      }
+    }]
+  })
+  window.addEventListener('resize', () => chartInstance.resize())
+}
+
+/** 获取热力图颜色 */
+function getHeatmapColor(ratio) {
+  if (ratio < 0.3) return '#50a3ba'
+  if (ratio < 0.7) return '#eac736'
+  return '#d94e5d'
+}
+
+/** 加载出入库同比环比数据 */
+function loadYearOverYearData() {
+  getInOutYearOverYear(yearOverYearPeriod.value).then(response => {
+    const data = response.data || {}
+    const existingChart = echarts.getInstanceByDom(yearOverYearChart.value)
+    if (existingChart) {
+      existingChart.dispose()
+      yearOverYearChartInstance.value = null
+    }
+    const chartInstance = echarts.init(yearOverYearChart.value, 'macarons')
+    yearOverYearChartInstance.value = chartInstance
+    chartInstance.setOption({
+      title: {
+        text: '出入库金额同比环比分析',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: { type: 'cross' }
+      },
+      legend: {
+        data: ['本期入库', '上期入库', '本期出库', '上期出库', '入库增长率', '出库增长率'],
+        top: 30
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: data.dates || []
+      },
+      yAxis: [
+        {
+          type: 'value',
+          name: '金额(元)',
+          position: 'left'
+        },
+        {
+          type: 'value',
+          name: '增长率(%)',
+          position: 'right'
+        }
+      ],
+      series: [
+        {
+          name: '本期入库',
+          type: 'line',
+          data: (data.currentReceiptAmounts || []).map(v => Number(v)),
+          smooth: true
+        },
+        {
+          name: '上期入库',
+          type: 'line',
+          data: (data.lastReceiptAmounts || []).map(v => Number(v)),
+          smooth: true,
+          lineStyle: { type: 'dashed' }
+        },
+        {
+          name: '本期出库',
+          type: 'line',
+          data: (data.currentShipmentAmounts || []).map(v => Number(v)),
+          smooth: true
+        },
+        {
+          name: '上期出库',
+          type: 'line',
+          data: (data.lastShipmentAmounts || []).map(v => Number(v)),
+          smooth: true,
+          lineStyle: { type: 'dashed' }
+        },
+        {
+          name: '入库增长率',
+          type: 'line',
+          yAxisIndex: 1,
+          data: (data.receiptGrowthRates || []).map(v => Number(v)),
+          smooth: true
+        },
+        {
+          name: '出库增长率',
+          type: 'line',
+          yAxisIndex: 1,
+          data: (data.shipmentGrowthRates || []).map(v => Number(v)),
+          smooth: true
+        }
+      ]
+    })
+    window.addEventListener('resize', () => chartInstance.resize())
+  })
+}
+
+/** 加载库存金额变化趋势数据 */
+function loadAmountTrendData() {
+  getInventoryAmountTrend(amountTrendPeriod.value).then(response => {
+    const data = response.data || {}
+    const existingChart = echarts.getInstanceByDom(amountTrendChart.value)
+    if (existingChart) {
+      existingChart.dispose()
+      amountTrendChartInstance.value = null
+    }
+    const chartInstance = echarts.init(amountTrendChart.value, 'macarons')
+    amountTrendChartInstance.value = chartInstance
+    
+    // 计算累计金额
+    let cumulativeAmount = 0
+    const cumulativeAmounts = (data.amounts || []).map(v => {
+      cumulativeAmount += Number(v)
+      return cumulativeAmount
+    })
+    
+    chartInstance.setOption({
+      title: {
+        text: '库存金额变化趋势',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'axis',
+        formatter: function(params) {
+          return params[0].name + '<br/>' +
+                 '变化金额: ' + params[0].value.toLocaleString() + ' 元<br/>' +
+                 '累计金额: ' + params[1].value.toLocaleString() + ' 元'
+        }
+      },
+      legend: {
+        data: ['变化金额', '累计金额'],
+        top: 30
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: data.dates || []
+      },
+      yAxis: {
+        type: 'value',
+        name: '金额(元)'
+      },
+      series: [
+        {
+          name: '变化金额',
+          type: 'bar',
+          data: (data.amounts || []).map(v => Number(v))
+        },
+        {
+          name: '累计金额',
+          type: 'line',
+          data: cumulativeAmounts,
+          smooth: true
+        }
+      ]
+    })
+    window.addEventListener('resize', () => chartInstance.resize())
+  })
+}
+
 onMounted(() => {
+  // 初始化仓库和库区列表
+  const wmsStore = useWmsStore()
+  if (!wmsStore.warehouseList || wmsStore.warehouseList.length === 0) {
+    wmsStore.getWarehouseList()
+  }
+  if (!wmsStore.areaList || wmsStore.areaList.length === 0) {
+    wmsStore.getAreaList()
+  }
+  
   getWarningData()
   getExpirationData()
   // 延迟加载图表，确保DOM已渲染
@@ -862,7 +1468,25 @@ onMounted(() => {
     loadSlowProductsData()
     loadMerchantData()
     loadForecastData()
+    loadUtilizationData()
+    loadHeatmapData()
+    loadYearOverYearData()
+    loadAmountTrendData()
   })
+})
+
+// 当选择仓库时，清空库区选择
+watch(selectedWarehouseId, (newVal) => {
+  if (!newVal) {
+    selectedAreaId.value = null
+  }
+})
+
+// 当选择热力图仓库时，清空库区选择
+watch(selectedHeatmapWarehouseId, (newVal) => {
+  if (!newVal) {
+    selectedHeatmapAreaId.value = null
+  }
 })
 </script>
 

@@ -64,7 +64,7 @@ public class InventoryDetail extends BaseEntity implements PlaceAndItem {
     /**
      * 入库数量
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 批号
      */
@@ -88,6 +88,6 @@ public class InventoryDetail extends BaseEntity implements PlaceAndItem {
     /**
      * 剩余数量
      */
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 
 }

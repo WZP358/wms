@@ -52,7 +52,7 @@ public class InventoryBo extends BaseEntity implements PlaceAndItem {
      * 库存
      */
     @NotNull(message = "库存不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 备注

@@ -52,7 +52,7 @@ public class InventoryVo implements Serializable {
      * 库存
      */
     @ExcelProperty(value = "库存")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 备注

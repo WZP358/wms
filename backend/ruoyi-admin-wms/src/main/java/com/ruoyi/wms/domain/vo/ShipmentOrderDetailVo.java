@@ -49,7 +49,7 @@ public class ShipmentOrderDetailVo implements Serializable, PlaceAndItem {
      * 数量
      */
     @ExcelProperty(value = "数量")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 金额
@@ -101,7 +101,7 @@ public class ShipmentOrderDetailVo implements Serializable, PlaceAndItem {
 
     private ItemSkuVo itemSku;
 
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 
     /**
      * SN码列表

@@ -44,7 +44,7 @@ public class Inventory extends BaseEntity implements PlaceAndItem {
     /**
      * 库存
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 备注
      */

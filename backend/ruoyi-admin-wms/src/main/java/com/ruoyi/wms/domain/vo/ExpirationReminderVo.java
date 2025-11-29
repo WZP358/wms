@@ -92,7 +92,7 @@ public class ExpirationReminderVo implements Serializable {
     /**
      * 剩余数量
      */
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 
     /**
      * 距离过期的天数

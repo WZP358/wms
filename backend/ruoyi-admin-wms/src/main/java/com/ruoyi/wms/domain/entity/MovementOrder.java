@@ -55,7 +55,7 @@ public class MovementOrder extends BaseEntity {
     /**
      * 总数量
      */
-    private BigDecimal totalQuantity;
+    private Integer totalQuantity;
     /**
      * 备注
      */

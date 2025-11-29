@@ -49,7 +49,7 @@ public class MovementOrderDetailVo implements Serializable {
      * 数量
      */
     @ExcelProperty(value = "数量")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 备注
@@ -109,5 +109,5 @@ public class MovementOrderDetailVo implements Serializable {
 
     private InventoryDetailVo inventoryDetail;
 
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 }

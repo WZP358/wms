@@ -40,7 +40,7 @@ public class ShipmentOrderDetail extends BaseEntity {
     /**
      * 数量
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 金额
      */

@@ -87,7 +87,7 @@ public class InventoryHistoryVo implements Serializable {
      * 库存变化
      */
     @ExcelProperty(value = "库存变化")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 备注

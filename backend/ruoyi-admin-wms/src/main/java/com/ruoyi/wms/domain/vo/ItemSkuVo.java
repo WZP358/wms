@@ -96,7 +96,7 @@ public class ItemSkuVo implements Serializable {
      * 最低库存
      */
     @ExcelProperty(value = "最低库存")
-    private BigDecimal minStock;
+    private Integer minStock;
 
     private ItemVo item;
 

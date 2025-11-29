@@ -83,7 +83,7 @@ public class InventoryDetailBo extends BaseEntity implements PlaceAndItem {
      * 入库数量
      */
     @NotNull(message = "入库数量不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 批号
@@ -117,10 +117,10 @@ public class InventoryDetailBo extends BaseEntity implements PlaceAndItem {
      * 剩余数量
      */
     @NotNull(message = "剩余数量不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 
     /** 出库数量 */
-    private BigDecimal shipmentQuantity;
+    private Integer shipmentQuantity;
 
     private String itemName;
     private String itemCode;

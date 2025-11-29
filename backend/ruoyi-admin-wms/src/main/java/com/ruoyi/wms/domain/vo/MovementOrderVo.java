@@ -9,6 +9,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import io.github.linpeilie.annotations.AutoMapper;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ import java.util.List;
  * @date 2024-08-09
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @ExcelIgnoreUnannotated
 @AutoMapper(target = MovementOrder.class)
 public class MovementOrderVo extends BaseVo{
@@ -75,7 +77,7 @@ public class MovementOrderVo extends BaseVo{
      * 总数量
      */
     @ExcelProperty(value = "总数量")
-    private BigDecimal totalQuantity;
+    private Integer totalQuantity;
 
     /**
      * 备注

@@ -40,7 +40,7 @@ public class ReceiptOrderDetail extends BaseEntity {
     /**
      * 入库数量
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 金额
      */

@@ -51,7 +51,7 @@ public class ShipmentOrderDetailBo extends BaseEntity implements PlaceAndItem {
      * 数量
      */
     @NotNull(message = "数量不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 金额

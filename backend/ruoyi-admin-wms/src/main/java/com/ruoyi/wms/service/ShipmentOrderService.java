@@ -167,7 +167,7 @@ public class ShipmentOrderService {
             updateByBo(bo);
         }
         // 5.更新库存：Inventory表
-        mergedInventoryBoList.forEach(mergedInventoryBo -> mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity().negate()));
+        mergedInventoryBoList.forEach(mergedInventoryBo -> mergedInventoryBo.setQuantity(-mergedInventoryBo.getQuantity()));
         inventoryService.updateInventoryQuantity(mergedInventoryBoList);
         // 6.更新库存明细：InventoryHistory表
         inventoryDetailMapper.deductInventoryDetailQuantity(inventoryDetailBoList, LoginHelper.getUsername(), LocalDateTime.now());
@@ -186,7 +186,7 @@ public class ShipmentOrderService {
             String mergedKey = detail.getKey();
             if (mergedMap.containsKey(mergedKey)) {
                 InventoryBo mergedInventoryBo = mergedMap.get(mergedKey);
-                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity().add(detail.getQuantity()));
+                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity() + detail.getQuantity());
                 return;
             }
             InventoryBo mergedInventoryBo = new InventoryBo();
@@ -219,7 +219,7 @@ public class ShipmentOrderService {
             inventoryHistory.setOrderNo(bo.getShipmentOrderNo());
             inventoryHistory.setOrderType(ServiceConstants.InventoryHistoryOrderType.SHIPMENT);
             inventoryHistory.setSkuId(detail.getSkuId());
-            inventoryHistory.setQuantity(detail.getQuantity().negate());
+            inventoryHistory.setQuantity(-detail.getQuantity());
             inventoryHistory.setWarehouseId(detail.getWarehouseId());
             inventoryHistory.setAreaId(detail.getAreaId());
             inventoryHistory.setBatchNo(detail.getBatchNo());

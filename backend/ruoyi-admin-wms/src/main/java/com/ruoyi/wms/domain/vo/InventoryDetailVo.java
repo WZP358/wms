@@ -6,6 +6,7 @@ import com.ruoyi.common.mybatis.core.domain.BaseVo;
 import com.ruoyi.wms.domain.entity.InventoryDetail;
 import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
  * @date 2024-07-22
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @ExcelIgnoreUnannotated
 @AutoMapper(target = InventoryDetail.class)
 public class InventoryDetailVo extends BaseVo {
@@ -77,7 +79,7 @@ public class InventoryDetailVo extends BaseVo {
      * 入库数量
      */
     @ExcelProperty(value = "入库数量")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 批号
@@ -113,7 +115,7 @@ public class InventoryDetailVo extends BaseVo {
      * 剩余数量
      */
     @ExcelProperty(value = "剩余数量")
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 
     private ItemSkuVo itemSku;
 

@@ -37,5 +37,25 @@ public interface StatisticsMapper {
      * 获取库存需求预测
      */
     List<Map<String, Object>> getInventoryForecast(@Param("days") Integer days);
+
+    /**
+     * 获取各仓库/库区的空间利用率
+     */
+    List<Map<String, Object>> getWarehouseAreaUtilization();
+
+    /**
+     * 获取库位使用情况热力图数据
+     */
+    List<Map<String, Object>> getLocationHeatmap();
+
+    /**
+     * 获取出入库同比环比分析
+     */
+    List<Map<String, Object>> getInOutYearOverYear(@Param("period") String period);
+
+    /**
+     * 获取库存金额变化趋势
+     */
+    List<Map<String, Object>> getInventoryAmountTrend(@Param("period") String period);
 }
 

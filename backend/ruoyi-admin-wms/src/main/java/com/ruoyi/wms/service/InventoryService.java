@@ -111,7 +111,7 @@ public class InventoryService extends ServiceImpl<InventoryMapper, Inventory> {
             wrapper.eq(Inventory::getSkuId, inventoryBo.getSkuId());
             Inventory result = inventoryMapper.selectOne(wrapper);
             if(result!=null){
-                result.setQuantity(result.getQuantity().add(inventoryBo.getQuantity()));
+                result.setQuantity(result.getQuantity() + inventoryBo.getQuantity());
                 updateList.add(result);
             }else {
                 Inventory inventory = MapstructUtils.convert(inventoryBo, Inventory.class);

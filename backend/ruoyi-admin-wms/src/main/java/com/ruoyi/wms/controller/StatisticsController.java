@@ -68,5 +68,43 @@ public class StatisticsController extends BaseController {
     public R<Map<String, Object>> getInventoryForecast(@RequestParam(defaultValue = "30") Integer days) {
         return R.ok(statisticsService.getInventoryForecast(days));
     }
+
+    /**
+     * 获取各仓库/库区的空间利用率
+     */
+    @SaCheckPermission("wms:inventory:all")
+    @GetMapping("/warehouseAreaUtilization")
+    public R<Map<String, Object>> getWarehouseAreaUtilization() {
+        return R.ok(statisticsService.getWarehouseAreaUtilization());
+    }
+
+    /**
+     * 获取库位使用情况热力图
+     */
+    @SaCheckPermission("wms:inventory:all")
+    @GetMapping("/locationHeatmap")
+    public R<Map<String, Object>> getLocationHeatmap() {
+        return R.ok(statisticsService.getLocationHeatmap());
+    }
+
+    /**
+     * 获取出入库同比环比分析
+     * @param period 时间周期：day/month
+     */
+    @SaCheckPermission("wms:inventory:all")
+    @GetMapping("/inOutYearOverYear")
+    public R<Map<String, Object>> getInOutYearOverYear(@RequestParam(defaultValue = "month") String period) {
+        return R.ok(statisticsService.getInOutYearOverYear(period));
+    }
+
+    /**
+     * 获取库存金额变化趋势
+     * @param period 时间周期：day/week/month/year
+     */
+    @SaCheckPermission("wms:inventory:all")
+    @GetMapping("/inventoryAmountTrend")
+    public R<Map<String, Object>> getInventoryAmountTrend(@RequestParam(defaultValue = "month") String period) {
+        return R.ok(statisticsService.getInventoryAmountTrend(period));
+    }
 }
 

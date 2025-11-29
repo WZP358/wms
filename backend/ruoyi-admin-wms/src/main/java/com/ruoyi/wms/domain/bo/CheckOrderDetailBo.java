@@ -46,18 +46,18 @@ public class CheckOrderDetailBo extends BaseEntity {
      * 库存数量
      */
     @NotNull(message = "库存数量不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 盘点数量
      */
     @NotNull(message = "盘点数量不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal checkQuantity;
+    private Integer checkQuantity;
 
     /**
      * 盈亏数
      */
-    private BigDecimal profitAndLoss;
+    private Integer profitAndLoss;
 
     /**
      * 所属仓库

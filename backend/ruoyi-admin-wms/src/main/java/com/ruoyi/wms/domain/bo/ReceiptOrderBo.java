@@ -57,7 +57,7 @@ public class ReceiptOrderBo extends BaseEntity {
     /**
      * 商品总数
      */
-    private BigDecimal totalQuantity;
+    private Integer totalQuantity;
 
     /**
      * 订单金额

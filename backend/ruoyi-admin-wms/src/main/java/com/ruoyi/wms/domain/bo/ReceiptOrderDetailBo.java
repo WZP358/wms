@@ -52,7 +52,7 @@ public class ReceiptOrderDetailBo extends BaseEntity {
      * 入库数量
      */
     @NotNull(message = "入库数量不能为空", groups = { AddGroup.class, EditGroup.class })
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 金额

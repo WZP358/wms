@@ -42,3 +42,37 @@ export function getInventoryForecast(days) {
   })
 }
 
+// 获取各仓库/库区的空间利用率
+export function getWarehouseAreaUtilization() {
+  return request({
+    url: '/wms/statistics/warehouseAreaUtilization',
+    method: 'get'
+  })
+}
+
+// 获取库位使用情况热力图
+export function getLocationHeatmap() {
+  return request({
+    url: '/wms/statistics/locationHeatmap',
+    method: 'get'
+  })
+}
+
+// 获取出入库同比环比分析
+export function getInOutYearOverYear(period) {
+  return request({
+    url: '/wms/statistics/inOutYearOverYear',
+    method: 'get',
+    params: { period }
+  })
+}
+
+// 获取库存金额变化趋势
+export function getInventoryAmountTrend(period) {
+  return request({
+    url: '/wms/statistics/inventoryAmountTrend',
+    method: 'get',
+    params: { period }
+  })
+}
+

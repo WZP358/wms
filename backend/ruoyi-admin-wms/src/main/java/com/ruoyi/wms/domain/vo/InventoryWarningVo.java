@@ -71,16 +71,16 @@ public class InventoryWarningVo implements Serializable {
     /**
      * 当前库存
      */
-    private BigDecimal currentQuantity;
+    private Integer currentQuantity;
 
     /**
      * 最低库存
      */
-    private BigDecimal minStock;
+    private Integer minStock;
 
     /**
      * 库存差额（当前库存 - 最低库存）
      */
-    private BigDecimal stockDifference;
+    private Integer stockDifference;
 }
 

@@ -184,7 +184,7 @@ public class MovementOrderService {
         // 4.更新库存Inventory
         List<InventoryBo> mergedShipmentInventoryList = mergeShipmentDetailByPlaceAndItem(bo.getDetails());
         List<InventoryBo> mergedReceiptInventoryList = mergeReceiptDetailByPlaceAndItem(bo.getDetails());
-        mergedShipmentInventoryList.forEach(mergedShipmentInventory -> mergedShipmentInventory.setQuantity(mergedShipmentInventory.getQuantity().negate()));
+        mergedShipmentInventoryList.forEach(mergedShipmentInventory -> mergedShipmentInventory.setQuantity(-mergedShipmentInventory.getQuantity()));
         inventoryService.updateInventoryQuantity(mergedShipmentInventoryList);
         inventoryService.updateInventoryQuantity(mergedReceiptInventoryList);
 
@@ -212,7 +212,7 @@ public class MovementOrderService {
             String mergedShipmentKey = detail.getKey();
             if (mergedShipmentMap.containsKey(mergedShipmentKey)) {
                 InventoryBo mergedInventoryBo = mergedShipmentMap.get(mergedShipmentKey);
-                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity().add(detail.getQuantity()));
+                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity() + detail.getQuantity());
             } else {
                 InventoryBo mergedInventoryBo = new InventoryBo();
                 mergedInventoryBo.setWarehouseId(detail.getSourceWarehouseId());
@@ -236,7 +236,7 @@ public class MovementOrderService {
             String mergedReceiptKey = detail.getTargetWarehouseId() + "_" + detail.getTargetAreaId() + "_" + detail.getSkuId();
             if (mergedReceiptMap.containsKey(mergedReceiptKey)) {
                 InventoryBo mergedInventoryBo = mergedReceiptMap.get(mergedReceiptKey);
-                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity().add(detail.getQuantity()));
+                mergedInventoryBo.setQuantity(mergedInventoryBo.getQuantity() + detail.getQuantity());
             } else {
                 InventoryBo mergedInventoryBo = new InventoryBo();
                 mergedInventoryBo.setWarehouseId(detail.getTargetWarehouseId());
@@ -295,7 +295,7 @@ public class MovementOrderService {
             shipmentInventoryHistory.setWarehouseId(detail.getSourceWarehouseId());
             shipmentInventoryHistory.setAreaId(detail.getSourceAreaId());
             shipmentInventoryHistory.setSkuId(detail.getSkuId());
-            shipmentInventoryHistory.setQuantity(detail.getQuantity().negate());
+            shipmentInventoryHistory.setQuantity(-detail.getQuantity());
             shipmentInventoryHistory.setBatchNo(detail.getBatchNo());
             shipmentInventoryHistory.setProductionDate(detail.getProductionDate());
             shipmentInventoryHistory.setExpirationDate(detail.getExpirationDate());

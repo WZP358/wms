@@ -9,6 +9,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 import com.ruoyi.common.excel.annotation.ExcelDictFormat;
 import com.ruoyi.common.excel.convert.ExcelDictConvert;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import io.github.linpeilie.annotations.AutoMapper;
 
 import java.io.Serializable;
@@ -22,6 +23,7 @@ import java.util.List;
  * @date 2024-08-13
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @ExcelIgnoreUnannotated
 @AutoMapper(target = CheckOrder.class)
 public class CheckOrderVo extends BaseVo {

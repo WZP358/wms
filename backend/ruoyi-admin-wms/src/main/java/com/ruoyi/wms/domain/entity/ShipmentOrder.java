@@ -51,7 +51,7 @@ public class ShipmentOrder extends BaseEntity {
     /**
      * 出库数量
      */
-    private BigDecimal totalQuantity;
+    private Integer totalQuantity;
     /**
      * 出库单状态
      */

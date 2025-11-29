@@ -126,14 +126,14 @@ public class InventoryDetailService extends ServiceImpl<InventoryDetailMapper, I
         if (CollUtil.isEmpty(inventoryDetailList)) {
             throw new BaseException("库存不足");
         }
-        Map<Long, BigDecimal> remainQuantityMap = inventoryDetailList
+        Map<Long, Integer> remainQuantityMap = inventoryDetailList
             .stream()
             .collect(Collectors.toMap(InventoryDetail::getId, InventoryDetail::getRemainQuantity));
         boolean validResult = inventoryDetailBoList
             .stream()
             .anyMatch(inventoryDetailBo ->
                 !remainQuantityMap.containsKey(inventoryDetailBo.getId())
-                    || remainQuantityMap.get(inventoryDetailBo.getId()).compareTo(inventoryDetailBo.getShipmentQuantity()) < 0
+                    || remainQuantityMap.get(inventoryDetailBo.getId()) < inventoryDetailBo.getShipmentQuantity()
             );
         if (validResult) {
             throw new BaseException("库存不足");

@@ -82,5 +82,5 @@ public class ItemSku extends BaseEntity {
     /**
      * 最低库存
      */
-    private BigDecimal minStock;
+    private Integer minStock;
 }

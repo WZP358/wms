@@ -14,7 +14,6 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.domain.BaseEntity;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
-import com.ruoyi.system.service.SysDictTypeService;
 import com.ruoyi.wms.domain.bo.InventoryBo;
 import com.ruoyi.wms.domain.bo.ReceiptOrderBo;
 import com.ruoyi.wms.domain.bo.ReceiptOrderDetailBo;
@@ -49,7 +48,6 @@ public class ReceiptOrderService {
     private final InventoryService inventoryService;
     private final InventoryDetailService inventoryDetailService;
     private final InventoryHistoryService inventoryHistoryService;
-    private final SysDictTypeService dictTypeService;
 
     /**
      * 查询入库单
@@ -193,7 +191,7 @@ public class ReceiptOrderService {
             String key = keyFunction.apply(orderDetailBo);
             if (inventoryMap.containsKey(key)) {
                 InventoryBo mergedItem = inventoryMap.get(key);
-                mergedItem.setQuantity(mergedItem.getQuantity().add(orderDetailBo.getQuantity()));
+                mergedItem.setQuantity(mergedItem.getQuantity() + orderDetailBo.getQuantity());
             } else {
                 InventoryBo inventory = new InventoryBo();
                 inventory.setSkuId(orderDetailBo.getSkuId());

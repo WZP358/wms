@@ -40,7 +40,7 @@ public class MovementOrderDetail extends BaseEntity {
     /**
      * 数量
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 备注
      */

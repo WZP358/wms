@@ -40,11 +40,11 @@ public class CheckOrderDetail extends BaseEntity {
     /**
      * 库存数量
      */
-    private BigDecimal quantity;
+    private Integer quantity;
     /**
      * 盘点数量
      */
-    private BigDecimal checkQuantity;
+    private Integer checkQuantity;
     /**
      * 入库时间
      */

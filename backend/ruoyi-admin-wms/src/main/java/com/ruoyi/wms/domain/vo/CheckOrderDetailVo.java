@@ -49,13 +49,13 @@ public class CheckOrderDetailVo implements Serializable {
      * 库存数量
      */
     @ExcelProperty(value = "库存数量")
-    private BigDecimal quantity;
+    private Integer quantity;
 
     /**
      * 盘点数量
      */
     @ExcelProperty(value = "盘点数量")
-    private BigDecimal checkQuantity;
+    private Integer checkQuantity;
 
     /**
      * 所属仓库
@@ -107,7 +107,7 @@ public class CheckOrderDetailVo implements Serializable {
 
     private ItemSkuVo itemSku;
 
-    private BigDecimal remainQuantity;
+    private Integer remainQuantity;
 
     /**
      * SN码列表

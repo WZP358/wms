@@ -186,5 +186,168 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LIMIT 20
     </select>
 
+    <!-- 各仓库/库区的空间利用率 -->
+    <select id="getWarehouseAreaUtilization" resultType="java.util.HashMap">
+        SELECT 
+            CONCAT(COALESCE(w.warehouse_name, ''), '-', COALESCE(a.area_name, '')) as name,
+            COALESCE(SUM(inv.quantity * COALESCE(sku.cost_price, 0)), 0) as usedAmount,
+            COALESCE(MAX(w.warehouse_name), '') as warehouseName,
+            COALESCE(MAX(a.area_name), '') as areaName,
+            inv.warehouse_id as warehouseId,
+            inv.area_id as areaId
+        FROM wms_inventory inv
+        INNER JOIN wms_item_sku sku ON inv.sku_id = sku.id
+        LEFT JOIN wms_warehouse w ON inv.warehouse_id = w.id
+        LEFT JOIN wms_area a ON inv.area_id = a.id
+        WHERE inv.quantity > 0
+        GROUP BY inv.warehouse_id, inv.area_id, w.warehouse_name, a.area_name
+        ORDER BY usedAmount DESC
+    </select>
+
+    <!-- 库位使用情况热力图数据 -->
+    <select id="getLocationHeatmap" resultType="java.util.HashMap">
+        SELECT 
+            CONCAT(COALESCE(w.warehouse_code, ''), '-', COALESCE(a.area_code, '')) as location,
+            COALESCE(SUM(inv.quantity * COALESCE(sku.cost_price, 0)), 0) as amount,
+            COUNT(DISTINCT inv.sku_id) as skuCount,
+            inv.warehouse_id as warehouseId,
+            inv.area_id as areaId,
+            COALESCE(MAX(w.warehouse_name), '') as warehouseName,
+            COALESCE(MAX(a.area_name), '') as areaName
+        FROM wms_inventory inv
+        INNER JOIN wms_item_sku sku ON inv.sku_id = sku.id
+        LEFT JOIN wms_warehouse w ON inv.warehouse_id = w.id
+        LEFT JOIN wms_area a ON inv.area_id = a.id
+        WHERE inv.quantity > 0
+        GROUP BY inv.warehouse_id, inv.area_id, w.warehouse_code, a.area_code
+        ORDER BY amount DESC
+        LIMIT 50
+    </select>
+
+    <!-- 出入库同比环比分析 -->
+    <select id="getInOutYearOverYear" resultType="java.util.HashMap">
+        <choose>
+            <when test="period == 'month'">
+                SELECT 
+                    DATE_FORMAT(current_data.create_time, '%Y-%m') as date,
+                    COALESCE(SUM(CASE WHEN current_data.type = 'receipt' THEN current_data.amount ELSE 0 END), 0) as currentReceiptAmount,
+                    COALESCE(SUM(CASE WHEN last_data.type = 'receipt' THEN last_data.amount ELSE 0 END), 0) as lastReceiptAmount,
+                    COALESCE(SUM(CASE WHEN current_data.type = 'shipment' THEN current_data.amount ELSE 0 END), 0) as currentShipmentAmount,
+                    COALESCE(SUM(CASE WHEN last_data.type = 'shipment' THEN last_data.amount ELSE 0 END), 0) as lastShipmentAmount
+                FROM (
+                    SELECT ro.create_time, 'receipt' as type, rod.amount
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                    UNION ALL
+                    SELECT so.create_time, 'shipment' as type, sod.amount
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                ) current_data
+                LEFT JOIN (
+                    SELECT DATE_ADD(ro.create_time, INTERVAL 1 YEAR) as create_time, 'receipt' as type, rod.amount
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 24 MONTH)
+                      AND ro.create_time &lt; DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                    UNION ALL
+                    SELECT DATE_ADD(so.create_time, INTERVAL 1 YEAR) as create_time, 'shipment' as type, sod.amount
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 24 MONTH)
+                      AND so.create_time &lt; DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                ) last_data ON DATE_FORMAT(current_data.create_time, '%Y-%m') = DATE_FORMAT(last_data.create_time, '%Y-%m')
+                  AND current_data.type = last_data.type
+                GROUP BY DATE_FORMAT(current_data.create_time, '%Y-%m')
+                ORDER BY date
+            </when>
+            <otherwise>
+                SELECT 
+                    DATE_FORMAT(current_data.create_time, '%Y-%m-%d') as date,
+                    COALESCE(SUM(CASE WHEN current_data.type = 'receipt' THEN current_data.amount ELSE 0 END), 0) as currentReceiptAmount,
+                    COALESCE(SUM(CASE WHEN last_data.type = 'receipt' THEN last_data.amount ELSE 0 END), 0) as lastReceiptAmount,
+                    COALESCE(SUM(CASE WHEN current_data.type = 'shipment' THEN current_data.amount ELSE 0 END), 0) as currentShipmentAmount,
+                    COALESCE(SUM(CASE WHEN last_data.type = 'shipment' THEN last_data.amount ELSE 0 END), 0) as lastShipmentAmount
+                FROM (
+                    SELECT ro.create_time, 'receipt' as type, rod.amount
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                    UNION ALL
+                    SELECT so.create_time, 'shipment' as type, sod.amount
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                ) current_data
+                LEFT JOIN (
+                    SELECT DATE_ADD(ro.create_time, INTERVAL 7 DAY) as create_time, 'receipt' as type, rod.amount
+                    FROM wms_receipt_order ro
+                    INNER JOIN wms_receipt_order_detail rod ON ro.id = rod.receipt_order_id
+                    WHERE ro.receipt_order_status = 1
+                      AND ro.create_time >= DATE_SUB(NOW(), INTERVAL 37 DAY)
+                      AND ro.create_time &lt; DATE_SUB(NOW(), INTERVAL 7 DAY)
+                    UNION ALL
+                    SELECT DATE_ADD(so.create_time, INTERVAL 7 DAY) as create_time, 'shipment' as type, sod.amount
+                    FROM wms_shipment_order so
+                    INNER JOIN wms_shipment_order_detail sod ON so.id = sod.shipment_order_id
+                    WHERE so.shipment_order_status = 1
+                      AND so.create_time >= DATE_SUB(NOW(), INTERVAL 37 DAY)
+                      AND so.create_time &lt; DATE_SUB(NOW(), INTERVAL 7 DAY)
+                ) last_data ON DATE_FORMAT(current_data.create_time, '%Y-%m-%d') = DATE_FORMAT(last_data.create_time, '%Y-%m-%d')
+                  AND current_data.type = last_data.type
+                GROUP BY DATE_FORMAT(current_data.create_time, '%Y-%m-%d')
+                ORDER BY date
+            </otherwise>
+        </choose>
+    </select>
+
+    <!-- 库存金额变化趋势 -->
+    <select id="getInventoryAmountTrend" resultType="java.util.HashMap">
+        <choose>
+            <when test="period == 'day'">
+                SELECT 
+                    DATE_FORMAT(id.create_time, '%Y-%m-%d') as date,
+                    COALESCE(SUM(CASE WHEN id.type = 1 THEN id.amount ELSE -id.amount END), 0) as amount
+                FROM wms_inventory_detail id
+                WHERE id.create_time >= DATE_SUB(NOW(), INTERVAL 30 DAY)
+                GROUP BY DATE_FORMAT(id.create_time, '%Y-%m-%d')
+                ORDER BY date
+            </when>
+            <when test="period == 'week'">
+                SELECT 
+                    DATE_FORMAT(id.create_time, '%Y-%u周') as date,
+                    COALESCE(SUM(CASE WHEN id.type = 1 THEN id.amount ELSE -id.amount END), 0) as amount
+                FROM wms_inventory_detail id
+                WHERE id.create_time >= DATE_SUB(NOW(), INTERVAL 12 WEEK)
+                GROUP BY DATE_FORMAT(id.create_time, '%Y-%u周')
+                ORDER BY DATE_FORMAT(id.create_time, '%Y-%u周')
+            </when>
+            <when test="period == 'month'">
+                SELECT 
+                    DATE_FORMAT(id.create_time, '%Y-%m') as date,
+                    COALESCE(SUM(CASE WHEN id.type = 1 THEN id.amount ELSE -id.amount END), 0) as amount
+                FROM wms_inventory_detail id
+                WHERE id.create_time >= DATE_SUB(NOW(), INTERVAL 12 MONTH)
+                GROUP BY DATE_FORMAT(id.create_time, '%Y-%m')
+                ORDER BY date
+            </when>
+            <otherwise>
+                SELECT 
+                    DATE_FORMAT(id.create_time, '%Y') as date,
+                    COALESCE(SUM(CASE WHEN id.type = 1 THEN id.amount ELSE -id.amount END), 0) as amount
+                FROM wms_inventory_detail id
+                GROUP BY DATE_FORMAT(id.create_time, '%Y')
+                ORDER BY date
+            </otherwise>
+        </choose>
+    </select>
+
 </mapper>
 
