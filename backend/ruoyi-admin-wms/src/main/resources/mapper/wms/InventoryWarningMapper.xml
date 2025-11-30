@@ -65,6 +65,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where sku.min_stock is not null 
           and sku.min_stock > 0 
           and inv.quantity &lt; sku.min_stock
+          <if test="itemName != null and itemName != ''">
+              and item.item_name like concat('%', #{itemName}, '%')
+          </if>
+          <if test="itemCode != null and itemCode != ''">
+              and item.item_code like concat('%', #{itemCode}, '%')
+          </if>
         order by stock_difference asc, item.item_name, sku.sku_name
     </select>
 
@@ -131,8 +137,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join wms_area area on detail.area_id = area.id
         where detail.remain_quantity > 0
           and detail.expiration_date is not null
-          and detail.expiration_date >= CURDATE()
           and DATEDIFF(detail.expiration_date, CURDATE()) &lt;= #{daysBeforeExpire}
+          <if test="itemName != null and itemName != ''">
+              and item.item_name like concat('%', #{itemName}, '%')
+          </if>
+          <if test="itemCode != null and itemCode != ''">
+              and item.item_code like concat('%', #{itemCode}, '%')
+          </if>
         order by detail.expiration_date asc, item.item_name, sku.sku_name
     </select>
 
@@ -162,7 +173,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         left join wms_area area on detail.area_id = area.id
         where detail.remain_quantity > 0
           and detail.expiration_date is not null
-          and detail.expiration_date >= CURDATE()
           and DATEDIFF(detail.expiration_date, CURDATE()) &lt;= #{daysBeforeExpire}
         order by detail.expiration_date asc, item.item_name, sku.sku_name
     </select>
@@ -173,7 +183,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from wms_inventory_detail detail
         where detail.remain_quantity > 0
           and detail.expiration_date is not null
-          and detail.expiration_date >= CURDATE()
           and DATEDIFF(detail.expiration_date, CURDATE()) &lt;= #{daysBeforeExpire}
     </select>
 

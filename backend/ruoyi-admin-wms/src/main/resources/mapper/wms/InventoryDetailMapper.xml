@@ -41,9 +41,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from wms_inventory_detail detail
         inner join wms_item_sku sku on detail.sku_id=sku.id
         inner join wms_item     item on sku.item_id=item.id
+        left join wms_warehouse warehouse on detail.warehouse_id=warehouse.id
+        left join wms_area area on detail.area_id=area.id
         <where>
+            and detail.remain_quantity > 0
             <if test="bo.batchNo != null and bo.batchNo != ''">
-                detail.batch_no like concat('%', #{bo.batchNo}, '%')
+                and detail.batch_no like concat('%', #{bo.batchNo}, '%')
             </if>
             <if test="bo.itemName != null and bo.itemName != ''">
                 and item.item_name like concat('%', #{bo.itemName}, '%')
@@ -63,11 +66,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="bo.warehouseId != null">
                 and detail.warehouse_id=#{bo.warehouseId}
             </if>
+            <if test="bo.warehouseName != null and bo.warehouseName != ''">
+                and warehouse.warehouse_name = #{bo.warehouseName}
+            </if>
             <if test="bo.areaId != null">
                 and detail.area_id=#{bo.areaId}
             </if>
-            <if test="bo.batchNo != null and bo.batchNo != ''">
-                and detail.batch_no=#{bo.batchNo}
+            <if test="bo.areaName != null and bo.areaName != ''">
+                and area.area_name = #{bo.areaName}
             </if>
             <if test="bo.createStartTime != null and bo.createEndTime != null">
                 and (detail.create_time between #{bo.createStartTime} and #{bo.createEndTime})
@@ -92,9 +98,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="bo.areaId != null">
                 and detail.area_id=#{bo.areaId}
-            </if>
-            <if test="bo.batchNo != null and bo.batchNo != ''">
-                and detail.batch_no=#{bo.batchNo}
             </if>
         </where>
         order by sku.item_id,sku.id,detail.create_time desc

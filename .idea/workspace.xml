@@ -5,15 +5,21 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="打印仓库/库区的商品数据（excel）">
-      <change afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryDetailExportVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryDetailController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryWarningController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryWarningController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryDetailBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryDetailBo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/AreaMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/AreaMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/InventoryWarningMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/InventoryWarningMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/wms/inventoryDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/wms/inventoryDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryWarningService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryWarningService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/impl/InventoryWarningServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/impl/InventoryWarningServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/InventoryDetailMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/InventoryDetailMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/InventoryWarningMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/InventoryWarningMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-sensitive/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-common/ruoyi-common-sensitive/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/script/sql/wms.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/script/sql/wms.sql" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/inventory/detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/inventory/detail.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/order/shipment/edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/order/shipment/edit.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/warning/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/warning/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/sys-console.2025-11-28.log" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
@@ -134,6 +140,9 @@
       <workItem from="1764388681076" duration="16245000" />
       <workItem from="1764424062971" duration="34000" />
       <workItem from="1764424111806" duration="2772000" />
+      <workItem from="1764482518223" duration="713000" />
+      <workItem from="1764483253118" duration="901000" />
+      <workItem from="1764484791027" duration="4310000" />
     </task>
     <task id="LOCAL-00001" summary="增加“库存预警与到期提醒”功能">
       <option name="closed" value="true" />
@@ -295,7 +304,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764406481801</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="打印仓库/库区的商品数据（excel）">
+      <option name="closed" value="true" />
+      <created>1764482604424</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1764482604424</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

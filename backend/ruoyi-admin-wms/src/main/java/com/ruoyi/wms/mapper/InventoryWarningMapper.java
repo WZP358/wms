@@ -19,9 +19,11 @@ public interface InventoryWarningMapper {
      * 查询库存预警列表（分页）
      *
      * @param page 分页对象
+     * @param itemName 商品名称
+     * @param itemCode 商品编号
      * @return 库存预警列表
      */
-    Page<InventoryWarningVo> selectInventoryWarningPage(Page<InventoryWarningVo> page);
+    Page<InventoryWarningVo> selectInventoryWarningPage(Page<InventoryWarningVo> page, @Param("itemName") String itemName, @Param("itemCode") String itemCode);
 
     /**
      * 查询库存预警列表
@@ -42,9 +44,11 @@ public interface InventoryWarningMapper {
      *
      * @param page 分页对象
      * @param daysBeforeExpire 提前多少天提醒
+     * @param itemName 商品名称
+     * @param itemCode 商品编号
      * @return 到期提醒列表
      */
-    Page<ExpirationReminderVo> selectExpirationReminderPage(Page<ExpirationReminderVo> page, @Param("daysBeforeExpire") Integer daysBeforeExpire);
+    Page<ExpirationReminderVo> selectExpirationReminderPage(Page<ExpirationReminderVo> page, @Param("daysBeforeExpire") Integer daysBeforeExpire, @Param("itemName") String itemName, @Param("itemCode") String itemCode);
 
     /**
      * 查询到期提醒列表

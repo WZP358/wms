@@ -18,17 +18,19 @@ public interface InventoryWarningService {
     /**
      * 查询库存预警列表
      *
+     * @param itemName 商品名称
+     * @param itemCode 商品编号
      * @param pageQuery 分页查询参数
      * @return 库存预警列表
      */
-    TableDataInfo<InventoryWarningVo> queryInventoryWarningList(PageQuery pageQuery);
+    TableDataInfo<InventoryWarningVo> queryInventoryWarningList(String itemName, String itemCode, PageQuery pageQuery);
 
     /**
      * 查询库存预警列表（不分页）
      *
      * @return 库存预警列表
      */
-    List<InventoryWarningVo> queryInventoryWarningList();
+    List<InventoryWarningVo> queryInventoryWarningListAll();
 
     /**
      * 获取库存预警数量
@@ -41,10 +43,12 @@ public interface InventoryWarningService {
      * 查询到期提醒列表
      *
      * @param daysBeforeExpire 提前多少天提醒（默认30天）
+     * @param itemName 商品名称
+     * @param itemCode 商品编号
      * @param pageQuery 分页查询参数
      * @return 到期提醒列表
      */
-    TableDataInfo<ExpirationReminderVo> queryExpirationReminderList(Integer daysBeforeExpire, PageQuery pageQuery);
+    TableDataInfo<ExpirationReminderVo> queryExpirationReminderList(Integer daysBeforeExpire, String itemName, String itemCode, PageQuery pageQuery);
 
     /**
      * 查询到期提醒列表（不分页）

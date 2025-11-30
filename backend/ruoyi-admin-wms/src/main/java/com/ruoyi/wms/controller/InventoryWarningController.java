@@ -31,8 +31,11 @@ public class InventoryWarningController extends BaseController {
      */
     @SaCheckPermission("wms:inventory:all")
     @GetMapping("/warning/list")
-    public TableDataInfo<InventoryWarningVo> queryInventoryWarningList(PageQuery pageQuery) {
-        return inventoryWarningService.queryInventoryWarningList(pageQuery);
+    public TableDataInfo<InventoryWarningVo> queryInventoryWarningList(
+            @RequestParam(required = false) String itemName,
+            @RequestParam(required = false) String itemCode,
+            PageQuery pageQuery) {
+        return inventoryWarningService.queryInventoryWarningList(itemName, itemCode, pageQuery);
     }
 
     /**
@@ -41,7 +44,7 @@ public class InventoryWarningController extends BaseController {
     @SaCheckPermission("wms:inventory:all")
     @GetMapping("/warning/listAll")
     public R<List<InventoryWarningVo>> queryInventoryWarningListAll() {
-        List<InventoryWarningVo> list = inventoryWarningService.queryInventoryWarningList();
+        List<InventoryWarningVo> list = inventoryWarningService.queryInventoryWarningListAll();
         return R.ok(list);
     }
 
@@ -59,13 +62,17 @@ public class InventoryWarningController extends BaseController {
      * 查询到期提醒列表
      *
      * @param daysBeforeExpire 提前多少天提醒（默认30天）
+     * @param itemName 商品名称
+     * @param itemCode 商品编号
      */
     @SaCheckPermission("wms:inventory:all")
     @GetMapping("/expiration/list")
     public TableDataInfo<ExpirationReminderVo> queryExpirationReminderList(
             @RequestParam(required = false, defaultValue = "30") Integer daysBeforeExpire,
+            @RequestParam(required = false) String itemName,
+            @RequestParam(required = false) String itemCode,
             PageQuery pageQuery) {
-        return inventoryWarningService.queryExpirationReminderList(daysBeforeExpire, pageQuery);
+        return inventoryWarningService.queryExpirationReminderList(daysBeforeExpire, itemName, itemCode, pageQuery);
     }
 
     /**

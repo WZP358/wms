@@ -93,15 +93,19 @@
             </el-table-column>
             <el-table-column label="过期时间" prop="expirationDate" width="120">
               <template #default="{ row }">
-                <span :style="{ color: row.daysToExpire <= 7 ? 'red' : row.daysToExpire <= 30 ? 'orange' : '' }">
+                <span :style="{ color: row.daysToExpire < 0 ? 'red' : row.daysToExpire <= 7 ? 'red' : row.daysToExpire <= 30 ? 'orange' : '' }">
                   {{ formatDate(row.expirationDate) }}
+                  <el-tag v-if="row.daysToExpire < 0" type="danger" size="small" style="margin-left: 5px">已过期</el-tag>
                 </span>
               </template>
             </el-table-column>
             <el-table-column label="剩余数量" prop="remainQuantity" width="100" align="right" />
-            <el-table-column label="距离过期" prop="daysToExpire" width="100" align="right">
+            <el-table-column label="距离过期" prop="daysToExpire" width="120" align="right">
               <template #default="{ row }">
-                <span :style="{ color: row.daysToExpire <= 7 ? 'red' : row.daysToExpire <= 30 ? 'orange' : '' }">
+                <span v-if="row.daysToExpire < 0" style="color: red; font-weight: bold">
+                  已过期 {{ Math.abs(row.daysToExpire) }}天
+                </span>
+                <span v-else :style="{ color: row.daysToExpire <= 7 ? 'red' : row.daysToExpire <= 30 ? 'orange' : '' }">
                   {{ row.daysToExpire }}天
                 </span>
               </template>

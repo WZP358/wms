@@ -16,6 +16,7 @@ import com.ruoyi.wms.domain.vo.WarehouseVo;
 import com.ruoyi.wms.domain.vo.AreaVo;
 import com.ruoyi.wms.domain.vo.InventoryDetailExportVo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
  * @author zcc
  * @date 2024-07-22
  */
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class InventoryDetailService extends ServiceImpl<InventoryDetailMapper, InventoryDetail> {
@@ -73,7 +75,20 @@ public class InventoryDetailService extends ServiceImpl<InventoryDetailMapper, I
             LocalDateTime expirationEndTime = expirationStartTime.plusDays(bo.getDaysToExpires());
             bo.setExpirationEndTime(expirationEndTime);
         }
+        // 调试日志
+        log.info("查询库存明细 - warehouseId: {}, areaId: {}, remainQuantity过滤: true", 
+            bo.getWarehouseId(), bo.getAreaId());
+        log.info("查询参数详情 - itemName: {}, itemCode: {}, skuName: {}, skuCode: {}, batchNo: {}", 
+            bo.getItemName(), bo.getItemCode(), bo.getSkuName(), bo.getSkuCode(), bo.getBatchNo());
         Page<InventoryDetailVo> result = inventoryDetailMapper.selectPageByBo(pageQuery.build(), bo);
+        log.info("查询结果数量: {}, 当前页数据量: {}", result.getTotal(), result.getRecords().size());
+        if (result.getRecords().size() > 0) {
+            log.info("第一条数据 - id: {}, warehouseId: {}, areaId: {}, remainQuantity: {}", 
+                result.getRecords().get(0).getId(), 
+                result.getRecords().get(0).getWarehouseId(),
+                result.getRecords().get(0).getAreaId(),
+                result.getRecords().get(0).getRemainQuantity());
+        }
         return TableDataInfo.build(result);
     }
 

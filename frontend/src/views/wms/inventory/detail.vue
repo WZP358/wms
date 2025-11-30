@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item label="库区" prop="areaId" class="col4">
           <el-select v-model="queryParams.areaId" placeholder="请选择库区" :disabled="!queryParams.warehouseId || queryParams.type == 1" clearable
-                     filterable style="width:100%;">
+                     filterable style="width:100%;" @change="handleChangeArea">
             <el-option v-for="item in useWmsStore().areaList.filter(it => it.warehouseId === queryParams.warehouseId)"
                        :key="item.id" :label="item.areaName" :value="item.id"/>
           </el-select>
@@ -131,9 +131,9 @@
           <div>{{ parseTime(row.createTime, '{y}-{m}-{d} {h}:{i}') }}</div>
         </template>
       </el-table-column>
-      <el-table-column label="库存" prop="quantity" align="right">
+      <el-table-column label="库存" prop="remainQuantity" align="right">
         <template #default="{ row }">
-          <el-statistic :value="Number(row.quantity)" :precision="0"/>
+          <el-statistic :value="Number(row.remainQuantity)" :precision="0"/>
         </template>
       </el-table-column>
       <el-table-column label="批号" align="left" prop="batchNo"/>
@@ -181,6 +181,8 @@ const queryParams = ref({
   skuCode: '',
   areaId: undefined,
   warehouseId: undefined,
+  warehouseName: undefined,
+  areaName: undefined,
   batchNo: '',
   daysToExpires: undefined
 });
@@ -188,6 +190,24 @@ const total = ref(0);
 
 const handleChangeWarehouse = () => {
   queryParams.value.areaId = undefined
+  queryParams.value.areaName = undefined
+  // 根据选中的仓库ID获取仓库名称
+  if (queryParams.value.warehouseId) {
+    const warehouse = useWmsStore().warehouseList.find(w => w.id === queryParams.value.warehouseId)
+    queryParams.value.warehouseName = warehouse ? warehouse.warehouseName : undefined
+  } else {
+    queryParams.value.warehouseName = undefined
+  }
+}
+
+const handleChangeArea = () => {
+  // 根据选中的库区ID获取库区名称
+  if (queryParams.value.areaId) {
+    const area = useWmsStore().areaList.find(a => a.id === queryParams.value.areaId)
+    queryParams.value.areaName = area ? area.areaName : undefined
+  } else {
+    queryParams.value.areaName = undefined
+  }
 }
 
 onMounted(() => {
@@ -210,6 +230,7 @@ function resetQuery() {
 const handleSortTypeChange = (e) => {
   if (e === "warehouse") {
     queryParams.value.areaId = undefined
+    queryParams.value.areaName = undefined
     rowSpanArray.value = ['warehouseId', 'areaId', 'areaIdAndItemId', 'areaIdAndSkuId']
   } else if (e === "item") {
     rowSpanArray.value = ['itemId', 'skuId','skuIdAndWarehouseId','skuIdAndAreaId']
@@ -224,8 +245,32 @@ const getList = () => {
     query.createStartTime = query.createTimeRange[0]
     query.createEndTime = query.createTimeRange[1]
   }
+  // 清理 undefined 和空字符串值，但保留数字 0
+  Object.keys(query).forEach(key => {
+    const value = query[key]
+    if (value === undefined || value === null || (typeof value === 'string' && value === '')) {
+      delete query[key]
+    }
+  })
+  // 删除 createTimeRange，因为已经转换为 createStartTime 和 createEndTime
+  delete query.createTimeRange
+  // 如果使用名称查询，则清除ID（避免冲突）
+  if (query.warehouseName) {
+    delete query.warehouseId
+  }
+  if (query.areaName) {
+    delete query.areaId
+  }
+  // 调试：打印查询参数
+  console.log('查询参数:', JSON.stringify(query, null, 2))
   loading.value = true
   listInventoryDetail(query).then((res) => {
+    console.log('查询结果:', res)
+    console.log('返回数据行数:', res.rows?.length || 0)
+    console.log('总记录数:', res.total || 0)
+    if (res.rows && res.rows.length > 0) {
+      console.log('第一条数据:', res.rows[0])
+    }
     inventoryDetailList.value = res.rows;
     total.value = res.total;
     inventoryDetailList.value.forEach(it => {
@@ -238,6 +283,8 @@ const getList = () => {
         it.skuIdAndAreaId= it.itemSku.id + '-' + it.areaId
       }
     })
+  }).catch(err => {
+    console.error('查询失败:', err)
   }).finally(() => loading.value = false);
 }
 

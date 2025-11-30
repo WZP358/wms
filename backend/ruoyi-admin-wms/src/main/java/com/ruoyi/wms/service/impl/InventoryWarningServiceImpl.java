@@ -28,8 +28,8 @@ public class InventoryWarningServiceImpl implements InventoryWarningService {
      * 查询库存预警列表
      */
     @Override
-    public TableDataInfo<InventoryWarningVo> queryInventoryWarningList(PageQuery pageQuery) {
-        Page<InventoryWarningVo> page = inventoryWarningMapper.selectInventoryWarningPage(pageQuery.build());
+    public TableDataInfo<InventoryWarningVo> queryInventoryWarningList(String itemName, String itemCode, PageQuery pageQuery) {
+        Page<InventoryWarningVo> page = inventoryWarningMapper.selectInventoryWarningPage(pageQuery.build(), itemName, itemCode);
         return TableDataInfo.build(page);
     }
 
@@ -37,7 +37,7 @@ public class InventoryWarningServiceImpl implements InventoryWarningService {
      * 查询库存预警列表（不分页）
      */
     @Override
-    public List<InventoryWarningVo> queryInventoryWarningList() {
+    public List<InventoryWarningVo> queryInventoryWarningListAll() {
         return inventoryWarningMapper.selectInventoryWarningList();
     }
 
@@ -53,11 +53,11 @@ public class InventoryWarningServiceImpl implements InventoryWarningService {
      * 查询到期提醒列表
      */
     @Override
-    public TableDataInfo<ExpirationReminderVo> queryExpirationReminderList(Integer daysBeforeExpire, PageQuery pageQuery) {
+    public TableDataInfo<ExpirationReminderVo> queryExpirationReminderList(Integer daysBeforeExpire, String itemName, String itemCode, PageQuery pageQuery) {
         if (daysBeforeExpire == null || daysBeforeExpire <= 0) {
             daysBeforeExpire = 30; // 默认30天
         }
-        Page<ExpirationReminderVo> page = inventoryWarningMapper.selectExpirationReminderPage(pageQuery.build(), daysBeforeExpire);
+        Page<ExpirationReminderVo> page = inventoryWarningMapper.selectExpirationReminderPage(pageQuery.build(), daysBeforeExpire, itemName, itemCode);
         return TableDataInfo.build(page);
     }
 
