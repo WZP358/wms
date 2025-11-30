@@ -68,6 +68,13 @@
     <el-card class="mt20">
     <div class="mb8 flex-space-between">
       <div style="font-size: large">库存明细</div>
+      <el-button
+        type="primary"
+        plain
+        icon="Download"
+        @click="handleExport"
+        v-hasPermi="['wms:inventoryDetail:all']"
+      >导出Excel</el-button>
     </div>
     <el-table :data="inventoryDetailList" border :span-method="spanMethod"
               cell-class-name="vertical-top-cell" v-loading="loading" empty-text="暂无库存">
@@ -232,6 +239,20 @@ const getList = () => {
       }
     })
   }).finally(() => loading.value = false);
+}
+
+/** 导出按钮操作 */
+function handleExport() {
+  const query = {...queryParams.value}
+  if (query.createTimeRange) {
+    query.createStartTime = query.createTimeRange[0]
+    query.createEndTime = query.createTimeRange[1]
+  }
+  // 删除分页参数
+  delete query.pageNum
+  delete query.pageSize
+  delete query.createTimeRange
+  proxy.download('wms/inventoryDetail/export', query, `仓库库区商品数据_${new Date().getTime()}.xlsx`)
 }
 </script>
 <style scoped lang="scss">

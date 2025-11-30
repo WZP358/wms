@@ -12,6 +12,7 @@ import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.common.web.core.BaseController;
 import com.ruoyi.wms.domain.vo.InventoryDetailVo;
+import com.ruoyi.wms.domain.vo.InventoryDetailExportVo;
 import com.ruoyi.wms.service.InventoryDetailService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.constraints.NotEmpty;
@@ -56,14 +57,14 @@ public class InventoryDetailController extends BaseController {
     }
 
     /**
-     * 导出库存详情列表
+     * 导出库存详情列表（包含仓库/库区商品数据）
      */
     @SaCheckPermission("wms:inventoryDetail:all")
     @Log(title = "库存详情", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(InventoryDetailBo bo, HttpServletResponse response) {
-        List<InventoryDetailVo> list = inventoryDetailService.queryList(bo);
-        ExcelUtil.exportExcel(list, "库存详情", InventoryDetailVo.class, response);
+        List<InventoryDetailExportVo> list = inventoryDetailService.queryListForExport(bo);
+        ExcelUtil.exportExcel(list, "仓库库区商品数据", InventoryDetailExportVo.class, response);
     }
 
     /**

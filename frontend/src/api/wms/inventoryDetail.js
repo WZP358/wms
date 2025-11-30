@@ -51,3 +51,13 @@ export function delInventoryDetail(id) {
     method: 'delete'
   })
 }
+
+// 导出库存详情列表（仓库/库区商品数据）
+export function exportInventoryDetail(query) {
+  return request({
+    url: '/wms/inventoryDetail/export',
+    method: 'post',
+    params: query,
+    responseType: 'blob'
+  })
+}

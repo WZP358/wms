@@ -11,14 +11,19 @@ import com.ruoyi.common.core.utils.StringUtils;
 import com.ruoyi.common.mybatis.core.page.PageQuery;
 import com.ruoyi.common.mybatis.core.page.TableDataInfo;
 import com.ruoyi.wms.domain.vo.ItemSkuVo;
+import com.ruoyi.wms.domain.vo.ItemVo;
+import com.ruoyi.wms.domain.vo.WarehouseVo;
+import com.ruoyi.wms.domain.vo.AreaVo;
+import com.ruoyi.wms.domain.vo.InventoryDetailExportVo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import com.ruoyi.wms.domain.bo.InventoryDetailBo;
 import com.ruoyi.wms.domain.entity.InventoryDetail;
 import com.ruoyi.wms.domain.vo.InventoryDetailVo;
 import com.ruoyi.wms.mapper.InventoryDetailMapper;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -38,6 +43,18 @@ public class InventoryDetailService extends ServiceImpl<InventoryDetailMapper, I
 
     private final InventoryDetailMapper inventoryDetailMapper;
     private final ItemSkuService itemSkuService;
+    
+    @Lazy
+    @Autowired
+    private WarehouseService warehouseService;
+    
+    @Lazy
+    @Autowired
+    private AreaService areaService;
+    
+    @Lazy
+    @Autowired
+    private ItemService itemService;
 
     /**
      * 查询库存详情
@@ -144,5 +161,98 @@ public class InventoryDetailService extends ServiceImpl<InventoryDetailMapper, I
         LambdaQueryWrapper<InventoryDetail> wrapper = Wrappers.lambdaQuery();
         wrapper.eq(InventoryDetail::getRemainQuantity, 0);
         inventoryDetailMapper.delete(wrapper);
+    }
+
+    /**
+     * 查询库存详情列表用于导出（包含仓库、库区、商品信息）
+     */
+    public List<InventoryDetailExportVo> queryListForExport(InventoryDetailBo bo) {
+        // 处理过期时间查询
+        if (bo.getDaysToExpires() != null) {
+            LocalDateTime expirationStartTime = LocalDateTime.of(LocalDate.now(), LocalTime.MIN);
+            bo.setExpirationStartTime(expirationStartTime);
+            LocalDateTime expirationEndTime = expirationStartTime.plusDays(bo.getDaysToExpires());
+            bo.setExpirationEndTime(expirationEndTime);
+        }
+        
+        // 查询库存详情列表
+        List<InventoryDetailVo> vos = inventoryDetailMapper.selectListByBo(bo);
+        if (CollUtil.isEmpty(vos)) {
+            return new ArrayList<>();
+        }
+        
+        // 获取所有SKU ID
+        Set<Long> skuIds = vos.stream().map(InventoryDetailVo::getSkuId).collect(Collectors.toSet());
+        Map<Long, ItemSkuVo> itemSkuMap = itemSkuService.queryVosByIds(skuIds).stream()
+            .collect(Collectors.toMap(ItemSkuVo::getId, Function.identity()));
+        
+        // 获取所有商品ID
+        Set<Long> itemIds = itemSkuMap.values().stream()
+            .map(ItemSkuVo::getItemId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        Map<Long, ItemVo> itemMap = itemService.queryById(new ArrayList<>(itemIds)).stream()
+            .collect(Collectors.toMap(ItemVo::getId, Function.identity()));
+        
+        // 获取所有仓库ID
+        Set<Long> warehouseIds = vos.stream()
+            .map(InventoryDetailVo::getWarehouseId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        Map<Long, WarehouseVo> warehouseMap = new HashMap<>();
+        for (Long warehouseId : warehouseIds) {
+            WarehouseVo warehouse = warehouseService.queryById(warehouseId);
+            if (warehouse != null) {
+                warehouseMap.put(warehouseId, warehouse);
+            }
+        }
+        
+        // 获取所有库区ID
+        Set<Long> areaIds = vos.stream()
+            .map(InventoryDetailVo::getAreaId)
+            .filter(Objects::nonNull)
+            .collect(Collectors.toSet());
+        Map<Long, AreaVo> areaMap = new HashMap<>();
+        for (Long areaId : areaIds) {
+            AreaVo area = areaService.queryById(areaId);
+            if (area != null) {
+                areaMap.put(areaId, area);
+            }
+        }
+        
+        // 转换为导出VO
+        return vos.stream().map(vo -> {
+            InventoryDetailExportVo exportVo = new InventoryDetailExportVo();
+            
+            // 设置仓库和库区信息
+            WarehouseVo warehouse = warehouseMap.get(vo.getWarehouseId());
+            exportVo.setWarehouseName(warehouse != null ? warehouse.getWarehouseName() : "");
+            AreaVo area = areaMap.get(vo.getAreaId());
+            exportVo.setAreaName(area != null ? area.getAreaName() : "");
+            
+            // 设置商品和规格信息
+            ItemSkuVo itemSku = itemSkuMap.get(vo.getSkuId());
+            if (itemSku != null) {
+                exportVo.setSkuCode(itemSku.getSkuCode());
+                exportVo.setSkuName(itemSku.getSkuName());
+                
+                ItemVo item = itemMap.get(itemSku.getItemId());
+                if (item != null) {
+                    exportVo.setItemCode(item.getItemCode());
+                    exportVo.setItemName(item.getItemName());
+                }
+            }
+            
+            // 设置库存信息
+            exportVo.setQuantity(vo.getRemainQuantity());
+            exportVo.setBatchNo(vo.getBatchNo());
+            exportVo.setProductionDate(vo.getProductionDate());
+            exportVo.setExpirationDate(vo.getExpirationDate());
+            exportVo.setCreateTime(vo.getCreateTime());
+            exportVo.setAmount(vo.getAmount());
+            exportVo.setRemark(vo.getRemark());
+            
+            return exportVo;
+        }).collect(Collectors.toList());
     }
 }

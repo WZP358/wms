@@ -93,20 +93,26 @@
           <div class="flex-space-between mb8">
             <div>
             </div>
-            <el-popover
-              placement="left"
-              title="提示"
-              :width="200"
-              trigger="hover"
-              :disabled="form.warehouseId"
-              content="请先选择仓库！"
-            >
-              <template #reference>
-                <el-button type="primary" plain="plain" size="default" @click="showAddItem" icon="Plus"
-                           :disabled="!form.warehouseId">添加商品
-                </el-button>
-              </template>
-            </el-popover>
+            <div>
+              <el-button type="success" plain size="default" @click="handleExportExcel" icon="Download"
+                         :disabled="!form.details || form.details.length === 0" style="margin-right: 10px;">
+                导出Excel
+              </el-button>
+              <el-popover
+                placement="left"
+                title="提示"
+                :width="200"
+                trigger="hover"
+                :disabled="form.warehouseId"
+                content="请先选择仓库！"
+              >
+                <template #reference>
+                  <el-button type="primary" plain="plain" size="default" @click="showAddItem" icon="Plus"
+                             :disabled="!form.warehouseId">添加商品
+                  </el-button>
+                </template>
+              </el-popover>
+            </div>
           </div>
           <el-table :data="form.details" border empty-text="暂无商品明细">
             <el-table-column label="商品信息" prop="itemSku.itemName">
@@ -249,6 +255,8 @@ import {numSub, generateNo} from '@/utils/ruoyi'
 import InventoryDetailSelect from "@/views/components/InventoryDetailSelect.vue";
 import SnInputDialog from "@/components/SnInputDialog.vue";
 import { validateSnBatchEnhanced } from '@/api/wms/sn';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 const {proxy} = getCurrentInstance();
 const {wms_shipment_type} = proxy.useDict("wms_shipment_type");
@@ -520,7 +528,6 @@ const doSave = async (shipmentOrderStatus = 0) => {
         }
       })
     }
-  })
 }
 
 
@@ -606,7 +613,6 @@ const doShipment = async () => {
     }).finally(()=>{
       loading.value = false
     })
-  })
 }
 
 const route = useRoute();
@@ -706,6 +712,81 @@ const handleAutoCalc = () => {
     }
   })
   form.value.receivableAmount = sum
+}
+
+// 导出Excel
+const handleExportExcel = () => {
+  if (!form.value.details || form.value.details.length === 0) {
+    ElMessage.warning('暂无数据可导出')
+    return
+  }
+  
+  // 获取仓库和库区名称
+  const warehouseName = useWmsStore().warehouseList.find(w => w.id === form.value.warehouseId)?.warehouseName || '未知仓库'
+  const areaName = form.value.areaId ? (useWmsStore().areaMap.get(form.value.areaId)?.areaName || '未知库区') : '全部库区'
+  
+  // 准备导出数据
+  const exportData = form.value.details.map((row, index) => {
+    const itemName = row.itemSku?.item?.itemName || ''
+    const itemCode = row.itemSku?.item?.itemCode || ''
+    const brandName = row.itemSku?.item?.itemBrand ? (useWmsStore().itemBrandMap.get(row.itemSku.item.itemBrand)?.brandName || '') : ''
+    const skuName = row.itemSku?.skuName || ''
+    const barcode = row.itemSku?.barcode || ''
+    
+    return {
+      '序号': index + 1,
+      '商品名称': itemName,
+      '商品编码': itemCode,
+      '品牌': brandName,
+      '规格名称': skuName,
+      '条码': barcode,
+      '库区': row.areaName || '',
+      '批号': row.batchNo || '',
+      '生产日期': row.productionDate ? row.productionDate.substring(0, 10) : '',
+      '过期日期': row.expirationDate ? row.expirationDate.substring(0, 10) : '',
+      '剩余库存': row.remainQuantity || 0,
+      '出库数量': row.quantity || 0,
+      '价格': row.amount || 0,
+      'SN码数量': row.snCodes?.length || 0,
+      'SN码': row.snCodes?.join(', ') || ''
+    }
+  })
+  
+  // 创建工作簿
+  const wb = XLSX.utils.book_new()
+  const ws = XLSX.utils.json_to_sheet(exportData)
+  
+  // 设置列宽
+  const colWidths = [
+    { wch: 6 },   // 序号
+    { wch: 20 },  // 商品名称
+    { wch: 15 },  // 商品编码
+    { wch: 12 },  // 品牌
+    { wch: 20 },  // 规格名称
+    { wch: 15 },  // 条码
+    { wch: 15 },  // 库区
+    { wch: 15 },  // 批号
+    { wch: 12 },  // 生产日期
+    { wch: 12 },  // 过期日期
+    { wch: 12 },  // 剩余库存
+    { wch: 12 },  // 出库数量
+    { wch: 12 },  // 价格
+    { wch: 12 },  // SN码数量
+    { wch: 30 }   // SN码
+  ]
+  ws['!cols'] = colWidths
+  
+  // 添加工作表
+  XLSX.utils.book_append_sheet(wb, ws, '商品明细')
+  
+  // 生成文件名
+  const fileName = `出库单_${warehouseName}_${areaName}_${new Date().getTime()}.xlsx`
+  
+  // 导出文件
+  const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' })
+  saveAs(new Blob([wbout], { type: 'application/octet-stream' }), fileName)
+  
+  ElMessage.success('导出成功')
 }
 
 const handleDeleteDetail = (row, index) => {

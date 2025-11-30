@@ -29,6 +29,7 @@
     "pinia": "2.0.22",
     "qrcode": "^1.5.3",
     "vue": "3.2.45",
+    "xlsx": "^0.18.5",
     "vue-cropper": "1.0.3",
     "vue-plugin-hiprint": "^0.0.56",
     "vue-router": "4.1.4"

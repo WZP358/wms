@@ -683,3 +683,51 @@ Caused by: java.lang.ClassNotFoundException: Cannot find class: com.ruoyi.system
 	at org.apache.ibatis.io.Resources.classForName(Resources.java:322)
 	at org.apache.ibatis.type.TypeAliasRegistry.resolveAlias(TypeAliasRegistry.java:124)
 	... 71 common frames omitted
+2025-11-29 22:07:12 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   areaController defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\controller\AreaController.class]
+┌─────┐
+|  areaService defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\service\AreaService.class]
+↑     ↓
+|  inventoryService defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\service\InventoryService.class]
+↑     ↓
+|  inventoryDetailService defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\service\InventoryDetailService.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+
+2025-11-29 22:07:56 [main] ERROR o.s.b.d.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   areaController defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\controller\AreaController.class]
+┌─────┐
+|  areaService defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\service\AreaService.class]
+↑     ↓
+|  inventoryService defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\service\InventoryService.class]
+↑     ↓
+|  inventoryDetailService defined in file [E:\code\wms\backend\ruoyi-admin-wms\target\classes\com\ruoyi\wms\service\InventoryDetailService.class]
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+

@@ -4,64 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="支持图表下载">
+    <list default="true" id="2e447852-41e7-402b-ae8e-71c7008bb235" name="更改" comment="打印仓库/库区的商品数据（excel）">
+      <change afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryDetailExportVo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/StatisticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/StatisticsController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/CheckOrderDetailBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/CheckOrderDetailBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryDetailBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryDetailBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryHistoryBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/InventoryHistoryBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ItemSkuBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ItemSkuBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/MovementOrderBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/MovementOrderBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/MovementOrderDetailBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/MovementOrderDetailBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ReceiptOrderBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ReceiptOrderBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ReceiptOrderDetailBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ReceiptOrderDetailBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ShipmentOrderBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ShipmentOrderBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ShipmentOrderDetailBo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/bo/ShipmentOrderDetailBo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/CheckOrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/CheckOrderDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Inventory.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/Inventory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/InventoryDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/InventoryDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/InventoryHistory.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/InventoryHistory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ItemSku.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ItemSku.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/MovementOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/MovementOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/MovementOrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/MovementOrderDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ReceiptOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ReceiptOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ReceiptOrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ReceiptOrderDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ShipmentOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ShipmentOrder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ShipmentOrderDetail.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/entity/ShipmentOrderDetail.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/CheckOrderDetailVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/CheckOrderDetailVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/CheckOrderVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/CheckOrderVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ExpirationReminderVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ExpirationReminderVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryDetailVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryDetailVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryHistoryVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryHistoryVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryWarningVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/InventoryWarningVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemBrandVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemBrandVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemSkuVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ItemSkuVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/MovementOrderDetailVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/MovementOrderDetailVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/MovementOrderVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/MovementOrderVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ReceiptOrderDetailVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ReceiptOrderDetailVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ReceiptOrderVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ReceiptOrderVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ShipmentOrderDetailVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ShipmentOrderDetailVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ShipmentOrderVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/domain/vo/ShipmentOrderVo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/StatisticsMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/mapper/StatisticsMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/CheckOrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/CheckOrderDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/CheckOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/CheckOrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryDetailController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/controller/InventoryDetailController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/InventoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/MovementOrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/MovementOrderDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/MovementOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/MovementOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/ReceiptOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/ReceiptOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/ShipmentOrderDetailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/ShipmentOrderDetailService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/ShipmentOrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/ShipmentOrderService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/StatisticsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/java/com/ruoyi/wms/service/StatisticsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/StatisticsMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/ruoyi-admin-wms/src/main/resources/mapper/wms/StatisticsMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/script/sql/wms.sql" beforeDir="false" afterPath="$PROJECT_DIR$/backend/script/sql/wms.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/api/wms/statistics.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/wms/statistics.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/views/index.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/index.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/pnpm-lock.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/wms/inventoryDetail.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/wms/inventoryDetail.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/inventory/detail.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/inventory/detail.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/views/wms/order/shipment/edit.vue" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/views/wms/order/shipment/edit.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-console.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-console.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-error.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-error.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/logs/sys-info.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/sys-info.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMapper" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMappers" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/autoMappers" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/mps/mappers" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/META-INF/mps/mappers" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +83,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="Spring Boot.RuoYiApplication">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="RuoYiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <module name="ruoyi-admin-wms" />
@@ -174,6 +132,8 @@
       <workItem from="1764332295914" duration="930000" />
       <workItem from="1764333430338" duration="7227000" />
       <workItem from="1764388681076" duration="16245000" />
+      <workItem from="1764424062971" duration="34000" />
+      <workItem from="1764424111806" duration="2772000" />
     </task>
     <task id="LOCAL-00001" summary="增加“库存预警与到期提醒”功能">
       <option name="closed" value="true" />
@@ -358,6 +318,7 @@
     <MESSAGE value="在“首页”页面再增加数据分析功能（ECharts）" />
     <MESSAGE value="完善注册功能" />
     <MESSAGE value="支持图表下载" />
-    <option name="LAST_COMMIT_MESSAGE" value="支持图表下载" />
+    <MESSAGE value="打印仓库/库区的商品数据（excel）" />
+    <option name="LAST_COMMIT_MESSAGE" value="打印仓库/库区的商品数据（excel）" />
   </component>
 </project>
